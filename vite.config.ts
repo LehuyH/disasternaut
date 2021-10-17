@@ -7,6 +7,7 @@ export default defineConfig({
   resolve:{
     alias: {
       kaboom: path.resolve('node_modules/kaboom/dist/kaboom.mjs'),
+      "@state": `${path.resolve(__dirname, 'src/state')}/`
     }
   }
 })

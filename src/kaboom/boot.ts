@@ -15,7 +15,8 @@ export function createInstance(canvas:HTMLCanvasElement ){
         height:1080,
         global:false,
         stretch:true,
-        canvas
+        canvas,
+        background:[32,31,53]
     })
 
 
