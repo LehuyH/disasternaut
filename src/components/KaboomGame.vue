@@ -6,7 +6,8 @@
 
 <script setup lang="ts">
 import { ref, onMounted } from "vue"
-import instance, { createInstance } from "../kaboom/boot";
+import useKaboom from "../kaboom"
+import { createInstance } from "../kaboom/boot";
 import { getEvents } from "@state/index"
 
 const events = getEvents()
@@ -15,13 +16,12 @@ const canvas = ref(null)
 
 onMounted(()=>{
     createInstance((canvas.value as any as HTMLCanvasElement))
-    const k = instance.k
+    const k = useKaboom()
 
     k.ready(()=>{
         events.emit("loaded")
     })
 
-    k.go("planet")
     
 
 })

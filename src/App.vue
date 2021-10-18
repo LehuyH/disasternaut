@@ -1,7 +1,7 @@
 <script setup lang="ts">
   import KaboomGameVue from './components/KaboomGame.vue';
   import { getEvents } from "@state/index"
-
+  
   const events = getEvents()
   
   events.on("loaded",()=>{
