@@ -1,6 +1,8 @@
 import { Character, KaboomCtx } from "kaboom"
 import k from "@/kaboom"
-
+import createBuilding from "@/kaboom/objects/building"
+import { state } from "@/state"
+import { allowedToBuild } from "@/kaboom/logic/buildings"
 
 //Markup
 export default () => [
@@ -9,6 +11,7 @@ export default () => [
         k.pos(0,0),
         k.health(5),
         k.area(),
+        k.solid(),
         behavior()
 ]
 
@@ -43,20 +46,34 @@ function behavior() {
     return {
         id:"main_player",
         require: [ "area", "pos", "health"],
-        allowInput:true,
+        allowMovement:true,
         add() {
            
         },
         update(){
             //Follow player
             k.camPos(this.pos);
+            
+            //Building placement
+            if(state.interaction.placingBuilding && k.mouseIsClicked()){
+                const [allowed,msg] = allowedToBuild(state.interaction.placingBuilding)
+
+                if(allowed){
+                    k.add(createBuilding(state.interaction.placingBuilding,k.mouseWorldPos()))
+                    state.interaction.placingBuilding = null;
+                }else{
+                    alert(msg)
+                }
+
+
+            }
 
             //Handle input
-            if(!this.allowInput) return 
+            if(!this.allowMovement) return 
             if(k.keyIsDown("d") || k.keyIsDown("right")) movement.right(this)
-            if(k.keyIsDown("a") || k.keyIsDown("left")) movement.left(this)
-            if(k.keyIsDown("w") || k.keyIsDown("up")) movement.up(this)
-            if(k.keyIsDown("s") || k.keyIsDown("down")) movement.down(this)
+            else if(k.keyIsDown("a") || k.keyIsDown("left")) movement.left(this)
+            else if(k.keyIsDown("w") || k.keyIsDown("up")) movement.up(this)
+            else if(k.keyIsDown("s") || k.keyIsDown("down")) movement.down(this)
             
            
         }
