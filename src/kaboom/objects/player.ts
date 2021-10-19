@@ -1,19 +1,20 @@
 import { Character, KaboomCtx } from "kaboom"
+import k from "@/kaboom"
 
 
 //Markup
-export default (k:KaboomCtx) => [
+export default () => [
         "player",
         k.sprite("player",{ anim:"down"}),
         k.pos(0,0),
         k.health(5),
         k.area(),
-        behavior(k)
+        behavior()
 ]
 
 
 //Logic
-function behavior(k:KaboomCtx) {
+function behavior() {
     const playAnim = (player:any,name:string) =>{
         if(name != player.curAnim()){  
             player.play(name)
@@ -62,5 +63,28 @@ function behavior(k:KaboomCtx) {
     } as any as Character<unknown>
 }
 
+
+k.loadSprite("player","sprites/player.png",{
+    sliceX:3,
+    sliceY:4,
+    anims:{
+        down:{
+            from:0,
+            to:2,
+        },
+        left:{
+            from:3,
+            to:5
+        },
+        right:{
+            from:6,
+            to:8
+        },
+        up:{
+            from:9,
+            to:11
+        }
+    }
+})
 
 

@@ -1,16 +1,16 @@
 <script setup lang="ts">
-  import KaboomGameVue from './components/KaboomGame.vue';
-  import { getEvents } from "@state/index"
-  
+  import { getEvents } from "@/state"
+  import k from "@/kaboom"
   const events = getEvents()
-  
-  events.on("loaded",()=>{
-    console.log("KaboomGame loaded")
+
+  k.ready(()=>{
+    k.go("planet")
   })
+
 </script>
 
 <template>
-  <KaboomGameVue></KaboomGameVue>
+
 </template>
 
 <style>

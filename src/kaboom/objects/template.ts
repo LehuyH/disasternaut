@@ -1,6 +1,6 @@
-import useKaboom from "../index"
+import k from "@/kaboom"
 import { Character } from "kaboom"
-const k = useKaboom()
+
 
 //Markup
 export default () => [

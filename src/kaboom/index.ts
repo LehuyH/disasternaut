@@ -1,9 +1,10 @@
-import { KaboomCtx } from "kaboom";
+import kaboom, { KaboomCtx } from "kaboom";
 
-export const instance = {
-    k: null as unknown as KaboomCtx,
-}
-
-export default ()=>{
-    return instance.k
-}
+export default kaboom({
+    width:1920,
+    height:1080,
+    global:false,
+    stretch:true,
+    canvas:document.querySelector('canvas') as HTMLCanvasElement,
+    background:[32,31,53]
+});
