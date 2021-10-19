@@ -2,6 +2,7 @@ import { getCurrentInstance, reactive } from 'vue'
 import {Emitter,EventType} from 'mitt'
 import { KaboomCtx } from 'kaboom';
 import k from "@/kaboom"
+import { DisasterLogic } from '@/kaboom/logic/disaster';
 
 export function getEvents() {
     const internalInstance = getCurrentInstance(); 
@@ -14,7 +15,8 @@ export const state = reactive({
     interaction:{
         placingBuilding:null as null|string
     },
-    scene:""
+    scene:"",
+    currentDiaster:null as null|DisasterLogic,
     
 })
 

@@ -12,7 +12,8 @@ export default () => [
         k.health(5),
         k.area(),
         k.solid(),
-        behavior()
+        behavior(),
+        k.origin("center")
 ]
 
 

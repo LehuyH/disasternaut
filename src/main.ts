@@ -6,6 +6,8 @@ import App from './App.vue'
 import k from "./kaboom"
 import "@/kaboom/scenes/planet"
 
+(window as any).k = k
+
 //Vue
 const events = mitt()
 const app = createApp(App)

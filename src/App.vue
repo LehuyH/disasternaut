@@ -2,12 +2,17 @@
   import Vignette from "./components/Vignette.vue"
   import { getEvents,state,setScene } from "@/state"
   import { PosComp } from "kaboom"
+  import { startDisaster } from "@/kaboom/logic/disaster"
   import k from "@/kaboom"
 
   
   k.ready(()=>{
+  
     k.focus()
     setScene("planet")
+    setTimeout(()=>{
+      startDisaster("meteor",10)
+    },1000)
   })
 
   
