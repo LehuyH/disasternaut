@@ -6,32 +6,11 @@ import { Character } from "kaboom"
 function createMeteor(){
     const player = k.get('player')[0]
     if(!player) return
-    const atPlayer = k.chance(0.7)
-    const startingX = (atPlayer) ? player.pos.x : k.rand(player.pos.x-500,player.pos.x+500)
-    const endingY = (atPlayer) ? player.pos.y: k.rand(player.pos.y-500,player.pos.y+500)
-    const shadow = k.add([
-        k.pos(startingX,endingY),
-        k.origin("center"),
-        k.color(0,0,0),
-        k.opacity(0.5),
-        k.rect(50,10)
-         /*
-        {
-            id:"shadow",
-            update(){
-                k
-                k.drawEllipse({
-                    radiusX:50,
-                    radiusY:20,
-                    start:0, 
-                    end:0,
-                    fill:true,
-                    opacity:0.5
-                })
-            }
-        }*/
-    ])
-    k.add([
+    const atPlayer = k.chance(0.3)
+    const startingX = (atPlayer) ? player.pos.x : k.rand(player.pos.x-300,player.pos.x+300)
+    const endingY = (atPlayer) ? player.pos.y: k.rand(player.pos.y-300,player.pos.y+300)
+
+    const meteor = k.add([
         k.rect(50,50),
         k.origin("center"),
         k.area(),
@@ -43,7 +22,7 @@ function createMeteor(){
                     if (this.pos.y >= endingY) {
                         k.shake(10)
                         k.play("meteor_impact")
-                        shadow.destroy()
+                        shadow?.destroy()
                         this.destroy()
                     }
                 }
@@ -51,6 +30,37 @@ function createMeteor(){
 
         
 
+    ])
+    
+    const shadow = k.add([
+        k.pos(startingX,endingY),
+        k.origin("center"),
+        k.color(0,0,0),
+        k.opacity(0.5),
+        k.rect(100,10),
+        k.scale(1),
+        {
+            id:"shadow",
+            startingDist:null,
+            add(){
+                this.startingDist = meteor.pos.dist(this.pos)
+            },
+            update(){
+                //Change size based on how close the meteor is to the shadow
+                const dist = meteor.pos.dist(this.pos)
+                const scale = Math.abs(1 -(Math.max(0,dist / this.startingDist)))
+                this.scaleTo(scale)
+                /*
+                k.drawEllipse({
+                    radiusX:50,
+                    radiusY:20,
+                    start:0, 
+                    end:0,
+                    fill:true,
+                    opacity:0.5
+                })*/
+            }
+        } as any
     ])
     
 
