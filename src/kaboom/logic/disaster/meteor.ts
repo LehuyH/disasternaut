@@ -1,7 +1,7 @@
 import k from "@/kaboom"
 import { DisasterLogic } from "./index"
 import { Character } from "kaboom"
-
+import { addExtractable } from "@/kaboom/logic/map"
 
 function createMeteor(){
     const player = k.get('player')[0]
@@ -11,7 +11,7 @@ function createMeteor(){
     const endingY = (atPlayer) ? player.pos.y: k.rand(player.pos.y-300,player.pos.y+300)
 
     const meteor = k.add([
-        k.rect(50,50),
+        k.sprite("metal_2"),
         k.origin("center"),
         k.area(),
         //Random position
@@ -20,9 +20,19 @@ function createMeteor(){
                 update() {
                     this.pos = this.pos.add(0, 5)
                     if (this.pos.y >= endingY) {
-                        k.shake(10)
+                        k.shake(5)
                         k.play("meteor_impact")
                         shadow?.destroy()
+                        //Add metal where it fell 25% chance
+                        if(k.chance(0.25)){
+                            addExtractable({
+                                health:20,
+                                gives:"metal",
+                                type:"metal",
+                                value:2
+                            },this.pos,"metal_2")
+                        }
+                      
                         this.destroy()
                     }
                 }

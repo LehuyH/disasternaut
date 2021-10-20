@@ -3,6 +3,7 @@ import k from "@/kaboom"
 import createBuilding from "@/kaboom/objects/building"
 import { state } from "@/state"
 import { allowedToBuild } from "@/kaboom/logic/buildings"
+import { getActiveTool } from "@/state"
 
 //Markup
 export default () => [
@@ -34,11 +35,11 @@ function behavior() {
         },
         'left': (p:Character<any>)=>{
             p.move(-200,0)
-            playAnim(p,"right")
+            playAnim(p,"left")
         },
         'right': (p:Character<any>)=>{
             p.move(200,0)
-            playAnim(p,"right")
+            playAnim(p,"left")
         }
     } 
     
@@ -47,19 +48,50 @@ function behavior() {
         require: [ "area", "pos", "health"],
         allowMovement:true,
         facing:null,
+        isExtracting:false,
         add() {
            //Create line that points in direction of mouse
            const player = this
            
-           player.facing = k.add([
+           player.tool = k.add(
+            [
+            "tool",
+            k.sprite("axe"),
+            k.pos(),
+            k.origin("center"),
+            k.area({scale:3}),
+            k.follow(player,k.vec2(0,15)),
             {
-                draw(){
+                update(){
+                    const tool = getActiveTool()
+                    //No active tool
+                    if(!tool){
+                        player.isExtracting = false
+                        this.opacity =  0
+                        return;
+                    }
+
+                    //Set sprite to currently held tool
+                    this.use(k.sprite(tool.spriteName))
+
+                    const mouseIsDown = k.mouseIsDown()
                     const angle = player.pos.angle(k.mouseWorldPos())
-                    k.drawRect(player.pos.add(0,15),-30,4,{
-                        rot:angle
-                    })
+
+                    //Flip so it faces correctly
+                    const notFlipped = (angle > -90 && angle < 90)
+                    this.flipY(!notFlipped)
+
+                    //Run animations when mouse is down
+                    if(mouseIsDown){
+                        this.angle += (notFlipped) ? -8 : 8
+                    }else{
+                        this.use(k.rotate(angle))
+                    }
+
+                    player.isExtracting = mouseIsDown
+
                 }
-            }
+            } as any
             ])
         },
         update(){
@@ -70,11 +102,7 @@ function behavior() {
             
 
             //Make player face mouse
-            if(angle > -90 && angle < 90){
-                this.flipX(true)
-            }else{
-                this.flipX(false)
-            }
+            this.flipX((angle > -90 && angle < 90) ? false : true)
             
             //Building placement
             if(state.interaction.placingBuilding && k.mouseIsClicked()){
@@ -100,7 +128,7 @@ function behavior() {
            
         },
         destroy(){
-            this.facing.destroy()
+            this.tool.destroy()
         }
     } as any as Character<unknown>
 }
@@ -128,5 +156,6 @@ k.loadSprite("player","sprites/player.png",{
         }
     }
 })
+k.loadSprite("axe","sprites/axe.png")
 
 

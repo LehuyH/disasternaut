@@ -1,19 +1,29 @@
 <script setup lang="ts">
 import Vignette from "./components/Vignette.vue"
 import Overlay from "./components/Overlay.vue"
-import { getEvents, state, setScene } from "@/state"
+import { getEvents, state, setScene, addTool, setTool } from "@/state"
 import { PosComp } from "kaboom"
 import { startDisaster } from "@/kaboom/logic/disaster"
 import k from "@/kaboom"
-import { defineComponent, onMounted, ref } from "vue"
+import { onMounted, ref } from "vue"
 
 onMounted(() => {
   k.ready(() => {
     k.focus()
     setScene("planet")
-    setTimeout(() => {
-      startDisaster("meteor", 10)
-    }, 1000)
+
+    //Add an Axe
+    addTool({
+      name:"Axe",
+      spriteName:"axe",
+      power:1,
+      effective:["tree"]
+    })
+    setTool(0)
+
+    setTimeout(()=>{
+      startDisaster("meteor",10)
+    },2000)
   })
 })
 
@@ -67,6 +77,12 @@ const overlayShowing = ref(true);
       >Place Nuclear Generator</button>
       <button v-else @click="state.interaction.placingBuilding = null">Cancel</button>
     </div>
+
+    <div style="color:white">
+    <p v-for="([name,value]) in Object.entries(state.persistent.resources)">
+      {{name}}:{{value}}
+    </p>
+  </div>
   </footer>
 </template>
 
