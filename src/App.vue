@@ -82,6 +82,10 @@ const matImageMap: Record<string, string> = {
     </div>
   </header>
 
+  <ul class="notification-panel">
+    <li v-for="(noti, i) in state.notis" :key="`${noti}-${i}`">{{ noti }}</li>
+  </ul>
+
   <footer>
     <div class="button-group">
       <button v-if="!state.interaction.placingBuilding" @click="build('shelter')">Place Shelter</button>
@@ -140,5 +144,14 @@ footer {
 
 .mat-name {
   text-transform: capitalize;
+}
+
+.notification-panel {
+  z-index: 3;
+  position: fixed;
+  bottom: 75px;
+  pointer-events: none;
+  padding: 5px 7.5px;
+  background: rgba(0, 0, 0, 0.199);
 }
 </style>
