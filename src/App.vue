@@ -2,7 +2,7 @@
 import Vignette from "./components/Vignette.vue"
 import Overlay from "./components/Overlay.vue"
 import { getEvents, state, setScene, addTool, setTool } from "@/state"
-import { PosComp } from "kaboom"
+import { PosComp, SpriteComp, Vec2 } from "kaboom"
 import { startDisaster } from "@/kaboom/logic/disaster"
 import k from "@/kaboom"
 import { onMounted, ref } from "vue"
@@ -43,8 +43,9 @@ function build(name: string) {
       k.solid(),
       {
         update() {
-          const building = this as any
-          building.moveTo(k.mouseWorldPos());
+          const building = this as PosComp;
+          console.log(state.position);
+          building.moveTo(state.position as Vec2);
           //Delete when not building
           if (!state.interaction.placingBuilding) (this as any).destroy()
         }
@@ -77,7 +78,10 @@ const matImageMap: Record<string, string> = {
       <p v-for="([name, value]) in Object.entries(state.persistent.resources)">
         <b class="mat-name">{{ name }}:&nbsp;</b>
         {{ value }}
-        <img :src="`/sprites/${matImageMap[name]}.png`" :alt="`${name} material icon`">
+        <img
+          :src="`/sprites/${matImageMap[name]}.png`"
+          :alt="`${name} material icon`"
+        />
       </p>
     </div>
   </header>

@@ -19,6 +19,8 @@ export function getEvents() {
 }
 
 export const state = reactive({
+    canvas: document.querySelector("canvas"),
+    position: k.mouseWorldPos(),
     interaction: {
         placingBuilding: null as null | string,
         currentToolIndex: -1
@@ -34,6 +36,12 @@ export const state = reactive({
     notis: [] as string[]
 
 })
+
+const updatePos = ({ offsetX, offsetY }: MouseEvent) => {
+    state.position = k.mouseWorldPos();
+};
+state.canvas?.addEventListener("mousemove", updatePos);
+state.canvas?.addEventListener("mouseover", updatePos);
 
 export function setScene(scene: string) {
     k.go(scene)
