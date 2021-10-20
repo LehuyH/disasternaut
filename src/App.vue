@@ -1,18 +1,20 @@
 <script setup lang="ts">
 import Vignette from "./components/Vignette.vue"
+import Overlay from "./components/Overlay.vue"
 import { getEvents, state, setScene } from "@/state"
 import { PosComp } from "kaboom"
 import { startDisaster } from "@/kaboom/logic/disaster"
 import k from "@/kaboom"
+import { defineComponent, onMounted, ref } from "vue"
 
-
-k.ready(() => {
-
-  k.focus()
-  setScene("planet")
-  setTimeout(() => {
-    startDisaster("meteor", 10)
-  }, 1000)
+onMounted(() => {
+  k.ready(() => {
+    k.focus()
+    setScene("planet")
+    setTimeout(() => {
+      startDisaster("meteor", 10)
+    }, 1000)
+  })
 })
 
 
@@ -42,10 +44,17 @@ function build(name: string) {
   )
 }
 
+const overlayShowing = ref(true);
 </script>
 
 <template>
   <Vignette />
+  <Overlay
+    v-model="overlayShowing"
+    title="Disaster Alert!"
+    text="HugeNET has detected an incoming meteor shower!"
+    color="red"
+  />
 
   <header></header>
 
@@ -56,7 +65,7 @@ function build(name: string) {
         v-if="!state.interaction.placingBuilding"
         @click="build('nuclear_generator')"
       >Place Nuclear Generator</button>
-      <button v-else @click="state.interaction.placingBuilding = null">Cancel</button> 
+      <button v-else @click="state.interaction.placingBuilding = null">Cancel</button>
     </div>
   </footer>
 </template>
