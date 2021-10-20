@@ -14,16 +14,16 @@ onMounted(() => {
 
     //Add an Axe
     addTool({
-      name:"Axe",
-      spriteName:"axe",
-      power:1,
-      effective:["tree"]
+      name: "Axe",
+      spriteName: "axe",
+      power: 1,
+      effective: ["tree"]
     })
     setTool(0)
 
-    setTimeout(()=>{
-      startDisaster("meteor",10)
-    },2000)
+    setTimeout(() => {
+      startDisaster("meteor", 10)
+    }, 2000)
   })
 })
 
@@ -55,6 +55,12 @@ function build(name: string) {
 }
 
 const overlayShowing = ref(true);
+
+const matImageMap: Record<string, string> = {
+  wood: "tree_1",
+  metal: "metal_1",
+  stone: "rock_1"
+}
 </script>
 
 <template>
@@ -66,7 +72,15 @@ const overlayShowing = ref(true);
     color="red"
   />
 
-  <header></header>
+  <header>
+    <div class="materials-display">
+      <p v-for="([name, value]) in Object.entries(state.persistent.resources)">
+        <b class="mat-name">{{ name }}:&nbsp;</b>
+        {{ value }}
+        <img :src="`/sprites/${matImageMap[name]}.png`" :alt="`${name} material icon`">
+      </p>
+    </div>
+  </header>
 
   <footer>
     <div class="button-group">
@@ -77,12 +91,6 @@ const overlayShowing = ref(true);
       >Place Nuclear Generator</button>
       <button v-else @click="state.interaction.placingBuilding = null">Cancel</button>
     </div>
-
-    <div style="color:white">
-    <p v-for="([name,value]) in Object.entries(state.persistent.resources)">
-      {{name}}:{{value}}
-    </p>
-  </div>
   </footer>
 </template>
 
@@ -109,5 +117,28 @@ header {
 
 footer {
   bottom: 0;
+}
+
+.materials-display {
+  display: flex;
+  margin-left: auto;
+}
+
+.materials-display img {
+  height: 30px;
+}
+
+.materials-display p {
+  margin: 10px;
+  display: flex;
+  align-items: center;
+}
+
+.materials-display img {
+  margin: 0 5px;
+}
+
+.mat-name {
+  text-transform: capitalize;
 }
 </style>
