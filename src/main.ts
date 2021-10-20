@@ -14,5 +14,4 @@ const app = createApp(App)
 
 app.config.globalProperties.events = events
 
-
 app.mount('#app')

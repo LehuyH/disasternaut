@@ -1,0 +1,59 @@
+* {
+    box-sizing: border-box;
+    font-family: "Open Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    color: #2c3e50;
+}
+
+:root {
+    --black: #191716;
+    --blue: #228CDB;
+    font-size: 18px;
+}
+
+html {
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+body, html {
+    position: relative;
+    width: 100vw !important;
+    height: 100vh !important;
+}
+
+canvas {
+    width: 100%;
+    height: calc(100% - 150px);
+    position: relative;
+    top: 75px;
+}
+
+button {
+    font-size: 1rem;
+    background: var(--blue);
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 25px;
+}
+
+button:hover, button:focus, button:active {
+    filter: brightness(0.875);
+}
+
+.button-group > button {
+    border-radius: 0;
+}
+
+.button-group button:first-child {
+    border-top-left-radius: 25px;
+    border-bottom-left-radius: 25px;
+}
+
+.button-group button:last-child {
+    border-top-right-radius: 25px;
+    border-bottom-right-radius: 25px;
+}
