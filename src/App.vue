@@ -1,6 +1,6 @@
 <script setup lang="ts">
   import Vignette from "./components/Vignette.vue"
-  import { getEvents,state,setScene } from "@/state"
+  import { addTool,setTool,state,setScene } from "@/state"
   import { PosComp } from "kaboom"
   import { startDisaster } from "@/kaboom/logic/disaster"
   import k from "@/kaboom"
@@ -10,9 +10,19 @@
   
     k.focus()
     setScene("planet")
+
+    //Add an Axe
+    addTool({
+      name:"Axe",
+      spriteName:"axe",
+      power:1,
+      effective:["tree"]
+    })
+    setTool(0)
+
     setTimeout(()=>{
       startDisaster("meteor",10)
-    },1000)
+    },2000)
   })
 
   
@@ -49,6 +59,11 @@
   <button v-if="!state.interaction.placingBuilding" @click="build('shelter')">Place Shelter</button>
   <button v-if="!state.interaction.placingBuilding" @click="build('nuclear_generator')">Place Nuclear Generator</button>
   <button v-else @click="state.interaction.placingBuilding = null">Cancel</button>
+  <div style="color:white">
+    <p v-for="([name,value]) in Object.entries(state.persistent.resources)">
+      {{name}}:{{value}}
+    </p>
+  </div>
 </template>
 
 <style>

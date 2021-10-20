@@ -1,3 +1,8 @@
+import k from "@/kaboom"
+import extractable, { Extractable } from "@/kaboom/objects/extractable"
+import { Vec2 } from "kaboom";
+import { state } from "@/state"
+
 interface MapGenConfig{
     chanceToStartAlive?: number
     deathLimit?: number
@@ -8,7 +13,7 @@ interface MapGenConfig{
     [index: string]:any
 }
 
-const Generator = {
+export const generator = {
     chanceToStartAlive: 0.4,
     deathLimit: 3,
     birthLimit: 4,
@@ -16,7 +21,7 @@ const Generator = {
     worldWidth: 64,
     worldHeight: 48,
 
-    generateMap: function(config:MapGenConfig) {
+    create: function(config:MapGenConfig) {
         
         //Update config
         for(const key in config) {
@@ -106,4 +111,52 @@ const Generator = {
     }
 }
 
-export default Generator
+/** Returns the component list of an extractable */
+export function initExtractable(config:Extractable,pos?: Vec2,spriteName?: string){
+    return [
+        k.sprite((spriteName) ? spriteName : getRandSpriteName(config.type)),
+        k.solid(),
+        k.pos(),
+        k.origin("center"),
+        k.area({ scale:0.3}),
+        k.z(1),
+        k.opacity(1),
+        "collideable",
+        "extractable",
+        ...extractable(config),
+        {
+            add(){
+                if(pos) this.use(k.pos(pos))
+            }
+        } as any
+
+    ]
+}
+
+/** Adds an extractable into the game */
+export function addExtractable(config:Extractable,pos:Vec2,spriteName?:string){
+    if(state.scene != "planet") return;
+    k.add(initExtractable(config,pos,spriteName))
+}
+
+/** Randomally adds a number of extractables into the game */
+export function scatterExtractable(config:Extractable,amount:number){
+    [...Array(amount)].forEach(()=>{
+        //Randomally select position and add it to the game
+        const pos = k.vec2(k.rand(128,2300),k.rand(128,1200))
+        addExtractable(config,pos)
+    })
+}
+
+
+function getRandSpriteName(type:string){
+    const variants = {
+        tree:2,
+        rock:4,
+        metal:4,
+    } as Record<string,number>;
+
+    const end = variants[type]
+    
+    return (end) ? `${type}_${Math.floor(Math.random() * (end - 1 + 1) + 1)}` : type
+}
