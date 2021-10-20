@@ -1,6 +1,6 @@
 import k from "@/kaboom"
 import { state } from "@/state";
-import { Rect, Character } from "kaboom"
+import { Rect, GameObj } from "kaboom"
 
 export function allowedToBuild(buildingName:string):(boolean|string|null)[] {
     const preview = k.get("preview")[0]
@@ -33,7 +33,7 @@ export function allowedToBuild(buildingName:string):(boolean|string|null)[] {
 }
 
 
-function isTouchingCollideable(preview:Character<any>): boolean {
+function isTouchingCollideable(preview:GameObj<any>): boolean {
     let touch = false
     k.every("collideable",collide=>{
         console.log("a")

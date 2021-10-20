@@ -1,5 +1,5 @@
 import k from "@/kaboom"
-import { Character, Vec2, Rect } from "kaboom"
+import { GameObj, Vec2, Rect } from "kaboom"
 
 //Markup
 export default (buildingName:string,position:Vec2) => [
@@ -20,7 +20,7 @@ function behavior(buildingName:string){
     return{
         id:"building",
         
-    } as any as Character<unknown>
+    } as any as GameObj<unknown>
 }
 
 

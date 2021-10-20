@@ -1,5 +1,5 @@
 import k from "@/kaboom"
-import { Character } from "kaboom"
+import { GameObj } from "kaboom"
 import { getActiveTool, state } from "@/state"
 
 export interface Extractable{
@@ -60,7 +60,7 @@ function behavior(config:Extractable){
                 }
             }
         },
-    } as any as Character<unknown>
+    } as any as GameObj<unknown>
 }
 
 

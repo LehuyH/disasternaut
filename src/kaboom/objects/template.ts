@@ -1,5 +1,5 @@
 import k from "@/kaboom"
-import { Character } from "kaboom"
+import { GameObj } from "kaboom"
 
 
 //Markup
@@ -12,7 +12,7 @@ export default () => [
 function behavior(){
     return{
         id:"unique"
-    } as any as Character<unknown>
+    } as any as GameObj<unknown>
 }
 
 

@@ -55,7 +55,7 @@ function build(name: string) {
   )
 }
 
-const overlayShowing = ref(true);
+const overlayShowing = ref(false);
 
 const matImageMap: Record<string, string> = {
   wood: "tree_1",

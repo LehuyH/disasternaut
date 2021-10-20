@@ -1,4 +1,4 @@
-import { Character, KaboomCtx } from "kaboom"
+import { GameObj, KaboomCtx } from "kaboom"
 import k from "@/kaboom"
 import createBuilding from "@/kaboom/objects/building"
 import { notify, state } from "@/state"
@@ -27,17 +27,17 @@ function behavior() {
     }
 
     const movement = {
-        'down': (p: Character<any>) => {
+        'down': (p: GameObj<any>) => {
             p.move(0, 200)
         },
-        'up': (p: Character<any>) => {
+        'up': (p: GameObj<any>) => {
             p.move(0, -200)
         },
-        'left': (p: Character<any>) => {
+        'left': (p: GameObj<any>) => {
             p.move(-200, 0)
             playAnim(p, "left")
         },
-        'right': (p: Character<any>) => {
+        'right': (p: GameObj<any>) => {
             p.move(200, 0)
             playAnim(p, "left")
         }
@@ -130,7 +130,7 @@ function behavior() {
         destroy() {
             this.tool.destroy()
         }
-    } as any as Character<unknown>
+    } as any as GameObj<unknown>
 }
 
 

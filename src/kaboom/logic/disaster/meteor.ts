@@ -1,6 +1,6 @@
 import k from "@/kaboom"
 import { DisasterLogic } from "./index"
-import { Character } from "kaboom"
+import { GameObj } from "kaboom"
 import { addExtractable } from "@/kaboom/logic/map"
 import { notify } from "@/state"
 
@@ -48,7 +48,6 @@ function createMeteor() {
         k.origin("center"),
         k.color(0, 0, 0),
         k.opacity(0.5),
-        k.rect(100, 10),
         k.scale(1),
         {
             id: "shadow",
@@ -56,20 +55,19 @@ function createMeteor() {
             add() {
                 this.startingDist = meteor.pos.dist(this.pos)
             },
-            update() {
-                //Change size based on how close the meteor is to the shadow
+            draw() {
                 const dist = meteor.pos.dist(this.pos)
                 const scale = Math.abs(1 - (Math.max(0, dist / this.startingDist)))
-                this.scaleTo(scale)
-                /*
                 k.drawEllipse({
-                    radiusX:50,
-                    radiusY:20,
+                    pos:this.pos,
+                    radiusX:40* scale,
+                    radiusY:10 * scale,
                     start:0, 
                     end:0,
                     fill:true,
-                    opacity:0.5
-                })*/
+                    color:k.color(0,0,0).color,
+                    opacity:scale-0.2
+                })
             }
         } as any
     ])
