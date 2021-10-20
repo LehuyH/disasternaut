@@ -10,7 +10,8 @@ export default (buildingName:string,position:Vec2) => [
     k.origin("center"),
     behavior(buildingName),
     buildingName,
-    "building"
+    "building",
+    "collideable"
 ]
 
 

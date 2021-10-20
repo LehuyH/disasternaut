@@ -28,15 +28,13 @@ function behavior() {
     const movement = {
         'down': (p:Character<any>)=>{
             p.move(0,200)
-            playAnim(p,"down")
         },
         'up': (p:Character<any>)=>{
             p.move(0,-200)
-            playAnim(p,"up")
         },
         'left': (p:Character<any>)=>{
             p.move(-200,0)
-            playAnim(p,"left")
+            playAnim(p,"right")
         },
         'right': (p:Character<any>)=>{
             p.move(200,0)
@@ -48,12 +46,35 @@ function behavior() {
         id:"main_player",
         require: [ "area", "pos", "health"],
         allowMovement:true,
+        facing:null,
         add() {
+           //Create line that points in direction of mouse
+           const player = this
            
+           player.facing = k.add([
+            {
+                draw(){
+                    const angle = player.pos.angle(k.mouseWorldPos())
+                    k.drawRect(player.pos.add(0,15),-30,4,{
+                        rot:angle
+                    })
+                }
+            }
+            ])
         },
         update(){
+            const angle = this.pos.angle(k.mouseWorldPos())
+            
             //Follow player
             k.camPos(this.pos);
+            
+
+            //Make player face mouse
+            if(angle > -90 && angle < 90){
+                this.flipX(true)
+            }else{
+                this.flipX(false)
+            }
             
             //Building placement
             if(state.interaction.placingBuilding && k.mouseIsClicked()){
@@ -63,7 +84,7 @@ function behavior() {
                     k.add(createBuilding(state.interaction.placingBuilding,k.mouseWorldPos()))
                     state.interaction.placingBuilding = null;
                 }else{
-                    alert(msg)
+                    k.debug.log(msg as string)
                 }
 
 
@@ -77,6 +98,9 @@ function behavior() {
             else if(k.keyIsDown("s") || k.keyIsDown("down")) movement.down(this)
             
            
+        },
+        destroy(){
+            this.facing.destroy()
         }
     } as any as Character<unknown>
 }
