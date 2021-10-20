@@ -30,10 +30,9 @@ html {
 }
 
 canvas {
-  width: 100%;
-  height: calc(100% - 150px);
-  position: relative;
-  top: 75px;
+  width: 100vw;
+  height: 100vh;
+  position: fixed;
 }
 
 button {

@@ -3,6 +3,7 @@ import Vignette from "./components/Vignette.vue"
 import Overlay from "./components/Overlay.vue"
 import { getEvents, state, setScene, addTool, setTool } from "@/state"
 import { PosComp, SpriteComp, Vec2 } from "kaboom"
+import { exportMapState } from "@/kaboom/logic/map"
 import { startDisaster } from "@/kaboom/logic/disaster"
 import k from "@/kaboom"
 import { onMounted, ref } from "vue"
@@ -22,7 +23,9 @@ onMounted(() => {
     setTool(0)
 
     setTimeout(() => {
-      startDisaster("meteor", 10)
+     // startDisaster("meteor", 10)
+     const map = exportMapState()
+     console.log(map)
     }, 2000)
   })
 })
@@ -40,7 +43,6 @@ function build(name: string) {
       k.origin("center"),
       k.opacity(0.5),
       k.area(),
-      k.solid(),
       {
         update() {
           const building = this as PosComp;
@@ -112,11 +114,16 @@ footer {
 
   text-align: center;
 
-  background: var(--black);
+  background: transparent;
+  transition: background 0.15s ease-in-out;
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+header:hover,footer:hover{
+   background: rgba(0, 0, 0,0.8);
 }
 
 header {
