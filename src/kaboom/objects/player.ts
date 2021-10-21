@@ -1,9 +1,8 @@
-import { GameObj, KaboomCtx } from "kaboom"
+import { Collision, GameObj, KaboomCtx } from "kaboom"
 import k from "@/kaboom"
-import createBuilding from "@/kaboom/objects/building"
-import { notify, state } from "@/state"
-import { allowedToBuild } from "@/kaboom/logic/buildings"
-import { getActiveTool } from "@/state"
+import { state } from "@/state"
+import { addBuilding } from "@/kaboom/logic/buildings"
+import { getActiveTool, setScene } from "@/state"
 
 //Markup
 export default () => [
@@ -12,6 +11,8 @@ export default () => [
     k.pos(0, 0),
     k.health(5),
     k.area(),
+    k.z(10),
+    k.stay(),
     k.solid(),
     behavior(),
     k.origin("center")
@@ -50,14 +51,23 @@ function behavior() {
         facing: null,
         isExtracting: false,
         add() {
-            //Create line that points in direction of mouse
             const player = this
+            //Handle building entering
+            player.collides("shelter",(s:GameObj<any>,col:Collision)=>{
+                if(!col.isTop()) return
 
+                k.debug.log("Enter shelter?")
+                setScene("shelter")
+            })
+
+            //Render tool
             player.tool = k.add(
                 [
                     "tool",
                     k.sprite("axe"),
                     k.pos(),
+                    k.stay(),
+                    k.z(10),
                     k.origin("center"),
                     k.area({ scale: 3 }),
                     k.follow(player, k.vec2(0, 15)),
@@ -106,16 +116,8 @@ function behavior() {
 
             //Building placement
             if (state.interaction.placingBuilding && k.mouseIsClicked()) {
-                const [allowed, msg] = allowedToBuild(state.interaction.placingBuilding)
-
-                if (allowed) {
-                    k.add(createBuilding(state.interaction.placingBuilding, k.mouseWorldPos()))
-                    state.interaction.placingBuilding = null;
-                } else {
-                    notify(msg as string)
-                }
-
-
+                if(!state.interaction.placingBuilding) return
+                addBuilding(state.interaction.placingBuilding,k.mouseWorldPos())
             }
 
             //Handle input

@@ -1,8 +1,8 @@
 import { getCurrentInstance, reactive } from 'vue'
 import { Emitter, EventType } from 'mitt'
-import { KaboomCtx } from 'kaboom';
 import k from "@/kaboom"
 import { DisasterLogic } from '@/kaboom/logic/disaster';
+import { MapSave,exportMapState, restoreMap } from "@/kaboom/logic/map"
 
 export interface Tool {
     name: string;
@@ -29,11 +29,16 @@ export const state = reactive({
         tools: [] as Tool[],
         resources: {
 
-        } as Record<string, number>
+        } as Record<string, number>,
+        map:{
+            extractables:[],
+            buildings:[],
+        } as MapSave
     },
     scene: "",
     currentDiaster: null as null | DisasterLogic,
-    notis: [] as string[]
+    notis: [] as string[],
+    newGame:true as boolean,  
 
 })
 
@@ -43,11 +48,14 @@ const updatePos = ({ offsetX, offsetY }: MouseEvent) => {
 state.canvas?.addEventListener("mousemove", updatePos);
 state.canvas?.addEventListener("mouseover", updatePos);
 
+
 export function setScene(scene: string) {
+     //Logic to save overworld state
+    if(state.scene === "planet")  exportMapState()
+
     k.go(scene)
     state.scene = scene
 
-    //Logic to save overworld state
 }
 
 export function addTool(tool: Tool) {

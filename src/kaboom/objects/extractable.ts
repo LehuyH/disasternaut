@@ -22,6 +22,7 @@ function behavior(config:Extractable){
         id:"extractable",
         require:["area","pos","opacity"],
         extractableHealth:0,
+        config,
         add(){
             this.extractableHealth = config.health
         },

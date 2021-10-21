@@ -1,19 +1,7 @@
-import { generator, initExtractable, scatterExtractable } from "@/kaboom/logic/map"
 import buildPlayer from "../objects/player"
+import { state } from "@/state"
+import { generateMap, restoreMap } from "@/kaboom/logic/map"
 import k from "@/kaboom"
-
-
-
-const level = generator.create({
-    worldWidth:14,
-    worldHeight:25,
-    birthLimit:6,
-    deathLimit:3,
-    numberOfSteps:10,
-    chanceToStartAlive:0.4
-})
-//Padding
-
 
 
 k.scene("planet",()=>{
@@ -25,34 +13,27 @@ k.scene("planet",()=>{
         })
     ])
 
-    //Add trees
-    k.addLevel(level,{
-        width:128,
-        height:128,
-        "1": ()=>{
-            return initExtractable({
-                type:"tree",
-                value:1,
-                gives:"wood",
-                health:10
-            })
-        }
-    }as any)
+    //Requesting new game? Create new map
+    if(state.newGame){
+        state.newGame = false
+        generateMap()
+    }
 
-    //Add rocks
-    scatterExtractable({
-        type:"rock",
-        gives:"stone",
-        value:1,
-        health:10
-    },Math.round(k.rand(5,15)))
-
-    k.add(
-        [
-            ...buildPlayer(),
-            k.pos(1800,900)
-        ]
-    )
+    const player = k.get("player")[0]
+    if(!player){
+        //No Player, add it
+        k.add(
+            [
+                ...buildPlayer(),
+                k.pos(1800,900)
+            ]
+        )
+    }else{
+       const shelter = state.persistent.map.buildings.find(b=>b.name==="shelter")
+       if(!shelter) return
+       player.moveTo(shelter.pos.x,shelter.pos.y + 200)
+       restoreMap()
+    }
 })
 
 const loadVariants = (type:string,count:number,extension:string="png") => {

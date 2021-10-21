@@ -46,7 +46,6 @@ function build(name: string) {
       {
         update() {
           const building = this as PosComp;
-          console.log(state.position);
           building.moveTo(state.position as Vec2);
           //Delete when not building
           if (!state.interaction.placingBuilding) (this as any).destroy()

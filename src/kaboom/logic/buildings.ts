@@ -1,6 +1,7 @@
 import k from "@/kaboom"
-import { state } from "@/state";
-import { Rect, GameObj } from "kaboom"
+import { state, notify } from "@/state";
+import { Rect, GameObj, Vec2 } from "kaboom"
+import createBuilding from "@/kaboom/objects/building"
 
 export function allowedToBuild(buildingName:string):(boolean|string|null)[] {
     const preview = k.get("preview")[0]
@@ -34,9 +35,9 @@ export function allowedToBuild(buildingName:string):(boolean|string|null)[] {
 
 
 function isTouchingCollideable(preview:GameObj<any>): boolean {
+    if(!preview) return false;
     let touch = false
     k.every("collideable",collide=>{
-        console.log("a")
         const touchCheck = isTouching(preview.worldArea(),collide.worldArea())
         if(touchCheck) touch = true
     })
@@ -49,4 +50,16 @@ function isTouching(r1: Rect, r2: Rect): boolean {
 		&& r1.p1.x < r2.p2.x
 		&& r1.p2.y > r2.p1.y
 		&& r1.p1.y < r2.p2.y;
+}
+
+export function addBuilding(name: string,pos:Vec2){
+    const [allowed, msg] = allowedToBuild(name)
+
+
+    if (allowed) {
+        k.add(createBuilding(name, pos))
+        state.interaction.placingBuilding = null;
+    } else {
+        notify(msg as string)
+    }
 }

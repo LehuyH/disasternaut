@@ -10,6 +10,9 @@ export default (buildingName:string,position:Vec2) => [
     k.origin("center"),
     behavior(buildingName),
     buildingName,
+    {
+        buildingName
+    },
     "building",
     "collideable"
 ]
@@ -18,8 +21,7 @@ export default (buildingName:string,position:Vec2) => [
 //Logic
 function behavior(buildingName:string){
     return{
-        id:"building",
-        
+        id:"building"
     } as any as GameObj<unknown>
 }
 

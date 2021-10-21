@@ -1,6 +1,7 @@
 import k from "@/kaboom"
 import extractable, { Extractable } from "@/kaboom/objects/extractable"
-import { Vec2 } from "kaboom";
+import { addBuilding } from "@/kaboom/logic/buildings"
+import { GameObj, Vec2 } from "kaboom";
 import { state } from "@/state"
 
 interface MapGenConfig{
@@ -111,10 +112,43 @@ export const generator = {
     }
 }
 
+export function generateMap(){
+    const level = generator.create({
+        worldWidth:14,
+        worldHeight:25,
+        birthLimit:6,
+        deathLimit:3,
+        numberOfSteps:10,
+        chanceToStartAlive:0.4
+    })
+     //Add trees
+     k.addLevel(level,{
+        width:128,
+        height:128,
+        "1": ()=>{
+            return initExtractable({
+                type:"tree",
+                value:1,
+                gives:"wood",
+                health:10
+            })
+        }
+    }as any)
+
+    //Add rocks
+    scatterExtractable({
+        type:"rock",
+        gives:"stone",
+        value:1,
+        health:10
+    },Math.round(k.rand(5,15)))
+}
+
 /** Returns the component list of an extractable */
 export function initExtractable(config:Extractable,pos?: Vec2,spriteName?: string){
+    const name = (spriteName) ? spriteName : getRandSpriteName(config.type)
     return [
-        k.sprite((spriteName) ? spriteName : getRandSpriteName(config.type)),
+        k.sprite(name),
         k.solid(),
         k.pos(),
         k.origin("center"),
@@ -124,7 +158,8 @@ export function initExtractable(config:Extractable,pos?: Vec2,spriteName?: strin
         "collideable",
         "extractable",
         ...extractable(config),
-        {
+        {   
+            spriteName:name,
             add(){
                 if(pos) this.use(k.pos(pos))
             }
@@ -135,7 +170,10 @@ export function initExtractable(config:Extractable,pos?: Vec2,spriteName?: strin
 
 /** Adds an extractable into the game */
 export function addExtractable(config:Extractable,pos:Vec2,spriteName?:string){
-    if(state.scene != "planet") return;
+    if(state.scene != "planet"){
+        state.interaction
+        return
+    };
     k.add(initExtractable(config,pos,spriteName))
 }
 
@@ -146,6 +184,83 @@ export function scatterExtractable(config:Extractable,amount:number){
         const pos = k.vec2(k.rand(128,2300),k.rand(128,1200))
         addExtractable(config,pos)
     })
+}
+
+interface XY{
+    x:number;
+    y:number;
+}
+
+export interface ExtractableSave {
+    config:Extractable,
+    spriteName:string,
+    pos:XY
+}
+
+export interface BuildingSave {
+    name:string,
+    pos:XY
+}
+
+export type MapSave = {
+    extractables:ExtractableSave[],
+    buildings:BuildingSave[],
+}
+
+
+export function restoreMap(map?:MapSave){
+    if(!map) map = state.persistent.map
+    
+
+    map.extractables.forEach(exe=>{
+        addExtractable(
+            exe.config,
+            k.vec2(exe.pos.x,exe.pos.y),
+            exe.spriteName
+        )
+    })
+    map.buildings.forEach(exe=>{
+        addBuilding(exe.name,k.vec2(exe.pos.x,exe.pos.y))
+    })
+
+    
+  
+}
+
+
+export function exportMapState(){
+    const extractables = [] as ExtractableSave[]
+    const buildings = [] as BuildingSave[]
+
+    k.every("extractable",(exe)=>{
+        extractables.push({
+            config:exe.config,
+            spriteName:exe.spriteName,
+            pos:{
+                x:exe.pos.x,
+                y:exe.pos.y
+            }
+        })
+    })
+
+    k.every("building",(building)=>{
+        buildings.push({
+            name:building.buildingName,
+            pos:{
+                x:building.pos.x,
+                y:building.pos.y
+            }
+        })
+    })
+
+    const save = {
+        extractables,
+        buildings
+    }
+
+    state.persistent.map = save
+
+    return save
 }
 
 
