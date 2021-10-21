@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import Vignette from "./components/Vignette.vue"
 import Overlay from "./components/Overlay.vue"
+import HugeNET from "./components/HugeNet.vue"
+
 import { getEvents, state, setScene, addTool, setTool } from "@/state"
 import { PosComp, SpriteComp, Vec2 } from "kaboom"
 import { exportMapState } from "@/kaboom/logic/map"
-import { startDisaster } from "@/kaboom/logic/disaster"
 import k from "@/kaboom"
 import { onMounted, ref } from "vue"
 
@@ -22,11 +23,6 @@ onMounted(() => {
     })
     setTool(0)
 
-    setTimeout(() => {
-     // startDisaster("meteor", 10)
-     const map = exportMapState()
-     console.log(map)
-    }, 2000)
   })
 })
 
@@ -90,6 +86,12 @@ const matImageMap: Record<string, string> = {
   <ul class="notification-panel">
     <li v-for="(noti, i) in state.notis" :key="`${noti}-${i}`">{{ noti }}</li>
   </ul>
+
+  <main>
+    <section class="left-bar">
+      <HugeNET></HugeNET>
+    </section>
+  </main>
 
   <footer>
     <div class="button-group">
@@ -163,5 +165,16 @@ footer {
   pointer-events: none;
   padding: 5px 7.5px;
   background: rgba(0, 0, 0, 0.199);
+}
+
+.left-bar{
+  position: fixed;
+  left:2.5vh;
+  z-index: 2;
+  height:90vh;
+  width: 15%;
+  top:5vh;
+  display: flex;
+  flex-direction: column;
 }
 </style>

@@ -11,6 +11,11 @@ export interface Tool {
     effective: string[]
 }
 
+export interface Objective {
+    name: string;
+    description: string;
+}
+
 export function getEvents() {
     const internalInstance = getCurrentInstance();
     const events = internalInstance?.appContext.config.globalProperties.events;
@@ -26,6 +31,7 @@ export const state = reactive({
         currentToolIndex: -1
     },
     persistent: {
+        numDisasters:0,
         tools: [] as Tool[],
         resources: {
 
@@ -33,7 +39,8 @@ export const state = reactive({
         map:{
             extractables:[],
             buildings:[],
-        } as MapSave
+        } as MapSave,
+        objectives:[] as Objective[],
     },
     scene: "",
     currentDiaster: null as null | DisasterLogic,

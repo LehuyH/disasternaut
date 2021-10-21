@@ -2,7 +2,7 @@ import k from "@/kaboom"
 import { DisasterLogic } from "./index"
 import { GameObj } from "kaboom"
 import { addExtractable } from "@/kaboom/logic/map"
-import { notify } from "@/state"
+import { notify, state } from "@/state"
 
 function createMeteor() {
     const player = k.get('player')[0]
@@ -87,6 +87,7 @@ export default {
         })
         k.wait(duration, () => {
             notify("end")
+            state.currentDiaster = null
             canceler()
         })
     }

@@ -9,6 +9,7 @@ import "@/kaboom/scenes/shelter"
 
 (window as any).k = k
 
+
 //Vue
 const events = mitt()
 const app = createApp(App)

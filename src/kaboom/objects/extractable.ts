@@ -57,6 +57,7 @@ function behavior(config:Extractable){
                     //Give player item and destroy this object
                     const currentCount = state.persistent.resources[config.gives]
                     state.persistent.resources[config.gives] = (currentCount) ? currentCount + config.value : config.value
+                    k.play("wood" + Math.round(k.rand(1,5)))
                     this.destroy()
                 }
             }
@@ -66,4 +67,11 @@ function behavior(config:Extractable){
 
 
 //Style
+const loadVariants = (type:string,count:number,extension:string="ogg") => {
+    [...Array(count)].forEach((x,i)=>{
+        k.loadSound(`${type}${i+1}`,`audio/${type}${i+1}.${extension}`)
+    })
+}
+
+loadVariants("wood",5)
 

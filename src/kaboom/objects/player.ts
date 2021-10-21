@@ -81,7 +81,6 @@ metal.speed(1.5)
             player.collides("shelter",(s:GameObj<any>,col:Collision)=>{
                 if(!col.isTop()) return
 
-                k.debug.log("Enter shelter?")
                 setScene("shelter")
             })
 
@@ -146,7 +145,7 @@ metal.speed(1.5)
             }
 
             //Handle input
-            if (!this.allowMovement) return
+            if (!this.allowMovement || !k.focused()) return
             if (k.keyIsDown("d") || k.keyIsDown("right")) movement.right(this)
             else if (k.keyIsDown("a") || k.keyIsDown("left")) movement.left(this)
             else if (k.keyIsDown("w") || k.keyIsDown("up")) movement.up(this)

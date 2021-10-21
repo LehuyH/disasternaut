@@ -1,5 +1,6 @@
 import k from "@/kaboom"
 import { state, notify } from "@/state";
+import { exportMapState } from "@/kaboom/logic/map"
 import { Rect, GameObj, Vec2 } from "kaboom"
 import createBuilding from "@/kaboom/objects/building"
 
@@ -59,6 +60,7 @@ export function addBuilding(name: string,pos:Vec2){
     if (allowed) {
         k.add(createBuilding(name, pos))
         state.interaction.placingBuilding = null;
+        exportMapState()
     } else {
         notify(msg as string)
     }

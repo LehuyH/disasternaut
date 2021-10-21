@@ -19,6 +19,7 @@ export interface DisasterLogic{
 export function startDisaster(name:string,duration: number){
     if(disasters[name]){
             state.currentDiaster = disasters[name]
+            state.persistent.numDisasters++
             disasters[name].start(duration)
     } 
 }
