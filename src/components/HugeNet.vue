@@ -29,7 +29,7 @@
 
 <script setup lang="ts">
     import { computed, reactive } from "vue"
-    import { state } from "@/state"
+    import { state, wait } from "@/state"
     import k from "@/kaboom"
     import { startDisaster } from "@/kaboom/logic/disaster"
 
@@ -53,36 +53,36 @@
             customStatus.text = "Power Established"
             customStatus.enabled = true
 
-            k.wait(2,()=>{
+            wait(2,()=>{
                 customStatus.text = "Checking Systems..."
             })
 
-            k.wait(2.5,()=>{
+            wait(2.5,()=>{
                 customStatus.text = "Booting Up..."
             })
 
-            k.wait(5.5,()=>{
+            wait(5.5,()=>{
                 customStatus.text = "HugeNET"
                 customStatus.color = "var(--huge)"
             })
-            k.wait(7.5,()=>{
+            wait(7.5,()=>{
                 customStatus.text = "The Most Advanced Survival AI"
                 customStatus.color = "var(--huge)"
             })
-            k.wait(9,()=>{
+            wait(9,()=>{
                 customStatus.text = "New Planet Detected..."
                 customStatus.color = "#636e72"
             })
-            k.wait(10,()=>{
+            wait(10,()=>{
                 customStatus.text = "Scanning Area..."
                 customStatus.color = "#636e72"
             })
-            k.wait(14,()=>{
+            wait(14,()=>{
                 customStatus.text = "DISASTER DETECTED"
                 customStatus.color = "#d63031"
                 startDisaster("meteor", 10)
             })
-            k.wait(15,()=>{
+            wait(15,()=>{
                 customStatus.enabled = false
             })
         }

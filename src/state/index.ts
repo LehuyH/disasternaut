@@ -4,6 +4,8 @@ import k from "@/kaboom"
 import { DisasterLogic } from '@/kaboom/logic/disaster';
 import { MapSave,exportMapState, restoreMap } from "@/kaboom/logic/map"
 
+export const wait = (s:number,callback:() => void) => setTimeout(() =>callback(),s*1000)
+
 export interface Tool {
     name: string;
     spriteName: string;
