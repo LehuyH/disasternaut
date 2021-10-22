@@ -1,18 +1,17 @@
 <template>
-  <div class="overlay" :style="{
-    'box-shadow': `0 0 300px rgba(0, 0, 0, ${darkness}) inset;`
-  }"></div>
+  <div class="overlay" :style="`box-shadow:0 0 2000px rgba(0, 0, 0, ${darkness}) inset;`"></div>
 </template>
 
-<script setup>
+<script setup lang="ts">
 import { state } from "@/state"
-
-const darkness = computed(()=>1 - (Math.abs(12 - state.persistent.hour)/12)
+import { computed } from "vue"
+ 
+const darkness = computed(()=>(Math.abs(12 - state.persistent.hour)/12))
 </script>
 
 <style scoped>
 div {
-  box-shadow: 0 0 200px rgba(0, 0, 0, 0.9) inset;
+  box-shadow: 0 0 200px rgba(116, 83, 83, 0) inset;
   pointer-events: none;
   z-index:1;
   position: fixed;

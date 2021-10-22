@@ -108,8 +108,9 @@ k.add([
                 this.time = 0
                 this.nextHour++
 
-                if(nextHour >= this.secondsPerHour){
+                if(this.nextHour >= this.secondsPerHour){
                     state.persistent.hour++
+                    this.nextHour = 0
                     //Is next day?
                     if(state.persistent.hour === 25){
                         state.persistent.hour = 0
