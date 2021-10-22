@@ -33,6 +33,9 @@ export const state = reactive({
         currentToolIndex: -1
     },
     persistent: {
+        health:5,
+        day:0,
+        hour:12,
         numDisasters:0,
         oxygen:120,
         tools: [] as Tool[],
@@ -94,11 +97,25 @@ k.add([
     k.stay(),
     {
         time:0,
+        nextHour:0,
+        //In game, 30 seconds = 1 hour
+        secondsPerHour:30,
         update(){
             this.time += k.dt()
+            //Very second
             if(this.time >= 1){
                 gameLoop()
                 this.time = 0
+                this.nextHour++
+
+                if(nextHour >= this.secondsPerHour){
+                    state.persistent.hour++
+                    //Is next day?
+                    if(state.persistent.hour === 25){
+                        state.persistent.hour = 0
+                        state.persistent.day++
+                    }
+                }
             }
         }
     } as any
