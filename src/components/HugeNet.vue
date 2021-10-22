@@ -1,6 +1,7 @@
 <template>
     <section class="">
         <h1><span class="huge">HugeNet</span> <span class="thin">AI</span></h1>
+        <p>Day {{state.persistent.day}} Hour {{state.persistent.hour}}</p>
         <hr>
        
             <p class="status" :style="{backgroundColor:status.color}">
