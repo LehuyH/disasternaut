@@ -5,7 +5,7 @@
        
             <p class="status" :style="{backgroundColor:status.color}">
                 <transition name="fade" mode="out-in">
-                <span :key="status.text" :class="{flicker:state.currentDiaster}">{{status.text}}</span>
+                <span :key="status.text.split(' ')[0]" :class="{flicker:state.currentDiaster}">{{status.text}}</span>
                 </transition>
             </p>
     
@@ -88,7 +88,7 @@
         }
 
         if(customStatus.enabled) return customStatus
-        if(state.currentDiaster) return {text:"DISASTER 00:11",color:"#d63031"}
+        if(state.currentDiaster) return {text:`${state.currentDiaster.name.toUpperCase()} ${new Date(state.disasterTimer * 1000).toISOString().substr(14, 5)}`,color:"#d63031"}
 
         return {text:"All Systems Operational",color:"#10ac84"}
     })

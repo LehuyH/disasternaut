@@ -171,7 +171,11 @@ export function initExtractable(config:Extractable,pos?: Vec2,spriteName?: strin
 /** Adds an extractable into the game */
 export function addExtractable(config:Extractable,pos:Vec2,spriteName?:string){
     if(state.scene != "planet"){
-        state.interaction
+        state.persistent.map.extractables.push({
+            config,
+            pos,
+            spriteName: (spriteName) ? spriteName : getRandSpriteName(config.type)
+        })
         return
     };
     k.add(initExtractable(config,pos,spriteName))

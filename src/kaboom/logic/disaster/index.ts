@@ -11,15 +11,27 @@ export const disasters = {
 export interface DisasterLogic{
     name:string;
     description:string;
-    start(duration:number): void;
+    /** Logic to run when outside */
+    planet(duration:number): void;
+    /** Logic to run when inside */
+    interior(duration:number): void;
     exit():void
 }
+
+
 
 
 export function startDisaster(name:string,duration: number){
     if(disasters[name]){
             state.currentDiaster = disasters[name]
+            state.disasterTimer = duration
             state.persistent.numDisasters++
-            disasters[name].start(duration)
+            
+            
+            if(state.scene === "planet"){
+                disasters[name].planet(duration)
+            }else{
+                disasters[name].interior(duration)
+            }
     } 
 }

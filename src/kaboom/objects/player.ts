@@ -79,7 +79,7 @@ metal.speed(1.5)
             const player = this
             //Handle building entering
             player.collides("shelter",(s:GameObj<any>,col:Collision)=>{
-                if(!col.isTop()) return
+                if(!col?.isTop()) return
 
                 setScene("shelter")
             })

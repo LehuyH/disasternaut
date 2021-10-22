@@ -3,6 +3,7 @@ import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import { DisasterLogic } from '@/kaboom/logic/disaster';
 import { MapSave,exportMapState, restoreMap } from "@/kaboom/logic/map"
+import { stat } from 'fs/promises';
 
 export const wait = (s:number,callback:() => void) => setTimeout(() =>callback(),s*1000)
 
@@ -46,10 +47,42 @@ export const state = reactive({
     },
     scene: "",
     currentDiaster: null as null | DisasterLogic,
+    disasterTimer:0,
     notis: [] as string[],
     newGame:true as boolean,  
 
 })
+
+
+//This acts as a game loop function that will run every second
+function gameLoop(){
+    const player = k.get("player")[0]
+
+    //Game doesn't exist
+    if(!player) return
+
+    if(state.currentDiaster) state.disasterTimer--
+    
+    console.log("hi")
+
+
+}
+
+
+//This triggers the game loop function
+k.add([
+    k.stay(),
+    {
+        time:0,
+        update(){
+            this.time += k.dt()
+            if(this.time >= 1){
+                gameLoop()
+                this.time = 0
+            }
+        }
+    } as any
+])
 
 const updatePos = ({ offsetX, offsetY }: MouseEvent) => {
     state.position = k.mouseWorldPos();
@@ -90,3 +123,4 @@ export function notify(text: string) {
     state.notis.push(text);
     setTimeout(() => state.notis.shift(), 3000);
 }
+

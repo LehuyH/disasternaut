@@ -1,8 +1,9 @@
 import k from "@/kaboom"
 import { DisasterLogic } from "./index"
-import { GameObj } from "kaboom"
 import { addExtractable } from "@/kaboom/logic/map"
 import { notify, state } from "@/state"
+import { exit } from "process"
+
 
 function createMeteor() {
     const player = k.get('player')[0]
@@ -76,20 +77,32 @@ function createMeteor() {
 
 }
 
+function createIndoors(){
+    k.shake(5)
+    k.play("meteor_impact")
+}
+
 
 
 export default {
     name: "Meteors",
     description: "HUGE meteors are approaching the planet! Take cover!",
-    start(duration: number) {
+    planet(duration: number){
         const canceler = k.loop(0.35, () => {
-            createMeteor()
+           if(state.scene === "planet")  createMeteor()
+           else createIndoors()
         })
         k.wait(duration, () => {
-            notify("end")
-            state.currentDiaster = null
+            this.exit()
             canceler()
         })
+    },
+    interior(){
+        return
+    },
+    exit(){
+        notify("end")
+        state.currentDiaster = null
     }
 } as DisasterLogic
 
