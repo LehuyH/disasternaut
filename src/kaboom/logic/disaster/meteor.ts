@@ -77,9 +77,22 @@ function createMeteor() {
 
 }
 
-function createIndoors(){
-    k.shake(5)
-    k.play("meteor_impact")
+function createIndoors() {
+    k.wait(k.rand(0, 1), () => {
+        k.shake(2)
+        const m = k.play("meteor_impact")
+        m.volume(0.25)
+
+        if (k.chance(0.25)) {
+            addExtractable({
+                health: 20,
+                gives: "metal",
+                type: "metal",
+                value: 2
+            }, k.vec2(k.rand(100, 2400), k.rand(100, 1900)), "metal_2")
+        }
+    })
+
 }
 
 
@@ -87,22 +100,25 @@ function createIndoors(){
 export default {
     name: "Meteors",
     description: "HUGE meteors are approaching the planet! Take cover!",
-    planet(duration: number){
-        const canceler = k.loop(0.35, () => {
-           if(state.scene === "planet")  createMeteor()
-           else createIndoors()
-        })
-        k.wait(duration, () => {
-            this.exit()
-            canceler()
+    canceler:null,
+    planet(){
+        this.canceler = k.loop(0.35, function(){
+            if(state.disasterTimer > 0) createMeteor()
         })
     },
     interior(){
-        return
+        this.canceler = k.loop(0.35, function(){
+            if(state.disasterTimer > 0) createIndoors()
+        })
     },
     exit(){
-        notify("end")
-        state.currentDiaster = null
+        //If tutorial then add next task
+        if(state.persistent.numDisasters === 1){
+            state.persistent.objectives.survival.push({
+                name:"Connect to the HUGE Network",
+                description:"To finish the processing of creating your colony, build a communications tower and connect to HUGE!"
+            })
+        }
     }
 } as DisasterLogic
 

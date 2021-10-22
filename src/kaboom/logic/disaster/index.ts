@@ -11,6 +11,7 @@ export const disasters = {
 export interface DisasterLogic{
     name:string;
     description:string;
+    canceler:null|(() => void);
     /** Logic to run when outside */
     planet(duration:number): void;
     /** Logic to run when inside */
@@ -34,4 +35,13 @@ export function startDisaster(name:string,duration: number){
                 disasters[name].interior(duration)
             }
     } 
+}
+
+export function restoreDisaster() {
+    //Was there a disaster running? Restore if so
+    if (state.currentDiaster && state.disasterTimer > 0) {
+        if (state.scene === "planet") state.currentDiaster.planet(state.disasterTimer)
+        else state.currentDiaster.interior(state.disasterTimer)
+        k.debug.log("restored")
+    }
 }

@@ -3,7 +3,6 @@ import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import { DisasterLogic } from '@/kaboom/logic/disaster';
 import { MapSave,exportMapState, restoreMap } from "@/kaboom/logic/map"
-import { stat } from 'fs/promises';
 
 export const wait = (s:number,callback:() => void) => setTimeout(() =>callback(),s*1000)
 
@@ -43,7 +42,10 @@ export const state = reactive({
             extractables:[],
             buildings:[],
         } as MapSave,
-        objectives:[] as Objective[],
+        objectives:{
+            survival:[] as Objective[],
+            huge:[] as Objective[]
+        }
     },
     scene: "",
     currentDiaster: null as null | DisasterLogic,
@@ -61,9 +63,16 @@ function gameLoop(){
     //Game doesn't exist
     if(!player) return
 
-    if(state.currentDiaster) state.disasterTimer--
-    
-    console.log("hi")
+    if(state.currentDiaster){
+        state.disasterTimer--
+        //reset diaster if over
+        if(state.disasterTimer <= 0){
+            state.currentDiaster.exit()
+            if(state.currentDiaster.canceler) state.currentDiaster.canceler()
+            state.currentDiaster = null
+        }
+    } 
+   
 
 
 }
@@ -92,8 +101,8 @@ state.canvas?.addEventListener("mouseover", updatePos);
 
 
 export function setScene(scene: string) {
-     //Logic to save overworld state
-    if(state.scene === "planet")  exportMapState()
+    //If leaving planet save map
+    if(state.scene === "planet") exportMapState()
 
     k.go(scene)
     state.scene = scene

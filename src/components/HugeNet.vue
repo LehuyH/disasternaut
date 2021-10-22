@@ -53,36 +53,36 @@
             customStatus.text = "Power Established"
             customStatus.enabled = true
 
-            wait(2,()=>{
+            wait(0.1,()=>{
                 customStatus.text = "Checking Systems..."
             })
 
-            wait(2.5,()=>{
+            wait(0.2,()=>{
                 customStatus.text = "Booting Up..."
             })
 
-            wait(5.5,()=>{
+            wait(0.3,()=>{
                 customStatus.text = "HugeNET"
                 customStatus.color = "var(--huge)"
             })
-            wait(7.5,()=>{
+            wait(0.4,()=>{
                 customStatus.text = "The Most Advanced Survival AI"
                 customStatus.color = "var(--huge)"
             })
-            wait(9,()=>{
+            wait(0.5,()=>{
                 customStatus.text = "New Planet Detected..."
                 customStatus.color = "#636e72"
             })
-            wait(10,()=>{
+            wait(0.6,()=>{
                 customStatus.text = "Scanning Area..."
                 customStatus.color = "#636e72"
             })
-            wait(14,()=>{
+            wait(1,()=>{
                 customStatus.text = "DISASTER DETECTED"
                 customStatus.color = "#d63031"
                 startDisaster("meteor", 10)
             })
-            wait(15,()=>{
+            wait(2,()=>{
                 customStatus.enabled = false
             })
         }
@@ -110,7 +110,7 @@
                 description:state.currentDiaster.description
             }
         ]
-        return state.persistent.objectives
+        return state.persistent.objectives.survival
     })
 
     const stateComputed = computed(()=>state)

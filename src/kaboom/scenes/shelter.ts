@@ -1,5 +1,6 @@
 import k from "@/kaboom"
 import { setScene } from "@/state"
+import { restoreDisaster } from "@/kaboom/logic/disaster"
 
 const room = [
 "<==============>",
@@ -141,6 +142,7 @@ k.scene("shelter",()=>{
         k.solid()
     ])
 
+    restoreDisaster()
       
 })
 

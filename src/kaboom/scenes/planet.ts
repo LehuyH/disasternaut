@@ -2,8 +2,8 @@ import buildPlayer from "../objects/player"
 import { state } from "@/state"
 import { generateMap, restoreMap } from "@/kaboom/logic/map"
 import k from "@/kaboom"
-
-
+import { restoreDisaster } from "@/kaboom/logic/disaster"
+ 
 k.scene("planet",()=>{
     k.add([
         k.sprite("ground",{
@@ -34,6 +34,8 @@ k.scene("planet",()=>{
        player.moveTo(shelter.pos.x,shelter.pos.y + 200)
        restoreMap()
     }
+
+    restoreDisaster()
 })
 
 const loadVariants = (type:string,count:number,extension:string="png") => {
