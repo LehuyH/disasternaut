@@ -1,6 +1,6 @@
 import k from "@/kaboom"
 import { GameObj } from "kaboom"
-import { getActiveTool, state } from "@/state"
+import { getActiveTool, state, removeObjective } from "@/state"
 
 export interface Extractable{
     type:string;
@@ -59,6 +59,7 @@ function behavior(config:Extractable){
                     state.persistent.resources[config.gives] = (currentCount) ? currentCount + config.value : config.value
                     k.play("wood" + Math.round(k.rand(1,5)))
                     this.destroy()
+                    removeObjective("survival","Extract Resources")
                 }
             }
         },

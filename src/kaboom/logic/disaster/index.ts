@@ -42,6 +42,5 @@ export function restoreDisaster() {
     if (state.currentDiaster && state.disasterTimer > 0) {
         if (state.scene === "planet") state.currentDiaster.planet(state.disasterTimer)
         else state.currentDiaster.interior(state.disasterTimer)
-        k.debug.log("restored")
     }
 }

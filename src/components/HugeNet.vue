@@ -9,10 +9,10 @@
                 </transition>
             </p>
     
-        <p class="objectives-title">To Ensure Your Survival</p>
+        <p class="objectives-title"  v-if="objectives.length">Survival Objectives</p>
         <section class="objectives-list">
-            <transition-group name="slide-fade" tag="p">
-            <p v-for="(o) in objectives">
+            <transition-group name="slide-fade" tag="p"  mode="out-in">
+            <p v-for="(o) in objectives" :key="o.name">
                <details>
                    <summary>
                        {{o.name}}
@@ -94,6 +94,8 @@
     })
 
     const objectives = computed(()=>{
+        const hasComms = (k.get("communications").length > 0 || state.persistent.map.buildings.find(b=>b.name === "communications"))
+
         if(status.value.text === "OFFLINE") return [{
             name:"Establish A Shelter",
             description:"HUGE has given you a shelter building kit to get you started! You can place it by selecting it on the bottom of the screen."
@@ -110,6 +112,14 @@
                 description:state.currentDiaster.description
             }
         ]
+
+        if(!hasComms){
+            return state.persistent.objectives.survival.concat([{
+                name:"Build a Communication Tower",
+                description:"HugeNET has calculated that your chances of survival without HUGE support is 0%. You need to gather metal and build a communications tower soon."
+            }])
+        }
+
         return state.persistent.objectives.survival
     })
 
@@ -120,7 +130,6 @@
 <style scoped>
 .objectives-title {
     margin-top: 1rem;
-    font-weight: 550;
 }
 
 .thin {
@@ -133,26 +142,6 @@
     transition: all 1s ease-in-out;
     padding: 1rem 0.5rem;
     text-align: center;
-}
-
-.slide-fade-enter-active {
-    transition: all .3s ease-in-out;
-}
-
-.slide-fade-leave-active {
-    transition: all .8s ease-in-out;
-}
-.slide-fade-enter,
-.slide-fade-leave-to {
-    transform: translateX(10px);
-    opacity: 0;
-}
-
-.fade-enter-active, .fade-leave-active {
-  transition: opacity .5s;
-}
-.fade-enter, .fade-leave-to{
-  opacity: 0;
 }
 
 details{

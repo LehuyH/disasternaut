@@ -1,5 +1,5 @@
 import k from "@/kaboom"
-import { setScene } from "@/state"
+import { setScene, state } from "@/state"
 import { restoreDisaster } from "@/kaboom/logic/disaster"
 
 const room = [
@@ -143,6 +143,10 @@ k.scene("shelter",()=>{
     ])
 
     restoreDisaster()
+
+    k.play("door")
+
+    state.persistent.oxygen--
       
 })
 
@@ -152,3 +156,5 @@ k.loadSprite("interior","tiles/in.png",{
     sliceX:14,
     sliceY:6
 })
+
+k.loadSound("door","audio/door.webm")

@@ -4,6 +4,16 @@ import { exportMapState } from "@/kaboom/logic/map"
 import { Rect, GameObj, Vec2 } from "kaboom"
 import createBuilding from "@/kaboom/objects/building"
 
+export const costs = {
+    "nuclear_generator":{
+        uranium:2,
+        metal:5
+    },
+    "communications":{
+        metal:10
+    }
+} as Record<string,Record<string, number>>
+
 export function allowedToBuild(buildingName:string):(boolean|string|null)[] {
     const preview = k.get("preview")[0]
     const shelter = k.get("shelter")[0]
@@ -21,19 +31,37 @@ export function allowedToBuild(buildingName:string):(boolean|string|null)[] {
     //All buildings need shelter
     if(!shelter) return [false, "You need to build a shelter first!"]
 
+    //Check cost
+    if(!hasCost(buildingName)) return [false, "You do not have enough resources to build this."]
+
+    //Distance
     if(buildingName === "nuclear_generator"){
         const distFromShelter = k.mouseWorldPos().dist(shelter.pos)
   
         if(distFromShelter < 500) return [false,"You must place Nuclear Generators further from the shelter!"]
-
-        return [true]
     }
     
+    const cost = costs[buildingName]
 
+    Object.entries(cost).forEach(([name,cost])=>{
+        state.persistent.resources[name] -= cost
+    })
 
     return [true];
 }
 
+export function hasCost(name:string):boolean {
+    const cost = costs[name]
+
+    //Does not exist? Free!
+    if(!cost) return true;
+
+    return Object.entries(cost).every(([name,cost])=>{
+        const playerCount = (state.persistent.resources[name]) ? state.persistent.resources[name] : 0
+
+        return playerCount >= cost
+    })
+}
 
 function isTouchingCollideable(preview:GameObj<any>): boolean {
     if(!preview) return false;

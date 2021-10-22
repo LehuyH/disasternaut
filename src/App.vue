@@ -8,6 +8,7 @@ import { PosComp, SpriteComp, Vec2 } from "kaboom"
 import { exportMapState } from "@/kaboom/logic/map"
 import k from "@/kaboom"
 import { onMounted, ref } from "vue"
+import HugeCommand from "./components/ShelterStatus.vue"
 
 onMounted(() => {
   k.ready(() => {
@@ -57,7 +58,8 @@ const overlayShowing = ref(false);
 const matImageMap: Record<string, string> = {
   wood: "tree_1",
   metal: "metal_1",
-  stone: "rock_1"
+  stone: "rock_1",
+  uranium:"uranium_1",
 }
 </script>
 
@@ -89,17 +91,22 @@ const matImageMap: Record<string, string> = {
 
   <main>
     <section class="left-bar">
-      <HugeNET></HugeNET>
+      <HugeNET class="bar-item"/>
+      <HugeCommand class="bar-item"/>
     </section>
   </main>
 
   <footer>
-    <div class="button-group">
+    <div>
       <button v-if="!state.interaction.placingBuilding" @click="build('shelter')">Place Shelter</button>
       <button
         v-if="!state.interaction.placingBuilding"
         @click="build('nuclear_generator')"
       >Place Nuclear Generator</button>
+      <button
+        v-if="!state.interaction.placingBuilding"
+        @click="build('communications')"
+      >Place Communication Tower</button>
       <button v-else @click="state.interaction.placingBuilding = null">Cancel</button>
     </div>
   </footer>
@@ -176,5 +183,9 @@ footer {
   top:5vh;
   display: flex;
   flex-direction: column;
+}
+
+.bar-item{
+  margin-bottom:8vh;
 }
 </style>

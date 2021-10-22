@@ -23,12 +23,13 @@ function createMeteor() {
                 this.pos = this.pos.add(0, 5)
                 if (this.pos.y >= endingY) {
                     k.shake(5)
-                    k.play("meteor_impact")
+                    const sfx = k.play("meteor_impact")
+                    sfx.volume(0.5)
                     shadow?.destroy()
                     //Add metal where it fell 25% chance
                     if (k.chance(0.25)) {
                         addExtractable({
-                            health: 20,
+                            health: 15,
                             gives: "metal",
                             type: "metal",
                             value: 2
@@ -85,7 +86,7 @@ function createIndoors() {
 
         if (k.chance(0.25)) {
             addExtractable({
-                health: 20,
+                health: 15,
                 gives: "metal",
                 type: "metal",
                 value: 2
@@ -112,11 +113,10 @@ export default {
         })
     },
     exit(){
-        //If tutorial then add next task
         if(state.persistent.numDisasters === 1){
             state.persistent.objectives.survival.push({
-                name:"Connect to the HUGE Network",
-                description:"To finish the processing of creating your colony, build a communications tower and connect to HUGE!"
+                name:"Extract Resources",
+                description:"HugeNET has scanned the planet and has detected an abundance of resources. You can extract them for use by going over to a resource and holding down the left mouse button."
             })
         }
     }

@@ -1,4 +1,4 @@
-import { getCurrentInstance, reactive } from 'vue'
+import { getCurrentInstance, reactive,computed } from 'vue'
 import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import { DisasterLogic } from '@/kaboom/logic/disaster';
@@ -34,9 +34,11 @@ export const state = reactive({
     },
     persistent: {
         numDisasters:0,
+        oxygen:120,
         tools: [] as Tool[],
         resources: {
-
+            uranium:2,
+            metal:5
         } as Record<string, number>,
         map:{
             extractables:[],
@@ -45,7 +47,7 @@ export const state = reactive({
         objectives:{
             survival:[] as Objective[],
             huge:[] as Objective[]
-        }
+        } as Record<string, Objective[]>
     },
     scene: "",
     currentDiaster: null as null | DisasterLogic,
@@ -59,6 +61,15 @@ export const state = reactive({
 //This acts as a game loop function that will run every second
 function gameLoop(){
     const player = k.get("player")[0]
+    
+    //Spend Oxygen if Player is in shelter
+    if(state.scene === "shelter"){
+        state.persistent.oxygen--
+
+        if(state.persistent.oxygen <= 0){
+            //Reset
+        }
+    }
 
     //Game doesn't exist
     if(!player) return
@@ -133,3 +144,12 @@ export function notify(text: string) {
     setTimeout(() => state.notis.shift(), 3000);
 }
 
+export function removeObjective(type:string,name:string) {  
+    if(!state.persistent.objectives[type]) return
+
+    const objectives = state.persistent.objectives[type]
+    const index = objectives.findIndex(o => o.name === name)
+    if(index == -1) return
+
+    objectives.splice(index,1)
+}

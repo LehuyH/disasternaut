@@ -29,6 +29,7 @@ function behavior(buildingName:string){
 //Style
 k.loadSprite("shelter","buildings/shelter.png")
 k.loadSprite("nuclear_generator","buildings/nuclear_generator.png")
+k.loadSprite("communications","buildings/communications.png")
 
 
 

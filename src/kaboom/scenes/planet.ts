@@ -48,5 +48,6 @@ k.loadSprite("ground","tiles/ground_large.png")
 loadVariants("tree",2)
 loadVariants("rock",4)
 loadVariants("metal",4)
+loadVariants("uranium",2)
 
 
