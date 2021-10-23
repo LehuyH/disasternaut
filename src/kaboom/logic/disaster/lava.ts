@@ -67,7 +67,7 @@ export default class Nuke extends Disaster<LavaState>{
                 ...initExtractable({
                     type: "rock",
                     health:30,
-                    gives:"rock",
+                    gives:"stone",
                     value:5
                 },pos,"rock_2"),
                 k.scale(4),
