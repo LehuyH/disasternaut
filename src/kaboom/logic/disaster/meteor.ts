@@ -1,5 +1,5 @@
 import k from "@/kaboom"
-import { DisasterLogic } from "./index"
+import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { addExtractable } from "@/kaboom/logic/map"
 import { notify, state } from "@/state"
 import { exit } from "process"
@@ -96,22 +96,23 @@ function createIndoors() {
 
 }
 
+interface IState{
 
+}
 
-export default {
-    name: "Meteors",
-    description: "HUGE meteors are approaching the planet! Take cover!",
-    canceler:null,
+export default class Meteor extends Disaster<IState>{
+    name ="Meteors";
+    description = "HUGE meteors are approaching the planet! Take cover!";
     planet(){
         this.canceler = k.loop(0.35, function(){
             if(state.disasterTimer > 0) createMeteor()
         })
-    },
+    }
     interior(){
         this.canceler = k.loop(0.35, function(){
             if(state.disasterTimer > 0) createIndoors()
         })
-    },
+    }
     exit(){
         if(state.persistent.numDisasters === 1){
             state.persistent.objectives.survival.push({
@@ -120,6 +121,6 @@ export default {
             })
         }
     }
-} as DisasterLogic
+}
 
 k.loadSound("meteor_impact", "audio/impact.webm")
