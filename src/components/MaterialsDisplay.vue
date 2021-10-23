@@ -8,7 +8,9 @@
                 :alt="`${name} material icon`"
             />
         </p>
-        <a @click="showQuotas">View Quotas</a>
+        <transtion name="slide-fade">
+            <a @click="showQuotas" v-if="Object.values(state.persistent.quota).length > 0">View Quotas</a>
+        </transtion>
     </div>
 </template>
 

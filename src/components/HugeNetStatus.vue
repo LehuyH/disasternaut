@@ -16,7 +16,7 @@
             </transition>
         </p>
 
-        <p class="objectives-title" v-if="objectives.length">Survival Objectives</p>
+        <p class="objectives-title" v-if="objectives?.length">Survival Objectives</p>
         <section class="objectives-list">
             <transition-group name="slide-fade" tag="p" mode="out-in">
                 <p v-for="(o) in objectives" :key="o.name">
@@ -120,6 +120,11 @@ const objectives = computed(() => {
         return state.persistent.objectives.survival.concat([{
             name: "Build a Communication Tower",
             description: "HugeNET has calculated that your chances of survival without HUGE support is 0%. You need to gather metal and build a communications tower soon."
+        }])
+    }else if (state.persistent.quota){
+        return state.persistent.objectives.survival.concat([{
+            name: "Extract Resources To Meet Your Quota",
+            description: "In exchange for your planet, HUGE expects you to provide resources back to them. A button in top right corner displays your quota. You need to meet this quota to fufil your contract."
         }])
     }
 

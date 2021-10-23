@@ -17,5 +17,5 @@ export default function createQuota() {
         quota["uranium"] = k.randi(0, 4);
     }
     
-    return quota;
+    return [quota,days];
 }

@@ -3,6 +3,7 @@ import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { MapSave, exportMapState, restoreMap } from "@/kaboom/logic/map"
+import createQuota from "@/kaboom/logic/quota"
 
 export const wait = (s: number, callback: () => void) => setTimeout(() => callback(), s * 1000)
 
@@ -40,6 +41,8 @@ export const state = reactive({
         numDisasters: 0,
         oxygen: 120,
         tools: [] as Tool[],
+        quota:{} as Record<string,number>,
+        quotaDay:0,
         resources: {
             uranium: 2,
             metal: 5
@@ -194,4 +197,9 @@ export function dmgPlayer(damage: number = 1) {
         volume: 3
     })
     k.shake(2)
+}
+
+export function setQuote(){
+    const [quota, days] = createQuota()
+    state.persistent.quota = quota as Record<string, number>
 }

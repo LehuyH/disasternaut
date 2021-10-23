@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div v-if="state.interaction.showQuota" class="quota-view overlay">
+        <div v-if="Object.values(state.persistent.quota).length > 0 && state.interaction.showQuota" class="quota-view overlay">
             <button class="close" @click="state.interaction.showQuota = false;">
                 <span class="iconify" data-icon="ci:close-small"></span>
             </button>
@@ -9,7 +9,7 @@
                 <h1>Production Quota</h1>
                 <hr />
 
-                <div class="material-progress" v-for="(amount, type, i) in mockQuotas" :key="i">
+                <div class="material-progress" v-for="(amount, type, i) in state.persistent.quota" :key="i">
                     <div class="type-indicator">
                         <b>{{ type }} ({{ state.persistent.resources[type] || 0 }}/{{ amount }}):</b>
                         <img
@@ -31,10 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import createQuota from "@/kaboom/logic/quota";
 import { state, matImageMap } from "@/state";
-
-const mockQuotas = createQuota();
 </script>
 
 <style scoped>
