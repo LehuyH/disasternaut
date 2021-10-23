@@ -4,9 +4,11 @@ import Disaster from "@/kaboom/logic/disaster/disasterClass"
 
 //DisasterLogic Imports
 import meteor from "./meteor"
+import tsunami from "./tsunami"
 
 export const disasters = {
-    meteor
+    meteor,
+    tsunami
 } as Record<any,Disaster>
 
 
