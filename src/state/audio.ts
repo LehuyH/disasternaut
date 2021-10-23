@@ -22,7 +22,12 @@ export const audio = {
             loop: true,
             volume: 0.2
         })
-    } as Record<number, Howl>
+    } as Record<number, Howl>,
+    launch: new Howl({
+        src: "audio/launch.webm",
+        loop: true,
+        volume: 0.5,
+    })
 }
 
 export function playDisasterAudio() {

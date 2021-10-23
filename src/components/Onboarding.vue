@@ -79,9 +79,12 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watchEffect, reactive } from 'vue';
+import { ref, reactive, watchEffect } from 'vue';
 import k from "@/kaboom";
 import { state, setScene } from '@/state';
+import { audio } from "@/state/audio"
+
+audio.planet.play()
 
 const onboardingStage = ref(0);
 
@@ -91,6 +94,37 @@ const curtainTranslates = reactive({
     left: "-50vw",
     right: "50vw"
 });
+
+watchEffect(() => {
+    if (onboardingStage.value === 0) {
+        audio.planet.play()
+        audio.planet.volume(0)
+    }
+
+    if (onboardingStage.value === 1) {
+        audio.planet.fade(0, 1, 500)
+    }
+
+    if (onboardingStage.value === 2) {
+        audio.planet.fade(1, 0, 1000)
+        
+        // 
+        setTimeout(() => {
+            audio.planet.stop()
+            audio.planet.volume(0.2)
+
+            audio.launch.fade(0, 1, 1000)
+            audio.launch.play()
+
+            setTimeout(() => {
+                audio.launch.fade(1, 0, 1000)
+                setTimeout(() => {
+                    audio.launch.stop()
+                }, 1000)
+            }, 3000)
+        }, 1100)
+    }
+})
 
 function startCurtainTransition() {
     onboardingStage.value = 2;
@@ -107,7 +141,7 @@ function startCurtainTransition() {
             curtainTranslates.right = "50vw";
 
             setTimeout(() => setScene("planet"), 500)
-        }, 20000)
+        }, 3000)
     }, 1000);
 }
 </script>
@@ -179,7 +213,13 @@ function startCurtainTransition() {
 }
 
 .stage3 .loading h1 {
+    position: relative;
     font-size: 75px;
+    animation: loading-text 2s 1s forwards;
+}
+.stage3 .loading img {
+    position: relative;
+    animation: rocket-shake 0.8s infinite, rocket-launch 3s 1s forwards;
 }
 
 .stage3,
@@ -231,6 +271,72 @@ hr {
         -webkit-transform: scale(0.9);
         transform: scale(0.9);
         box-shadow: 0 0 0 0 transparent;
+    }
+}
+
+@keyframes rocket-shake {
+    0% {
+        -webkit-transform: translate(2px, 1px) rotate(0deg);
+    }
+    10% {
+        -webkit-transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+        -webkit-transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+        -webkit-transform: translate(0px, 2px) rotate(0deg);
+    }
+    40% {
+        -webkit-transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+        -webkit-transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+        -webkit-transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+        -webkit-transform: translate(2px, 1px) rotate(-1deg);
+    }
+    80% {
+        -webkit-transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+        -webkit-transform: translate(2px, 2px) rotate(0deg);
+    }
+    100% {
+        -webkit-transform: translate(1px, -2px) rotate(-1deg);
+    }
+}
+
+@keyframes rocket-launch {
+    0% {
+        bottom: 0;
+    }
+    100% {
+        bottom: 100vh;
+    }
+}
+
+@keyframes loading-text {
+    0% {
+        opacity: 1;
+        bottom: 0;
+    }
+
+    40% {
+        bottom: 100px;
+    }
+
+    80% {
+        opacity: 1;
+        bottom: 100px;
+    }
+
+    100% {
+        opacity: 0;
+        bottom: 100px;
     }
 }
 
