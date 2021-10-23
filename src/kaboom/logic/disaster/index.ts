@@ -6,11 +6,13 @@ import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import meteor from "./meteor"
 import tsunami from "./tsunami"
 import nuke from "./nuke"
+import hugeBean from "./hugeBean"
 
 export const disasters = {
     meteor,
     tsunami,
-    nuke
+    nuke,
+    hugeBean
 } as Record<any,Disaster>
 
 
