@@ -3,7 +3,7 @@ import { setScene, state } from "@/state"
 import { restoreDisaster } from "@/kaboom/logic/disaster"
 
 const room = [
-"<==============>",
+"<====ddgdpdd===>",
 "[--------------]",
 "[--------------]",
 "[--------------]",
@@ -24,6 +24,33 @@ k.scene("shelter",()=>{
     k.addLevel(room, {
         width: 32,
         height: 32,
+
+        "g": () => [
+          k.pos(),
+          k.area(),
+          k.solid(),
+          k.sprite("interior", {
+            frame: 43,
+          }),
+        ],
+
+        "p": () => [
+          k.pos(),
+          k.area(),
+          k.solid(),
+          k.sprite("interior", {
+            frame: 44,
+          }),
+        ],
+
+        "d": () => [
+          k.pos(),
+          k.area(),
+          k.solid(),
+          k.sprite("interior", {
+            frame: 42,
+          }),
+        ],
 
         "x": () => [
             k.pos(),
