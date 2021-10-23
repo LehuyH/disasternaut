@@ -224,7 +224,7 @@ export function restoreMap(map?:MapSave){
         )
     })
     map.buildings.forEach(exe=>{
-        addBuilding(exe.name,k.vec2(exe.pos.x,exe.pos.y))
+        addBuilding(exe.name,k.vec2(exe.pos.x,exe.pos.y),true)
     })
 
     

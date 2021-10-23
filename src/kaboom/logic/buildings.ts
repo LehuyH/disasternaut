@@ -81,11 +81,11 @@ function isTouching(r1: Rect, r2: Rect): boolean {
 		&& r1.p1.y < r2.p2.y;
 }
 
-export function addBuilding(name: string,pos:Vec2){
+export function addBuilding(name: string,pos:Vec2,force=false){
     const [allowed, msg] = allowedToBuild(name)
 
 
-    if (allowed) {
+    if (allowed || force) {
         k.add(createBuilding(name, pos))
         state.interaction.placingBuilding = null;
         exportMapState()
