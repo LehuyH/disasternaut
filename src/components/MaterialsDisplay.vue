@@ -43,7 +43,7 @@ a {
 }
 
 a {
-    color: #003366;
+    color: #9bcdff;
     font-weight: bold;
     cursor: pointer;
 }

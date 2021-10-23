@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div v-if="state.interaction.showQuota" class="quota-view">
+        <div v-if="state.interaction.showQuota" class="quota-view overlay">
             <button class="close" @click="state.interaction.showQuota = false;">
                 <span class="iconify" data-icon="ci:close-small"></span>
             </button>
@@ -112,12 +112,7 @@ button.close .iconify {
 }
 
 .quota-view {
-    position: fixed;
     z-index: 6;
-    top: 0;
-    bottom: 0;
-    left: 0;
-    right: 0;
     background: #003366e1;
 
     display: flex;
