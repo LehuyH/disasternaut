@@ -9,9 +9,9 @@ export default () => [
 
 
 //Logic
-function behavior(){
-    return{
-        id:"unique"
+function behavior() {
+    return {
+        id: "unique"
     } as any as GameObj<unknown>
 }
 

@@ -1,10 +1,10 @@
-import { getCurrentInstance, reactive,computed } from 'vue'
+import { getCurrentInstance, reactive, computed } from 'vue'
 import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
-import { MapSave,exportMapState, restoreMap } from "@/kaboom/logic/map"
+import { MapSave, exportMapState, restoreMap } from "@/kaboom/logic/map"
 
-export const wait = (s:number,callback:() => void) => setTimeout(() =>callback(),s*1000)
+export const wait = (s: number, callback: () => void) => setTimeout(() => callback(), s * 1000)
 
 export interface Tool {
     name: string;
@@ -34,69 +34,69 @@ export const state = reactive({
         showQuota: false,
     },
     persistent: {
-        health:5,
-        day:0,
-        hour:12,
-        numDisasters:0,
-        oxygen:120,
+        health: 5,
+        day: 0,
+        hour: 12,
+        numDisasters: 0,
+        oxygen: 120,
         tools: [] as Tool[],
         resources: {
-            uranium:2,
-            metal:5
+            uranium: 2,
+            metal: 5
         } as Record<string, number>,
-        map:{
-            extractables:[],
-            buildings:[],
+        map: {
+            extractables: [],
+            buildings: [],
         } as MapSave,
-        objectives:{
-            survival:[] as Objective[],
-            huge:[] as Objective[]
+        objectives: {
+            survival: [] as Objective[],
+            huge: [] as Objective[]
         } as Record<string, Objective[]>
     },
     scene: "planet",
     currentDiaster: null as null | Disaster,
-    disasterTimer:0,
+    disasterTimer: 0,
     notis: [] as string[],
-    newGame:true as boolean,  
+    newGame: true as boolean,
 
 })
 
 
 //This acts as a game loop function that will run every second
-function gameLoop(){
-    if(state.scene === "death") return;
+function gameLoop() {
+    if (state.scene === "death") return;
 
     const player = k.get("player")[0]
-    
+
     //Spend Oxygen if Player is in shelter
-    if(state.scene === "shelter"){
+    if (state.scene === "shelter") {
         state.persistent.oxygen--
 
-        if(state.persistent.oxygen <= 0){
+        if (state.persistent.oxygen <= 0) {
             //Reset
             dmgPlayer(1)
         }
     }
 
     //Game doesn't exist
-    if(!player) return
+    if (!player) return
 
     //Death!
-    if(state.persistent.health <= 0){
+    if (state.persistent.health <= 0) {
         state.persistent.health = 0
         setScene("death")
     }
 
-    if(state.currentDiaster){
+    if (state.currentDiaster) {
         state.disasterTimer--
         //reset diaster if over
-        if(state.disasterTimer <= 0){
+        if (state.disasterTimer <= 0) {
             state.currentDiaster.exit && state.currentDiaster.exit()
             state.currentDiaster.canceler && state.currentDiaster.canceler()
             state.currentDiaster = null
         }
-    } 
-   
+    }
+
 
 
 }
@@ -106,23 +106,23 @@ function gameLoop(){
 k.add([
     k.stay(),
     {
-        time:0,
-        nextHour:0,
+        time: 0,
+        nextHour: 0,
         //In game, 30 seconds = 1 hour
-        secondsPerHour:30,
-        update(){
+        secondsPerHour: 30,
+        update() {
             this.time += k.dt()
             //Very second
-            if(this.time >= 1){
+            if (this.time >= 1) {
                 gameLoop()
                 this.time = 0
                 this.nextHour++
 
-                if(this.nextHour >= this.secondsPerHour){
+                if (this.nextHour >= this.secondsPerHour) {
                     state.persistent.hour++
                     this.nextHour = 0
                     //Is next day?
-                    if(state.persistent.hour === 25){
+                    if (state.persistent.hour === 25) {
                         state.persistent.hour = 0
                         state.persistent.day++
                     }
@@ -141,7 +141,7 @@ state.canvas?.addEventListener("mouseover", updatePos);
 
 export function setScene(scene: string) {
     //If leaving planet save map
-    if(state.scene === "planet") exportMapState()
+    if (state.scene === "planet") exportMapState()
 
     k.go(scene)
     state.scene = scene
@@ -172,14 +172,14 @@ export function notify(text: string) {
     setTimeout(() => state.notis.shift(), 3000);
 }
 
-export function removeObjective(type:string,name:string) {  
-    if(!state.persistent.objectives[type]) return
+export function removeObjective(type: string, name: string) {
+    if (!state.persistent.objectives[type]) return
 
     const objectives = state.persistent.objectives[type]
     const index = objectives.findIndex(o => o.name === name)
-    if(index == -1) return
+    if (index == -1) return
 
-    objectives.splice(index,1)
+    objectives.splice(index, 1)
 }
 
 export const matImageMap: Record<string, string> = {
@@ -188,10 +188,10 @@ export const matImageMap: Record<string, string> = {
     stone: "rock_1",
     uranium: "uranium_1",
 }
-export function dmgPlayer(damage: number=1){
+export function dmgPlayer(damage: number = 1) {
     state.persistent.health -= damage
-    k.play("hurt",{
-        volume:3
+    k.play("hurt", {
+        volume: 3
     })
     k.shake(2)
 }
