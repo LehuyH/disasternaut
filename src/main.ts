@@ -10,6 +10,7 @@ import k from "./kaboom"
 import "@/kaboom/scenes/planet"
 import "@/kaboom/scenes/shelter"
 import "@/kaboom/scenes/death"
+import "@/kaboom/scenes/onboarding"
 
 (window as any).k = k
 

@@ -13,7 +13,7 @@ const k = kaboom({
 
 k.ready(() => {
     k.focus()
-    setScene("planet")
+    setScene("onboarding")
 
     //Add an Axe
     addTool({
