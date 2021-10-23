@@ -5,10 +5,12 @@ import Disaster from "@/kaboom/logic/disaster/disasterClass"
 //DisasterLogic Imports
 import meteor from "./meteor"
 import tsunami from "./tsunami"
+import nuke from "./nuke"
 
 export const disasters = {
     meteor,
-    tsunami
+    tsunami,
+    nuke
 } as Record<any,Disaster>
 
 
