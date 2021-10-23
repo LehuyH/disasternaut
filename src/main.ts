@@ -2,6 +2,9 @@ import { createApp } from 'vue'
 import mitt from 'mitt'
 import App from './App.vue'
 
+//Audio
+import { audio } from "@/state/audio"
+
 //Kaboom
 import k from "./kaboom"
 import "@/kaboom/scenes/planet"
