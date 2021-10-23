@@ -7,12 +7,14 @@ import meteor from "./meteor"
 import tsunami from "./tsunami"
 import nuke from "./nuke"
 import hugeBean from "./hugeBean"
+import lava from "./lava"
 
 export const disasters = {
     meteor,
     tsunami,
     nuke,
-    hugeBean
+    hugeBean,
+    lava
 } as Record<any,Disaster>
 
 

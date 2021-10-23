@@ -82,7 +82,7 @@ const status = computed(() => {
         wait(1, () => {
             customStatus.text = "DISASTER DETECTED"
             customStatus.color = "#d63031"
-            startDisaster("hugeBean", 20)
+            startDisaster("lava", 20)
         })
         wait(2, () => {
             customStatus.enabled = false
