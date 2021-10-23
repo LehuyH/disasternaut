@@ -127,6 +127,7 @@ const objectives = computed(() => {
 })
 
 watchEffect(()=>{
+    if(state.scene === "onboarding") return;
     if(state.currentDiaster) playDisasterAudio()
     else playBgAudio()
 })
