@@ -4,6 +4,7 @@ import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { MapSave, exportMapState, restoreMap } from "@/kaboom/logic/map"
 import createQuota from "@/kaboom/logic/quota"
+import { startRandomDisaster } from "@/kaboom/logic/disaster"
 
 export const wait = (s: number, callback: () => void) => setTimeout(() => callback(), s * 1000)
 
@@ -42,10 +43,10 @@ export const state = reactive({
         oxygen: 120,
         tools: [] as Tool[],
         quota:{} as Record<string,number>,
-        quotaDay:0,
+        quotaDay:null as number|null,
         resources: {
             uranium: 2,
-            metal: 5
+            metal: 15
         } as Record<string, number>,
         map: {
             extractables: [],
@@ -124,6 +125,7 @@ k.add([
                 if (this.nextHour >= this.secondsPerHour) {
                     state.persistent.hour++
                     this.nextHour = 0
+                    if(!state.currentDiaster && state.persistent.numDisasters > 0) startRandomDisaster()
                     //Is next day?
                     if (state.persistent.hour === 25) {
                         state.persistent.hour = 0
@@ -199,7 +201,9 @@ export function dmgPlayer(damage: number = 1) {
     k.shake(2)
 }
 
-export function setQuote(){
+export function setQuota(){
     const [quota, days] = createQuota()
     state.persistent.quota = quota as Record<string, number>
+    state.persistent.quotaDay = state.persistent.day + (days as number)
+    notify("HUGE has sent you a new Quota. You have " + days + " days")
 }
