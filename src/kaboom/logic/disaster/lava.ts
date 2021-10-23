@@ -64,13 +64,10 @@ export default class Nuke extends Disaster<LavaState>{
         //Add high ground rocks
         lavaState.pos.forEach((pos, i) => {
             k.add([
-                ...initExtractable({
-                    type: "rock",
-                    health: 30,
-                    gives: "stone",
-                    value: 5
-                }, pos, "rock_2"),
+                k.pos(pos),
+                k.sprite("rock_2"),
                 k.scale(4),
+                k.z(1),
                 k.area(),
                 {
                     introOp: 0,
@@ -93,7 +90,7 @@ export default class Nuke extends Disaster<LavaState>{
 
                         lavaState.isOnHighground[i] = this.isTouching(player)
                     }
-                },
+                } as any,
                 "highground"
             ])
         })
