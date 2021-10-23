@@ -21,7 +21,8 @@ export function allowedToBuild(buildingName: string): (boolean | string | null)[
     const shelter = k.get("shelter")[0]
 
     //No collisions
-    if (isTouchingCollideable(preview)) return [false, "There is not enough room to build this here."]
+    if (isTouchingCollideable(preview) || preview.pos.x < 0 || preview.pos.y < 0 || preview.pos.x > 3600 || preview.pos.y > 2000) return [false, "There is not enough room to build this here."]
+
 
     //Only build on overworld world
     if (state.scene !== "planet") return [false, "You cannot build here!"];
