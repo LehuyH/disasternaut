@@ -12,8 +12,8 @@
 :root {
   --black: #191716;
   --blue: #228cdb;
-  --red: #B9314F;
-  --huge:#F24405;
+  --red: #b9314f;
+  --huge: #f24405;
   font-size: 18px;
 }
 
@@ -38,7 +38,7 @@ canvas {
 
 button {
   --accent: var(--blue);
-  --border: var(--blue);
+  --border: var(--accent);
 
   font-size: 1rem;
   background: var(--accent);
@@ -70,15 +70,15 @@ button:active {
 
 .overlay {
   position: fixed;
-  top: 75px;
-  bottom: 75px;
+  top: 0;
+  right: 0;
   left: 0;
-  width: 100%;
-  z-index: 1;
+  bottom: 0;
 }
 
-.slide-fade-enter-active,slide-fade-leave-active {
-  transition: all .8s ease-in-out;
+.slide-fade-enter-active,
+slide-fade-leave-active {
+  transition: all 0.8s ease-in-out;
 }
 
 .slide-fade-leave-to {
@@ -86,15 +86,30 @@ button:active {
   opacity: 0;
 }
 
-.slide-fade-enter-from{
+.slide-fade-enter-from {
   transform: translateX(-10px);
   opacity: 0;
 }
 
-.fade-enter-active, .fade-leave-active {
-transition: opacity .5s;
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 0.5s;
 }
 
-.fade-enter-from, .fade-leave-to{
-opacity: 0;
+.fade-enter-from,
+.fade-leave-to {
+  opacity: 0;
+}
+
+.hud-element {
+  pointer-events: none;
+}
+
+.hud-element button,
+.hud-element details {
+  pointer-events: all;
+}
+
+.thin {
+  font-weight: 100;
 }

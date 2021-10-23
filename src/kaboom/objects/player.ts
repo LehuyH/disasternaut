@@ -29,20 +29,20 @@ function behavior() {
     const metal = k.play("steps_metal")
     metal.loop()
     metal.pause()
-metal.speed(1.5)
-    
+    metal.speed(1.5)
+
     const playAnim = (player: any, name: string) => {
         if (name != player.curAnim()) {
             player.play(name)
         }
     }
 
-    const playSteps = ()=>{
-        if(state.scene === "planet"){
+    const playSteps = () => {
+        if (state.scene === "planet") {
             dirt.play()
             metal.stop()
         }
-        else{
+        else {
             metal.play()
             dirt.stop()
         }
@@ -78,8 +78,8 @@ metal.speed(1.5)
         add() {
             const player = this
             //Handle building entering
-            player.collides("shelter",(s:GameObj<any>,col:Collision)=>{
-                if(!col?.isTop()) return
+            player.collides("shelter", (s: GameObj<any>, col: Collision) => {
+                if (!col?.isTop()) return
 
                 setScene("shelter")
             })
@@ -140,8 +140,8 @@ metal.speed(1.5)
 
             //Building placement
             if (state.interaction.placingBuilding && k.mouseIsClicked()) {
-                if(!state.interaction.placingBuilding) return
-                addBuilding(state.interaction.placingBuilding,k.mouseWorldPos())
+                if (!state.interaction.placingBuilding) return
+                addBuilding(state.interaction.placingBuilding, k.mouseWorldPos())
             }
 
             //Handle input
@@ -150,7 +150,7 @@ metal.speed(1.5)
             else if (k.keyIsDown("a") || k.keyIsDown("left")) movement.left(this)
             else if (k.keyIsDown("w") || k.keyIsDown("up")) movement.up(this)
             else if (k.keyIsDown("s") || k.keyIsDown("down")) movement.down(this)
-            else{
+            else {
                 metal.stop()
                 dirt.stop()
             }
@@ -187,7 +187,7 @@ k.loadSprite("player", "sprites/player.png", {
     }
 })
 k.loadSprite("axe", "sprites/axe.png")
-k.loadSound("steps_metal","audio/steps_metal.webm")
-k.loadSound("steps","audio/steps.webm")
+k.loadSound("steps_metal", "audio/steps_metal.webm")
+k.loadSound("steps", "audio/steps.webm")
 
 

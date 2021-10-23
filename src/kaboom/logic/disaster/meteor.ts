@@ -1,8 +1,7 @@
 import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { addExtractable } from "@/kaboom/logic/map"
-import { notify, state } from "@/state"
-import { exit } from "process"
+import { state } from "@/state"
 
 
 function createMeteor() {
