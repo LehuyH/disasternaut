@@ -1,6 +1,6 @@
 import k from "@/kaboom"
 import { GameObj } from "kaboom"
-import { state } from "@/state"
+import { state, dmgPlayer } from "@/state"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 
 interface TsunamiState{
@@ -15,10 +15,17 @@ export default class Tsunami extends Disaster<TsunamiState>{
     state = {
         scaleX:0,
         opacity:1,
-        timeIdle:0
+        timeIdle:0,
+        cooldown:false
     }
 
     init(){
+
+        const sfx = k.play("tsunami",{
+            loop:true,
+            volume:0.75
+        })
+
         const tsunamiState = this.state
         k.add([
             k.stay(),
@@ -27,9 +34,11 @@ export default class Tsunami extends Disaster<TsunamiState>{
                     //Move the Tsunami
                     if(tsunamiState.scaleX < 1){
                         tsunamiState.scaleX += 0.001;
+                        k.shake(0.5)
                     }else{
                         //Idle for 5 seconds, then fade away
-                        if(tsunamiState.opacity <= 0){
+                        if(tsunamiState.opacity <= 0 || state.scene === "death"){
+                            sfx.stop();
                             this.destroy();
                             return;
                         };
@@ -56,9 +65,16 @@ export default class Tsunami extends Disaster<TsunamiState>{
                 update() {
                     this.use(k.scale(tsunamiState.scaleX,1))
                     this.use(k.opacity(tsunamiState.opacity))
-
                     if(tsunamiState.opacity <= 0){
                         this.destroy()
+                    }
+
+                    if(this.isTouching(k.get("player")[0]) && !tsunamiState.cooldown){
+                        dmgPlayer(1)
+                        tsunamiState.cooldown = true
+                        k.wait(1.5,()=>{
+                            tsunamiState.cooldown = false
+                        })
                     }
                 }
             } as any
@@ -66,4 +82,11 @@ export default class Tsunami extends Disaster<TsunamiState>{
 
     }
     
+    interior(){
+        this.state.cooldown = false
+    }
+
 }
+
+
+k.loadSound("tsunami","audio/tsunami.webm")

@@ -2,12 +2,10 @@
 import Vignette from "./components/Vignette.vue"
 import HugeNetStatus from "./components/HugeNetStatus.vue"
 import ShelterStatus from "./components/ShelterStatus.vue"
-
-import { getEvents, state, setScene, addTool, setTool } from "@/state"
-import { PosComp, SpriteComp, Vec2 } from "kaboom"
-import { exportMapState } from "@/kaboom/logic/map"
+import Death from "./components/Death.vue"
+import { setScene, addTool, setTool, state } from "@/state"
 import k from "@/kaboom"
-import { onMounted, ref } from "vue"
+import { onMounted, computed } from "vue"
 import MaterialsDisplay from "./components/MaterialsDisplay.vue"
 import HugeNetHotBar from "./components/HugeNetHotBar.vue"
 import NotificationPanel from "./components/NotificationPanel.vue"
@@ -28,13 +26,22 @@ onMounted(() => {
 
     })
 })
+
+const stateComputed = computed(()=>state)
 </script>
 
 <template>
-    <Vignette />
-    <MaterialsDisplay />
-    <HugeNetStatus />
-    <ShelterStatus />
-    <HugeNetHotBar />
-    <NotificationPanel />
+<transition name="fade">
+<section v-if="state.scene === 'death'">
+  <Death />
+</section>
+<section v-else>
+  <Vignette />
+  <MaterialsDisplay />
+  <HugeNetStatus />
+  <ShelterStatus />
+  <HugeNetHotBar />
+  <NotificationPanel />
+</section>
+</transition>
 </template>

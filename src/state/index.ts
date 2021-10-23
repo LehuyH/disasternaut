@@ -63,6 +63,8 @@ export const state = reactive({
 
 //This acts as a game loop function that will run every second
 function gameLoop(){
+    if(state.scene === "death") return;
+
     const player = k.get("player")[0]
     
     //Spend Oxygen if Player is in shelter
@@ -71,11 +73,18 @@ function gameLoop(){
 
         if(state.persistent.oxygen <= 0){
             //Reset
+            dmgPlayer(1)
         }
     }
 
     //Game doesn't exist
     if(!player) return
+
+    //Death!
+    if(state.persistent.health <= 0){
+        state.persistent.health = 0
+        setScene("death")
+    }
 
     if(state.currentDiaster){
         state.disasterTimer--
@@ -170,4 +179,12 @@ export function removeObjective(type:string,name:string) {
     if(index == -1) return
 
     objectives.splice(index,1)
+}
+
+export function dmgPlayer(damage: number=1){
+    state.persistent.health -= damage
+    k.play("hurt",{
+        volume:3
+    })
+    k.shake(2)
 }

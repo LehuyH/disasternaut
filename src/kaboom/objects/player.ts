@@ -189,5 +189,7 @@ k.loadSprite("player", "sprites/player.png", {
 k.loadSprite("axe", "sprites/axe.png")
 k.loadSound("steps_metal", "audio/steps_metal.webm")
 k.loadSound("steps", "audio/steps.webm")
+k.loadSound("death", "audio/death.webm")
+k.loadSound("hurt","audio/hurt.webm")
 
 

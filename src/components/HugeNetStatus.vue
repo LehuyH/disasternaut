@@ -4,7 +4,7 @@
             <span class="huge">HugeNet</span>
             <span class="thin">AI</span>
         </h1>
-        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }}</p>
+        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} Health {{state.persistent.health}}</p>
         <hr />
 
         <p class="status" :style="{ backgroundColor: status.color }">
@@ -90,6 +90,7 @@ const status = computed(() => {
     }
 
     if (customStatus.enabled) return customStatus;
+    if(state.currentDiaster) return {text:`${state.currentDiaster.name?.toUpperCase()} ${new Date(state.disasterTimer * 1000).toISOString().substr(14, 5)}`,color:"#d63031"}
 
     return { text: "All Systems Operational", color: "#10ac84" }
 })
