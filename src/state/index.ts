@@ -53,7 +53,7 @@ export const state = reactive({
             huge:[] as Objective[]
         } as Record<string, Objective[]>
     },
-    scene: "",
+    scene: "planet",
     currentDiaster: null as null | Disaster,
     disasterTimer:0,
     notis: [] as string[],

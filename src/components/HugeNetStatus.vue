@@ -31,8 +31,9 @@
 </template>
 
 <script setup lang="ts">
-import { computed, reactive } from "vue"
+import { computed, reactive, watchEffect } from "vue"
 import { state, wait } from "@/state"
+import { playDisasterAudio, playBgAudio } from "@/state/audio"
 import k from "@/kaboom"
 import { startDisaster } from "@/kaboom/logic/disaster"
 
@@ -82,7 +83,7 @@ const status = computed(() => {
         wait(1, () => {
             customStatus.text = "DISASTER DETECTED"
             customStatus.color = "#d63031"
-            startDisaster("lava", 20)
+            startDisaster("tsunami", 10)
         })
         wait(2, () => {
             customStatus.enabled = false
@@ -123,6 +124,11 @@ const objectives = computed(() => {
     }
 
     return state.persistent.objectives.survival
+})
+
+watchEffect(()=>{
+    if(state.currentDiaster) playDisasterAudio()
+    else playBgAudio()
 })
 </script>
 

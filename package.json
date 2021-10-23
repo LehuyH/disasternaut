@@ -7,6 +7,8 @@
     "serve": "vite preview"
   },
   "dependencies": {
+    "@types/howler": "^2.2.4",
+    "howler": "^2.2.3",
     "kaboom": "^2000.0.0",
     "mitt": "^3.0.0",
     "vue": "^3.2.16"

@@ -83,5 +83,3 @@ loadVariants("tree",2)
 loadVariants("rock",4)
 loadVariants("metal",4)
 loadVariants("uranium",2)
-
-
