@@ -33,7 +33,7 @@ export default class Tsunami extends Disaster<TsunamiState>{
                 update() {
                     //Move the Tsunami
                     if (tsunamiState.scaleX < 1) {
-                        tsunamiState.scaleX += 0.001;
+                        tsunamiState.scaleX += 0.2 * k.dt();
                         k.shake(0.5)
                     } else {
                         //Idle for 5 seconds, then fade away

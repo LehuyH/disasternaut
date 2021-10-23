@@ -35,6 +35,11 @@ export function startDisaster(name: string, duration: number) {
     }
 }
 
+export function startRandomDisaster(){
+    const disasterName = k.choose(Object.keys(disasters))
+    startDisaster(disasterName,25)
+}
+
 export function restoreDisaster() {
     //Was there a disaster running? Restore if so
     if (state.currentDiaster && state.disasterTimer > 0) {
