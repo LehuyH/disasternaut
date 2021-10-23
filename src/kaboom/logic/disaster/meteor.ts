@@ -1,15 +1,15 @@
 import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { addExtractable } from "@/kaboom/logic/map"
-import { state } from "@/state"
+import { state, dmgPlayer } from "@/state"
 
 
 function createMeteor() {
     const player = k.get('player')[0]
     if (!player) return
-    const atPlayer = k.chance(0.3)
-    const startingX = (atPlayer) ? player.pos.x : k.rand(player.pos.x - 300, player.pos.x + 300)
-    const endingY = (atPlayer) ? player.pos.y : k.rand(player.pos.y - 300, player.pos.y + 300)
+    const atPlayer = k.chance(0.5)
+    const startingX = (atPlayer) ? player.pos.x : k.rand(player.pos.x - 200, player.pos.x + 200)
+    const endingY = (atPlayer) ? player.pos.y : k.rand(player.pos.y - 200, player.pos.y + 200)
 
     const meteor = k.add([
         k.sprite("metal_2"),
@@ -18,12 +18,14 @@ function createMeteor() {
         //Random position
         k.pos(startingX, -100),
         {
+            cooldown:false,
             update() {
                 this.pos = this.pos.add(0, 5)
                 if (this.pos.y >= endingY) {
                     k.shake(5)
-                    const sfx = k.play("meteor_impact")
-                    sfx.volume(0.5)
+                    const sfx = k.play("meteor_impact",{
+                        volume:0.25
+                    })
                     shadow?.destroy()
                     //Add metal where it fell 25% chance
                     if (k.chance(0.25)) {
@@ -33,6 +35,12 @@ function createMeteor() {
                             type: "metal",
                             value: 2
                         }, this.pos, "metal_2")
+                    }
+
+                    //Damage Player
+                    if(this.isTouching(k.get("player")[0]) && !this.cooldown && ((endingY - this.pos.y) <= 30)){
+                        this.cooldown = true
+                        dmgPlayer(1)
                     }
 
                     this.destroy()
@@ -80,8 +88,9 @@ function createMeteor() {
 function createIndoors() {
     k.wait(k.rand(0, 1), () => {
         k.shake(2)
-        const m = k.play("meteor_impact")
-        m.volume(0.25)
+        const m = k.play("meteor_impact",{
+            volume:0.1
+        })
 
         if (k.chance(0.25)) {
             addExtractable({

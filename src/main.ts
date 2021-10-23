@@ -6,6 +6,7 @@ import App from './App.vue'
 import k from "./kaboom"
 import "@/kaboom/scenes/planet"
 import "@/kaboom/scenes/shelter"
+import "@/kaboom/scenes/death"
 
 (window as any).k = k
 

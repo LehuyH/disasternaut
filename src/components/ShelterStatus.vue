@@ -14,6 +14,13 @@ import { state } from "@/state"
 </script>
 
 <style scoped>
+
+section{
+   transform: translate(-50%, 0%);
+   left: 50%;
+   top:0%;
+   position: fixed;
+}
 .status {
     font-family: monospace;
     background-color: #2d3436;
@@ -22,13 +29,4 @@ import { state } from "@/state"
     text-align: center;
 }
 
-.flicker{
-    animation: flicker 1s linear infinite;
-}
-
-@keyframes flicker {
-  0%   { opacity:1; }
-  50%  { opacity:0; }
-  100% { opacity:1; }
-}
 </style>

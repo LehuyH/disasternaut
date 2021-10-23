@@ -36,6 +36,40 @@ k.scene("planet",()=>{
     }
 
     restoreDisaster()
+
+    //Coliders
+    //Top
+    k.add([
+        k.rect(2500,2),
+        k.pos(0,-2),
+        k.area(),
+        k.opacity(0),
+        k.solid()
+    ])
+    //Bot
+    k.add([
+        k.rect(2500,2),
+        k.pos(0, 2000 - 2),
+        k.area(),
+        k.opacity(0),
+        k.solid()
+    ])
+    //Left
+    k.add([
+        k.rect(2,2000),
+        k.pos(-2,0),
+        k.area(),
+        k.opacity(0),
+        k.solid()
+    ])
+    //right
+    k.add([
+        k.rect(2,2000),
+        k.pos(3600,0),
+        k.area(),
+        k.opacity(0),
+        k.solid()
+    ])
 })
 
 const loadVariants = (type:string,count:number,extension:string="png") => {
