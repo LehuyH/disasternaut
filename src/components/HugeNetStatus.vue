@@ -32,7 +32,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, watchEffect } from "vue"
-import { state, wait } from "@/state"
+import { state, wait, setQuota } from "@/state"
 import { playDisasterAudio, playBgAudio } from "@/state/audio"
 import k from "@/kaboom"
 import { startDisaster } from "@/kaboom/logic/disaster"
@@ -83,7 +83,7 @@ const status = computed(() => {
         wait(1, () => {
             customStatus.text = "DISASTER DETECTED"
             customStatus.color = "#d63031"
-            startDisaster("lazer", 20)
+            startDisaster("meteor", 20)
         })
         wait(2, () => {
             customStatus.enabled = false
@@ -122,8 +122,9 @@ const objectives = computed(() => {
             description: "HugeNET has calculated that your chances of survival without HUGE support is 0%. You need to gather metal and build a communications tower soon."
         }])
     }else if (state.persistent.quota){
+        if(state.persistent.quotaDay === null) setQuota()
         return state.persistent.objectives.survival.concat([{
-            name: "Extract Resources To Meet Your Quota",
+            name: `Extract Resources To Meet Your Quota (Deadline: Day ${state.persistent.quotaDay})`,
             description: "In exchange for your planet, HUGE expects you to provide resources back to them. A button in top right corner displays your quota. You need to meet this quota to fufil your contract."
         }])
     }
