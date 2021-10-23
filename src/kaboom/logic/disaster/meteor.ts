@@ -20,7 +20,7 @@ function createMeteor() {
         {
             cooldown: false,
             update() {
-                this.pos = this.pos.add(0, 5)
+                this.pos = this.pos.add(0, 500 * k.dt())
                 if (this.pos.y >= endingY) {
                     k.shake(5)
                     const sfx = k.play("meteor_impact", {

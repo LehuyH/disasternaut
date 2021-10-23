@@ -39,9 +39,9 @@ function behavior(config: Extractable) {
 
                 if (tool.effective.includes(config.type)) {
                     //Remove extra damage if effective
-                    this.extractableHealth -= tool.power * 2
+                    this.extractableHealth -= tool.power * 2 * (k.dt() * 150)
                 } else {
-                    this.extractableHealth -= tool.power * 0.5
+                    this.extractableHealth -= tool.power * 0.5 * (k.dt() * 150)
                 }
 
                 //Fade away object as it gets extracted

@@ -56,7 +56,7 @@ export default class Nuke extends Disaster<NukeState>{
 
                     //After 5 seconds, detonate
                     if (nukeState.time >= 5 && nukeState.scale < 1) {
-                        nukeState.scale += 0.05
+                        nukeState.scale += 0.05 * (40 * k.dt())
                         k.shake((state.scene === 'planet') ? 10 : 5)
                         nukeState.sfx.play()
                     }

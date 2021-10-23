@@ -50,7 +50,7 @@ export default class Nuke extends Disaster<LavaState>{
                     if (lavaState.time > 5 && lavaState.opacity <= 1) {
                         if (lavaState.sfx.paused()) lavaState.sfx.play()
                         k.shake(5)
-                        lavaState.opacity += 0.01
+                        lavaState.opacity += 1 * k.dt()
                     }
                 }
             } as any
@@ -81,9 +81,10 @@ export default class Nuke extends Disaster<LavaState>{
 
                     update() {
                         if (!state.currentDiaster || state.scene === "death") {
-                            if (k.chance(0.5)) {
-                                this.destroy()
-                            }
+                             //Fade out
+                             if (this.opacity > 0) this.opacity -= 1.5 * k.dt()
+                             else this.destroy()
+                             return;
                         }
                         if (this.introOp < 1) {
                             this.introOp += 0.01
@@ -108,7 +109,10 @@ export default class Nuke extends Disaster<LavaState>{
 
                 update() {
                     if (!state.currentDiaster || state.scene === "death") {
-                        this.destroy()
+                        //Fade out
+                        if(this.opacity > 0) this.opacity -= 1 * k.dt()
+                        else this.destroy()
+                        return;
                     }
                     this.opacity = lavaState.opacity
 
