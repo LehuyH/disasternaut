@@ -5,6 +5,8 @@ k.scene("death", () => {
     const player = k.get("player")[0]
     if (!player) return
 
+    state.currentDiaster = null
+
     k.add([
         k.color(0, 0, 0),
         k.rect(2000, 2000),
@@ -31,10 +33,6 @@ k.scene("death", () => {
         k.origin("center"),
     ])
 
-    k.play("death", {
-        volume: 2
-    })
-
     //Music
     k.add([
         k.stay(),
@@ -56,5 +54,3 @@ k.scene("death", () => {
         } as any
     ])
 })
-
-k.loadSound("piano", "audio/piano.webm")

@@ -16,6 +16,11 @@ export const audio = {
         loop: true,
         volume: 0.2
     }),
+    death: new Howl({
+        src:"audio/piano.webm",
+        loop:true,
+        volume: 2
+    }),
     disasters: {
         0: new Howl({
             src: "audio/disaster_0.webm",
@@ -40,8 +45,15 @@ export function playDisasterAudio() {
 }
 
 export function playBgAudio() {
+    const audioByScene = {
+        'onboarding':audio.planet,
+        'planet':audio.planet,
+        'shelter':audio.interior,
+        'death':audio.death,
+    } as Record<string,Howl>
+    
     current?.stop()
-    const bg = (state.scene === "planet") ? audio.planet : audio.interior
+    const bg = audioByScene[state.scene]
     current = bg
     bg.play()
     bg.fade(0, bg.volume(), 1000)
