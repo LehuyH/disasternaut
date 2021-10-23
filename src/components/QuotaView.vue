@@ -31,14 +31,10 @@
 </template>
 
 <script setup lang="ts">
+import createQuota from "@/kaboom/logic/quota";
 import { state, matImageMap } from "@/state";
 
-const mockQuotas = {
-    "metal": 69,
-    "wood": 69,
-    "uranium": 1,
-    "stone": 12
-};
+const mockQuotas = createQuota();
 </script>
 
 <style scoped>
