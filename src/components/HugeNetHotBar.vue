@@ -12,7 +12,7 @@
             v-for="(cost, name, i) in costs"
             :key="i"
             @click="build(name)"
-            style="--accent: #003366;"
+            style="--accent: #003366; --border: white;"
             :title="buttonMap[name].friendly"
         >
             <span class="iconify" :data-icon="buttonMap[name].icon"></span>
@@ -77,10 +77,10 @@ function build(name: string) {
 
 window.addEventListener("keydown", ({ key }) => {
     if (key === "Escape") state.interaction.placingBuilding = null;
-})
+});
 </script>
 
-<style>
+<style scoped>
 .hotbar {
     position: fixed;
     bottom: 0;

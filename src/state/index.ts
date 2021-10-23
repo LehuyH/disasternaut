@@ -30,7 +30,8 @@ export const state = reactive({
     position: k.mouseWorldPos(),
     interaction: {
         placingBuilding: null as null | string,
-        currentToolIndex: -1
+        currentToolIndex: -1,
+        showQuota: false,
     },
     persistent: {
         health:5,
@@ -170,4 +171,11 @@ export function removeObjective(type:string,name:string) {
     if(index == -1) return
 
     objectives.splice(index,1)
+}
+
+export const matImageMap: Record<string, string> = {
+    wood: "tree_1",
+    metal: "metal_1",
+    stone: "rock_1",
+    uranium: "uranium_1",
 }

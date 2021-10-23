@@ -8,7 +8,7 @@
 import { state } from "@/state";
 </script>
 
-<style>
+<style scoped>
 .notification-panel {
     z-index: 3;
     position: fixed;

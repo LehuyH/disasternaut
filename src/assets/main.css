@@ -106,7 +106,8 @@ slide-fade-leave-active {
 }
 
 .hud-element button,
-.hud-element details {
+.hud-element details,
+.hud-element a {
   pointer-events: all;
 }
 

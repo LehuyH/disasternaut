@@ -8,21 +8,19 @@
                 :alt="`${name} material icon`"
             />
         </p>
+        <a @click="showQuotas">View Quotas</a>
     </div>
 </template>
 
 <script setup lang="ts">
-import { state } from "@/state";
+import { state, matImageMap } from "@/state";
 
-const matImageMap: Record<string, string> = {
-    wood: "tree_1",
-    metal: "metal_1",
-    stone: "rock_1",
-    uranium: "uranium_1",
+function showQuotas() {
+    state.interaction.showQuota = true;
 }
 </script>
 
-<style>
+<style scoped>
 .materials-display {
     position: fixed;
     top: 0;
@@ -37,10 +35,21 @@ const matImageMap: Record<string, string> = {
     height: 30px;
 }
 
-.materials-display p {
+p,
+a {
     margin: 10px;
     display: flex;
     align-items: center;
+}
+
+a {
+    color: #003366;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+a:hover {
+    text-decoration: underline;
 }
 
 .materials-display img {
