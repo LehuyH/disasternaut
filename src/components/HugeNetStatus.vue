@@ -89,8 +89,7 @@ const status = computed(() => {
         })
     }
 
-    if (customStatus.enabled) return customStatus
-    if (state.currentDiaster) return { text: `${state.currentDiaster.name.toUpperCase()} ${new Date(state.disasterTimer * 1000).toISOString().substr(14, 5)}`, color: "#d63031" }
+    if (customStatus.enabled) return customStatus;
 
     return { text: "All Systems Operational", color: "#10ac84" }
 })

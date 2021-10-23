@@ -1,7 +1,7 @@
 import { getCurrentInstance, reactive,computed } from 'vue'
 import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
-import { DisasterLogic } from '@/kaboom/logic/disaster';
+import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { MapSave,exportMapState, restoreMap } from "@/kaboom/logic/map"
 
 export const wait = (s:number,callback:() => void) => setTimeout(() =>callback(),s*1000)
@@ -53,7 +53,7 @@ export const state = reactive({
         } as Record<string, Objective[]>
     },
     scene: "",
-    currentDiaster: null as null | DisasterLogic,
+    currentDiaster: null as null | Disaster,
     disasterTimer:0,
     notis: [] as string[],
     newGame:true as boolean,  
@@ -81,8 +81,8 @@ function gameLoop(){
         state.disasterTimer--
         //reset diaster if over
         if(state.disasterTimer <= 0){
-            state.currentDiaster.exit()
-            if(state.currentDiaster.canceler) state.currentDiaster.canceler()
+            state.currentDiaster.exit && state.currentDiaster.exit()
+            state.currentDiaster.canceler && state.currentDiaster.canceler()
             state.currentDiaster = null
         }
     } 
