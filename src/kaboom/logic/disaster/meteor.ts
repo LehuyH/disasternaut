@@ -1,8 +1,7 @@
 import k from "@/kaboom"
 import { DisasterLogic } from "./index"
 import { addExtractable } from "@/kaboom/logic/map"
-import { notify, state } from "@/state"
-import { exit } from "process"
+import { state } from "@/state"
 
 
 function createMeteor() {
