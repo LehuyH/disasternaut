@@ -23,7 +23,6 @@ export default () => [
 //Logic
 function behavior() {
     const inputs = {} as Record<string,boolean>
-    let speedMultipler = 1
 
     const dirt = k.play("steps")
     dirt.loop()
@@ -54,20 +53,20 @@ function behavior() {
 
     const movement = {
         'down': (p: GameObj<any>) => {
-            p.move(0, 200 * speedMultipler)
+            p.move(0, 200)
             playSteps()
         },
         'up': (p: GameObj<any>) => {
-            p.move(0, -200 * speedMultipler)
+            p.move(0, -200)
             playSteps()
         },
         'left': (p: GameObj<any>) => {
-            p.move(-200 * speedMultipler, 0)
+            p.move(-200, 0)
             playAnim(p, "walk")
             playSteps()
         },
         'right': (p: GameObj<any>) => {
-            p.move(200 * speedMultipler, 0)
+            p.move(200, 0)
             playAnim(p, "walk")
             playSteps()
         }
@@ -160,9 +159,6 @@ function behavior() {
             const keys = ["w","a","s","d","right","up","down","left"]
 
             keys.forEach(key => inputs[key] = k.keyIsDown(key as any))
-
-            //Avoid speed boost on diagonal movement
-            speedMultipler = 1/(Object.values(inputs).filter(e=>e === true).length || 1)
 
             if (inputs["d"] || inputs["right"]) movement.right(this)
             if (inputs["a"] || inputs["left"]) movement.left(this)
