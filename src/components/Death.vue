@@ -25,7 +25,7 @@ function nextDay() {
     player.allowMovement = true
 
     //Reset stats
-    state.persistent.health = 5
+    state.persistent.health = state.persistent.maxHealth
     state.persistent.oxygen = 120
     state.currentDiaster = null
     state.disasterTimer = 0
