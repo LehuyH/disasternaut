@@ -10,7 +10,7 @@
                     </h1>
                     <small>(Humans United on Galactic Exploration)</small>
                     <h2 class="thin">
-                        wants to outsource
+                        Wants to outsource
                         <b>you</b> a newly discovered planet!
                     </h2>
                     <br />
@@ -19,7 +19,7 @@
                         style="--accent: var(--huge);"
                         @click="onboardingStage = 1"
                     >
-                        <b>I'm interested!</b>
+                        <b>I'm Interested!</b>
                     </button>
                      <button
                         class="next-button"
