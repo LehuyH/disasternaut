@@ -103,6 +103,8 @@ function gameLoop() {
         }
     }
 
+    k.setData("save",state.persistent)
+    if(state.scene === "planet") exportMapState()
 
 
 }
@@ -128,6 +130,17 @@ k.add([
                 if (this.nextHour >= this.secondsPerHour) {
                     state.persistent.hour++
                     this.nextHour = 0
+
+                      //Check quota if due
+                    if (state.persistent.quotaDay && state.persistent.quotaDay <= state.persistent.day){
+                        const passed = Object.entries(state.persistent.quota).every(([key,target])=>{
+                            const current = state.persistent.resources[key] || 0
+
+                            return target <= current
+                        })
+                        setQuota()
+                        notify("Passed " + passed)
+                    }
 
                     //Select random disaster and start it
                     if(!state.currentDiaster && state.persistent.numDisasters === 1 && onTutorial){

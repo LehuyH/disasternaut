@@ -21,6 +21,14 @@
                     >
                         <b>I'm interested!</b>
                     </button>
+                     <button
+                        class="next-button"
+                        style="--accent: var(--huge);"
+                        @click="restore"
+                        v-if="hasSave"
+                    >
+                        <b>Continue</b>
+                    </button>
                 </div>
                 <div class="stage2" v-else-if="onboardingStage === 1">
                     <img src="/img/onboarding1.svg" />
@@ -79,7 +87,7 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, watchEffect } from 'vue';
+import { ref, reactive, watchEffect, computed } from 'vue';
 import k from "@/kaboom";
 import { state, setScene } from '@/state';
 import { audio } from "@/state/audio"
@@ -94,6 +102,14 @@ const curtainTranslates = reactive({
     left: "-50vw",
     right: "50vw"
 });
+
+const hasSave = computed(() =>k.getData("save") !== null)
+
+function restore(){
+    state.persistent = k.getData("save")
+    state.newGame = false
+    startCurtainTransition()
+}
 
 watchEffect(() => {
     if (onboardingStage.value === 0) {
@@ -215,7 +231,7 @@ function startCurtainTransition() {
 .stage3 .loading h1 {
     position: relative;
     font-size: 75px;
-    animation: loading-text 2s 1s forwards;
+    animation: loading-text 3s 1s forwards;
 }
 .stage3 .loading img {
     position: relative;
@@ -303,17 +319,17 @@ hr {
     }
 
     40% {
-        bottom: 100px;
+        bottom: 150px;
     }
 
     80% {
         opacity: 1;
-        bottom: 100px;
+        bottom: 150px;
     }
 
     100% {
         opacity: 0;
-        bottom: 100px;
+        bottom: 150px;
     }
 }
 

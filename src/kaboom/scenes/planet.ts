@@ -26,7 +26,6 @@ k.scene("planet", () => {
         const shelter = state.persistent.map.buildings.find(b => b.name === "shelter")
         if (!shelter) return
         player.moveTo(shelter.pos.x, shelter.pos.y + 200)
-        restoreMap()
     }
 
     //Requesting new game? Add Tutorial Objects
@@ -110,6 +109,8 @@ k.scene("planet", () => {
 
         
         state.newGame = false
+    }else{
+        restoreMap()
     }
 
     //Requesting new map?
@@ -153,6 +154,7 @@ k.scene("planet", () => {
         k.opacity(0),
         k.solid()
     ])
+    
 })
 
 const loadVariants = (type: string, count: number, extension: string = "png") => {
