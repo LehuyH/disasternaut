@@ -169,6 +169,20 @@ k.scene("shelter", () => {
     k.solid()
   ])
 
+  //Bed
+  k.add([
+    k.rect(40,80),
+    k.pos(25,80),
+    k.color(235, 59, 90),
+    k.area(),
+    {
+      update(){
+        const p = k.get("player")[0]
+        state.interaction.nextToBed = this.isColliding(p)
+      }
+    } as any
+  ])
+
   restoreDisaster()
 
   k.play("door")

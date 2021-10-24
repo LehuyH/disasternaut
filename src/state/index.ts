@@ -36,6 +36,7 @@ export const state = reactive({
         showQuota: false,
         quotaSuccess:false,
         showLetter:false,
+        nextToBed:false
     },
     persistent: {
         name:"",
