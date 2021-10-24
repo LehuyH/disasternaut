@@ -122,12 +122,6 @@ export default class Meteor extends Disaster<IState>{
         })
     }
     exit() {
-        if (state.persistent.numDisasters === 1) {
-            state.persistent.objectives.survival.push({
-                name: "Extract Resources",
-                description: "HugeNET has scanned the planet and has detected an abundance of resources. You can extract them for use by going over to a resource and holding down the left mouse button."
-            })
-        }
     }
 }
 

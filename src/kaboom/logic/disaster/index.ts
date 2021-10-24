@@ -19,8 +19,6 @@ export const disasters = {
     lazer
 } as Record<any, Disaster>
 
-
-
 export function startDisaster(name: string, duration: number) {
     if (disasters[name]) {
         //Create and mount the disaster
@@ -37,9 +35,19 @@ export function startDisaster(name: string, duration: number) {
     }
 }
 
+let lastDisaster = null as null|string
+
 export function startRandomDisaster(){
-    const disasterName = k.choose(Object.keys(disasters))
-    startDisaster(disasterName,25)
+    const disasterDurations = {
+        "lava":10,
+        "tsunami":10,
+    } as Record<string,number>
+
+    //Select random disaster, NOT the last one
+    const disasterName = k.choose(Object.keys(disasters).filter(k=>k!=lastDisaster))
+    startDisaster(disasterName,disasterDurations[disasterName] || 25) 
+
+    lastDisaster = disasterName
 }
 
 export function restoreDisaster() {

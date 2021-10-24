@@ -44,6 +44,7 @@ export const state = reactive({
         tools: [] as Tool[],
         quota:{} as Record<string,number>,
         quotaDay:null as number|null,
+        requestMap: true as boolean,
         resources: {
             uranium: 2,
             metal: 15
@@ -67,6 +68,7 @@ export const state = reactive({
 
 
 //This acts as a game loop function that will run every second
+let onTutorial = true
 function gameLoop() {
     if (state.scene === "death") return;
 
@@ -122,10 +124,19 @@ k.add([
                 this.time = 0
                 this.nextHour++
 
+                //Next hour
                 if (this.nextHour >= this.secondsPerHour) {
                     state.persistent.hour++
                     this.nextHour = 0
-                    if(!state.currentDiaster && state.persistent.numDisasters > 0) startRandomDisaster()
+
+                    //Select random disaster and start it
+                    if(!state.currentDiaster && state.persistent.numDisasters === 1 && onTutorial){
+                        //Let new players get a longer first break before staring next disaster
+                        onTutorial = false
+                    }
+                    else if(!state.currentDiaster && state.persistent.numDisasters > 0) startRandomDisaster()
+
+
                     //Is next day?
                     if (state.persistent.hour === 25) {
                         state.persistent.hour = 0

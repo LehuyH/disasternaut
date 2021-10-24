@@ -18,7 +18,7 @@ const room = [
 
 k.scene("shelter", () => {
   const player = k.get("player")[0];
-  player.moveTo(275, 190)
+  player.moveTo(275, 120)
 
   //Room
   k.addLevel(room, {
