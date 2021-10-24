@@ -26,7 +26,7 @@ function nextDay() {
 
     //Reset stats
     state.persistent.health = state.persistent.maxHealth
-    state.persistent.oxygen = 120
+    state.persistent.oxygen = state.persistent.maxOxygen
     state.currentDiaster = null
     state.disasterTimer = 0
 

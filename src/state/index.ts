@@ -47,6 +47,7 @@ export const state = reactive({
         hour: 12,
         numDisasters: 0,
         oxygen: 120,
+        maxOxygen:120,
         failures:0,
         tools: [] as Tool[],
         quota:{} as Record<string,number>,

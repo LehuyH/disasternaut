@@ -41,7 +41,7 @@ function sleep(){
     state.persistent.health = Math.min(state.persistent.maxHealth,state.persistent.health + 2)
     
     //Add oxygen to the shelter
-    state.persistent.oxygen = 120
+    state.persistent.oxygen = state.persistent.maxOxygen
     
     setTimeout(() =>{
         isSleeping.value = false

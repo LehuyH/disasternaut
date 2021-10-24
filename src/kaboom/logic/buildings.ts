@@ -13,6 +13,10 @@ export const costs = {
     "communications": {
         metal: 10
     },
+    "oxygen_tank":{
+        metal: 20,
+        wood:30
+    },
 } as Record<string, Record<string, number> | null>
 
 
@@ -84,6 +88,15 @@ function isTouching(r1: Rect, r2: Rect): boolean {
         && r1.p1.y < r2.p2.y;
 }
 
+const buildingCallbacks = {
+    "oxygen_tank": ()=>{
+        const numTanks = k.get("oxygen_tank").length
+        //Set max oxygen (20 per oxygen)
+        state.persistent.maxOxygen = 120 + (numTanks * 20)
+    }
+
+} as Record<string,() => void>
+
 export function addBuilding(name: string,pos:Vec2,force=false){
     const [allowed, msg] = allowedToBuild(name)
 
@@ -91,6 +104,8 @@ export function addBuilding(name: string,pos:Vec2,force=false){
     if (allowed || force) {
         k.add(createBuilding(name, pos))
         state.interaction.placingBuilding = null;
+        const callback = buildingCallbacks[name]
+        callback && callback()
         exportMapState()
     } else {
         notify(msg as string)

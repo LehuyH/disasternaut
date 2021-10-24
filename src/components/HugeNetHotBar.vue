@@ -39,6 +39,10 @@ const buttonMap = {
     "communications": {
         icon: "maki:communications-tower",
         friendly: "Communications Tower"
+    },
+    "oxygen_tank": {
+        icon: "healthicons:oxygen-tank",
+        friendly: "Oxygen Tank"
     }
 } as Record<string, {
     icon: string;
