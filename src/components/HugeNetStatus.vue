@@ -20,7 +20,7 @@
         <section class="objectives-list">
             <transition-group name="slide-fade" tag="p" mode="out-in">
                 <p v-for="(o) in objectives" :key="o.name">
-                    <details>
+                    <details open>
                         <summary>{{ o.name }}</summary>
                         <small>{{ o.description }}</small>
                     </details>

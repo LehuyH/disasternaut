@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <section v-if="state.scene === 'death'">
+        <section class="overlay" v-if="state.scene === 'death'">
             <h1>You have fallen!</h1>
             <p>
                 HugeNET has went into critical mode and has kept you alive.
@@ -46,14 +46,11 @@ function nextDay() {
 <style scoped>
 section {
     color: white;
-    z-index: 2;
-    position: fixed;
-    height: 100vh;
-    width: 100vw;
+    z-index: 10;
     display: flex;
     align-items: center;
     flex-direction: column;
     justify-content: space-evenly;
-    background-color: rgba(138, 3, 3, 0.4);
+    background-color: rgba(138, 3, 3, 0.815);
 }
 </style>

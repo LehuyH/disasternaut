@@ -38,13 +38,13 @@ k.scene("death", () => {
         k.stay(),
         {
             audio: null,
-            add() {
-                k.wait(1, () => {
-                    this.audio = k.play("piano", {
-                        loop: true
-                    })
-                })
-            },
+            // add() {
+            //     k.wait(1, () => {
+            //         this.audio = k.play("piano", {
+            //             loop: true
+            //         })
+            //     })
+            // },
             update() {
                 if (state.scene !== "death") {
                     this.audio && this.audio.stop()
