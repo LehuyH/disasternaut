@@ -41,6 +41,7 @@ export function startRandomDisaster(){
     const disasterDurations = {
         "lava":10,
         "tsunami":10,
+        "lazer":10,
     } as Record<string,number>
 
     //Select random disaster, NOT the last one
