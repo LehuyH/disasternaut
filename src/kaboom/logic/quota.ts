@@ -6,10 +6,10 @@ const materialTypes = {
         base:10
     },
     stone:{
-        base:5
+        base:4
     },
     metal:{
-        base:7
+        base:5
     }
 };
 
