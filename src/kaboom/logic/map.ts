@@ -142,6 +142,14 @@ export function generateMap(){
         value:1,
         health:10
     },Math.round(k.rand(5,15)))
+
+    //Add metal
+    scatterExtractable({
+        type:"metal",
+        gives:"metal",
+        value:1,
+        health:15
+    },Math.round(k.rand(5,8)))
 }
 
 /** Returns the component list of an extractable */

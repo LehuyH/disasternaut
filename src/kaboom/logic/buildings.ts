@@ -11,7 +11,7 @@ export const costs = {
         metal: 5
     },
     "communications": {
-        metal: 10
+        metal: 5
     },
     "oxygen_tank":{
         metal: 20,
