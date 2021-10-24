@@ -3,10 +3,13 @@
         <section class="overlay" v-if="state.scene === 'death'">
             <h1>You have fallen!</h1>
             <p>
-                HugeNET has went into critical mode and has kept you alive.
-                <br />You recover the next day but the damage has been done...
+                It turns out that colonizing new planets may be harder than you thought. <br>
+                HugeNET has kept you <i>barely</i> alive, and you recover the next day.
+                <br>
+                <br>
+                <b>In order to keep you alive, HugeNET has automatically used up some of your resources</b>
             </p>
-            <button @click="nextDay">Next Day</button>
+            <button @click="nextDay">Continue To Next Day</button>
         </section>
     </transition>
 </template>
@@ -52,5 +55,6 @@ section {
     flex-direction: column;
     justify-content: space-evenly;
     background-color: rgba(138, 3, 3, 0.815);
+    text-align: center;
 }
 </style>
