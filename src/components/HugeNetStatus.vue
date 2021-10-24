@@ -4,7 +4,7 @@
             <span class="huge">HugeNet</span>
             <span class="thin">AI</span>
         </h1>
-        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} Health {{state.persistent.health}}</p>
+        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} {{timeIcon}} | Health {{state.persistent.health}}</p>
         <hr />
 
         <p class="status" :style="{ backgroundColor: status.color }">
@@ -41,6 +41,15 @@ const customStatus = reactive({
     enabled: false,
     text: "",
     color: "",
+})
+
+const timeIcon = computed(() =>{
+    if(state.persistent.hour <= 5) return "🌕"
+    if(state.persistent.hour <= 7 ) return "🌅"
+    if(state.persistent.hour <= 16) return "☀️"
+    if(state.persistent.hour <= 19) return "🌇"
+    if(state.persistent.hour <= 20) return  "🌙"
+    if(state.persistent.hour === 24) return "🌕"
 })
 
 const status = computed(() => {

@@ -3,12 +3,14 @@
     <section v-if="isSleeping" class="sleeping">
     </section>
     <section v-else-if="state.interaction.nextToBed">
-      <div class="sleep-prompt" v-if="state.persistent.hour >= 14">
+      <div class="sleep-prompt" v-if="state.persistent.hour >= 19 || state.persistent.hour <= 3">
           <h1>Go to Sleep?</h1>
           <button @click="sleep">Sleep (+6h)</button>
       </div>
       <div class="sleep-prompt" v-else>
-          It is too early to sleep
+         <p>You cannot sleep now</p>
+         <br>
+         <p>You can sleep between Hour 19 - Hour 3</p>
       </div>
     </section>
     <section v-else-if="state.scene === 'shelter'">

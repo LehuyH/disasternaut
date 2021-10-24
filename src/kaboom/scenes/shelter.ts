@@ -28,7 +28,6 @@ k.scene("shelter", () => {
     "g": () => [
       k.pos(),
       k.area(),
-      k.solid(),
       k.sprite("interior", {
         frame: 43,
       }),
@@ -37,7 +36,6 @@ k.scene("shelter", () => {
     "p": () => [
       k.pos(),
       k.area(),
-      k.solid(),
       k.sprite("interior", {
         frame: 44,
       }),
@@ -46,7 +44,6 @@ k.scene("shelter", () => {
     "d": () => [
       k.pos(),
       k.area(),
-      k.solid(),
       k.sprite("interior", {
         frame: 42,
       }),
