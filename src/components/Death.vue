@@ -32,7 +32,7 @@ function nextDay() {
 
     //remove all resources
     Object.keys(state.persistent.resources).forEach(k => {
-        state.persistent.resources[k] = 0
+        state.persistent.resources[k] = Math.floor(state.persistent.resources[k]/2)
     })
 
     //Respawn player
