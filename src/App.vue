@@ -8,9 +8,11 @@ import NotificationPanel from "./components/NotificationPanel.vue"
 import QuotaView from "./components/QuotaView.vue"
 import Death from "./components/Death.vue"
 import Onboarding from "./components/Onboarding.vue"
+import Report from "./components/Report.vue"
 </script>
 
 <template>
+  <Report/>
   <Onboarding />
   <QuotaView />
   <Death />

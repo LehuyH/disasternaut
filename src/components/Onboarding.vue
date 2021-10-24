@@ -51,7 +51,7 @@
                     <p>Please sign your name to certify this legally binding contract:</p>
 
                     <div class="control-group">
-                        <input class="control" type="text" placeholder="Sign here..." />
+                        <input class="control" type="text" placeholder="Sign here..." v-model="state.persistent.name"/>
 
                         <button
                             class="control"

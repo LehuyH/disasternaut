@@ -34,13 +34,18 @@ export const state = reactive({
         placingBuilding: null as null | string,
         currentToolIndex: -1,
         showQuota: false,
+        quotaSuccess:false,
+        showLetter:false,
     },
     persistent: {
+        name:"",
+        maxHealth:5,
         health: 5,
         day: 0,
         hour: 12,
         numDisasters: 0,
         oxygen: 120,
+        failures:0,
         tools: [] as Tool[],
         quota:{} as Record<string,number>,
         quotaDay:null as number|null,
@@ -138,8 +143,15 @@ k.add([
 
                             return target <= current
                         })
+
+                        if(!passed) state.persistent.failures++
+                        else{
+                            state.persistent.failures = Math.max(state.persistent.failures - 1,0)
+                        }
+                        
+                        state.interaction.quotaSuccess = passed
+                        state.interaction.showLetter = true
                         setQuota()
-                        notify("Passed " + passed)
                     }
 
                     //Select random disaster and start it
