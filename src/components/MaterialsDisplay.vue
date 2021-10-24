@@ -8,9 +8,9 @@
                 :alt="`${name} material icon`"
             />
         </p>
-        <transtion name="slide-fade">
+        <transition name="zoom">
             <a @click="showQuotas" v-if="Object.values(state.persistent.quota).length > 0">View {{(state.persistent.failures < 3) ? "Quotas" : "Debts"}}</a>
-        </transtion>
+        </transition>
     </div>
 </template>
 
@@ -60,5 +60,18 @@ a:hover {
 
 .mat-name {
     text-transform: capitalize;
+}
+
+.zoom-enter-from{
+    opacity: 0;
+    transform: scale(5) translateY(20vh) translateX(-20vw);
+}
+
+.zoom-enter-active{
+    transition: 5s transform ease-in-out;
+}
+
+.zoom-enter-to{
+    transform: scale(1) translateY(0) translateX(0);
 }
 </style>

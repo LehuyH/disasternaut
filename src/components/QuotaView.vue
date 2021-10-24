@@ -25,6 +25,8 @@
                     </div>
                     <b></b>
                 </div>
+                <br>
+                <p>Upon completion, you will receive <b>permanent</b> upgrades to your armor!</p>
             </div>
         </div>
     </transition>

@@ -59,36 +59,36 @@ const status = computed(() => {
         customStatus.text = "Power Established"
         customStatus.enabled = true
 
-        wait(0.1, () => {
+        wait(3, () => {
             customStatus.text = "Checking Systems..."
         })
 
-        wait(0.2, () => {
+        wait(4, () => {
             customStatus.text = "Booting Up..."
         })
 
-        wait(0.3, () => {
+        wait(8, () => {
             customStatus.text = "HugeNET"
             customStatus.color = "var(--huge)"
         })
-        wait(0.4, () => {
+        wait(13, () => {
             customStatus.text = "The Most Advanced Survival AI"
             customStatus.color = "var(--huge)"
         })
-        wait(0.5, () => {
+        wait(15, () => {
             customStatus.text = "New Planet Detected..."
             customStatus.color = "#636e72"
         })
-        wait(0.6, () => {
+        wait(17, () => {
             customStatus.text = "Scanning Area..."
             customStatus.color = "#636e72"
         })
-        wait(1, () => {
+        wait(25, () => {
             customStatus.text = "DISASTER DETECTED"
             customStatus.color = "#d63031"
-            startDisaster("meteor", 15)
+            startDisaster("tsunami", 15)
         })
-        wait(2, () => {
+        wait(26, () => {
             customStatus.enabled = false
         })
     }
