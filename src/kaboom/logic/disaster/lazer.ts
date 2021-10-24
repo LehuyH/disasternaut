@@ -20,7 +20,7 @@ export default class Nuke extends Disaster<LazerState>{
             //Warning
             const warning = k.add([
                 k.origin("center"),
-                k.rect(6000,100),
+                k.rect(6000,45),
                 k.pos(0,y),
                 k.color(183,18,19),
                 k.opacity(0.3),
@@ -37,7 +37,7 @@ export default class Nuke extends Disaster<LazerState>{
             let cooldown = false
             const lazer = k.add([
                 k.origin("left"),
-                k.rect(0,100),
+                k.rect(0,45),
                 k.pos(0,y),
                 k.color(k.randi(50,230),k.randi(50,230),k.randi(50,230)),
                 k.opacity(1),
@@ -61,7 +61,7 @@ export default class Nuke extends Disaster<LazerState>{
 
                             if(!playedSfx){
                                 playedSfx = true
-                                k.play("lazer")
+                                k.play("lazer",{volume:0.5})
                             }
                         }
                     }
