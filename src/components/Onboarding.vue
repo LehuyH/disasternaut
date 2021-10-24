@@ -57,7 +57,7 @@
                 <div class="stage3" v-else>
                     <div class="loading overlay">
                         <img src="/img/onboarding2.svg" />
-                        <h1>Launching rocket...</h1>
+                        <h1>Launching Rocket...</h1>
                     </div>
 
                     <div class="curtain">
@@ -113,11 +113,11 @@ watchEffect(() => {
             audio.planet.stop()
             audio.planet.volume(0.2)
 
-            audio.launch.fade(0, 1, 1000)
+            audio.launch.fade(0, 0.2, 1000)
             audio.launch.play()
 
             setTimeout(() => {
-                audio.launch.fade(1, 0, 1000)
+                audio.launch.fade(0.2, 0, 1000)
                 setTimeout(() => {
                     audio.launch.stop()
                 }, 1000)

@@ -4,6 +4,7 @@ import { state } from "@/state"
 import k from '@/kaboom';
 
 let current = null as null | Howl
+let currentIsDisaster = false
 
 export const audio = {
     planet: new Howl({
@@ -36,6 +37,8 @@ export const audio = {
 }
 
 export function playDisasterAudio() {
+    if(currentIsDisaster) return;
+    currentIsDisaster = true
     const index = k.randi(0, Object.keys(audio.disasters).length - 1)
     current?.stop()
 
@@ -57,4 +60,5 @@ export function playBgAudio() {
     current = bg
     bg.play()
     bg.fade(0, bg.volume(), 1000)
+    currentIsDisaster = false
 }
