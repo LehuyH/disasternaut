@@ -7,12 +7,13 @@ import { getActiveTool, setScene } from "@/state"
 //Markup
 export default () => [
     "player",
-    k.sprite("player", { anim: "down" }),
+    k.sprite("player"),
     k.pos(0, 0),
     k.health(5),
     k.area(),
     k.z(10),
     k.stay(),
+    k.scale(0.75),
     k.solid(),
     behavior(),
     k.origin("center")
@@ -59,12 +60,12 @@ function behavior() {
         },
         'left': (p: GameObj<any>) => {
             p.move(-200, 0)
-            playAnim(p, "left")
+            playAnim(p, "walk")
             playSteps()
         },
         'right': (p: GameObj<any>) => {
             p.move(200, 0)
-            playAnim(p, "left")
+            playAnim(p, "walk")
             playSteps()
         }
     }
@@ -94,7 +95,7 @@ function behavior() {
                     k.z(10),
                     k.origin("center"),
                     k.area({ scale: 3 }),
-                    k.follow(player, k.vec2(0, 15)),
+                    k.follow(player, k.vec2(25, -10)),
                     {
                         update() {
                             const tool = getActiveTool()
@@ -114,6 +115,12 @@ function behavior() {
                             //Flip so it faces correctly
                             const notFlipped = (angle > -90 && angle < 90)
                             this.flipY(!notFlipped)
+
+                            if(notFlipped){
+                                this.use(k.follow(player, k.vec2(-25, -10)))
+                            }else{
+                                this.use(k.follow(player, k.vec2(25, -10)))
+                            }
 
                             //Run animations when mouse is down
                             if (mouseIsDown) {
@@ -165,24 +172,12 @@ function behavior() {
 
 
 k.loadSprite("player", "sprites/player.png", {
-    sliceX: 3,
-    sliceY: 4,
-    anims: {
-        down: {
-            from: 0,
-            to: 2,
-        },
-        left: {
-            from: 3,
-            to: 5
-        },
-        right: {
-            from: 6,
-            to: 8
-        },
-        up: {
-            from: 9,
-            to: 11
+    sliceX:2,
+    anims:{
+        walk:{
+            from:0,
+            to:1,
+            speed:5
         }
     }
 })

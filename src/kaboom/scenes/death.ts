@@ -2,6 +2,7 @@ import k from "@/kaboom"
 import { state } from "@/state"
 
 k.scene("death", () => {
+    k.play("death")
     const player = k.get("player")[0]
     if (!player) return
 
@@ -28,7 +29,8 @@ k.scene("death", () => {
 
     //Add fake (dead) player
     k.add([
-        k.sprite("player", { anim: "left" }),
+        k.sprite("player"),
+        k.scale(0.75),
         k.pos(1000, 1000),
         k.origin("center"),
     ])
