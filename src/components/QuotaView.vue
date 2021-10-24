@@ -6,7 +6,7 @@
             </button>
 
             <div class="quota-content">
-                <h1>Production Quota (Deadline: Day {{state.persistent.quotaDay}})</h1>
+                <h1>Production {{(state.persistent.failures < 3) ? "Quotas" : "Debts"}} (Deadline: Day {{state.persistent.quotaDay}})</h1>
                 <hr />
 
                 <div class="material-progress" v-for="(amount, type, i) in state.persistent.quota" :key="i">

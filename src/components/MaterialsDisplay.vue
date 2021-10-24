@@ -9,7 +9,7 @@
             />
         </p>
         <transtion name="slide-fade">
-            <a @click="showQuotas" v-if="Object.values(state.persistent.quota).length > 0">View Quotas</a>
+            <a @click="showQuotas" v-if="Object.values(state.persistent.quota).length > 0">View {{(state.persistent.failures < 3) ? "Quotas" : "Debts"}}</a>
         </transtion>
     </div>
 </template>

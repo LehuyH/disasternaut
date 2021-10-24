@@ -36,7 +36,8 @@ export const state = reactive({
         showQuota: false,
         quotaSuccess:false,
         showLetter:false,
-        nextToBed:false
+        nextToBed:false,
+        debtLetterShown:false
     },
     persistent: {
         name:"",
@@ -144,23 +145,39 @@ k.add([
                 if (this.nextHour >= this.secondsPerHour) {
                     state.persistent.hour++
                     this.nextHour = 0
-
-                      //Check quota if due
-                    if (state.persistent.quotaDay && state.persistent.quotaDay <= state.persistent.day){
+                    const inDebt = (state.persistent.failures >= 3)
+                      //Check quota if due or in debt
+                    if ((state.persistent.quotaDay && state.persistent.quotaDay <= state.persistent.day) || inDebt){
                         const passed = Object.entries(state.persistent.quota).every(([key,target])=>{
                             const current = state.persistent.resources[key] || 0
 
                             return target <= current
                         })
 
-                        if(!passed) state.persistent.failures++
-                        else{
-                            state.persistent.failures = Math.max(state.persistent.failures - 1,0)
+                        if(!passed && !inDebt) state.persistent.failures++
+                        if(passed){
+                            //Reset failures
+                            if(inDebt){
+                                state.persistent.failures = 0
+                                state.interaction.debtLetterShown = false
+                            }
+                            else state.persistent.failures = Math.max(state.persistent.failures - 1,0)
+
+                            //Charge quota
+                            Object.entries(state.persistent.quota).forEach(([key,target])=>{
+                               state.persistent.resources[key] -= target
+                            })
                         }
-                        
-                        state.interaction.quotaSuccess = passed
-                        state.interaction.showLetter = true
-                        setQuota()
+
+                        if(!state.interaction.debtLetterShown){
+                            if(inDebt) state.interaction.debtLetterShown = true
+                             //Show letter and lock player
+                            k.get("player")[0].allowMovement = false
+                            state.interaction.quotaSuccess = passed
+                            state.interaction.showLetter = true
+                            setQuota()
+                        }
+
                     }
 
                     //Select random disaster and start it
@@ -168,7 +185,7 @@ k.add([
                         //Let new players get a longer first break before staring next disaster
                         onTutorial = false
                     }
-                    else if(!state.currentDiaster && state.persistent.numDisasters > 0) startRandomDisaster()
+                    else if(!state.currentDiaster && state.persistent.numDisasters > 0 &&!state.interaction.showLetter) startRandomDisaster()
 
 
                     //Is next day?
@@ -247,6 +264,18 @@ export function dmgPlayer(damage: number = 1) {
 }
 
 export function setQuota(){
+     //Player is in debt
+     if(state.persistent.failures >= 3){
+        state.persistent.quota = {
+            wood:100,
+            metal:50,
+            stone:40
+        }
+        state.persistent.quotaDay = Infinity
+        notify("Your are in Debt to HUGE. Check your quota for details.")
+        return;
+     }
+
     const [quota, days] = createQuota()
     state.persistent.quota = quota as Record<string, number>
     state.persistent.quotaDay = state.persistent.day + (days as number)

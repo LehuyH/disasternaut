@@ -44,6 +44,9 @@ const customStatus = reactive({
 })
 
 const status = computed(() => {
+    const inDebt = (state.persistent.failures >= 3)
+    if (inDebt) return { text: "DISABLED", color: "#2d3436" }
+
     const hasShelter = (k.get("shelter").length > 0 || state.persistent.map.buildings.find(b => b.name === "shelter"))
     if (!hasShelter) return { text: "OFFLINE", color: "#2d3436" }
 
@@ -98,6 +101,11 @@ const status = computed(() => {
 
 const objectives = computed(() => {
     const hasComms = (k.get("communications").length > 0 || state.persistent.map.buildings.find(b => b.name === "communications"))
+    
+    if (status.value.text === "DISABLED") return [{
+        name: "Pay Off Your Debts",
+        description: "HugeNET is disabled until you pay your debts. A button in top right corner displays your debt."
+    }]
 
     if (status.value.text === "OFFLINE") return [{
         name: "Establish A Shelter",
