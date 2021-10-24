@@ -2,7 +2,7 @@ import k from "@/kaboom"
 import extractable, { Extractable } from "@/kaboom/objects/extractable"
 import { addBuilding } from "@/kaboom/logic/buildings"
 import { GameObj, Vec2 } from "kaboom";
-import { state } from "@/state"
+import { state, notify } from "@/state"
 
 interface MapGenConfig{
     chanceToStartAlive?: number
@@ -231,6 +231,11 @@ export function restoreMap(map?:MapSave){
   
 }
 
+export function respawnMap(){
+    state.persistent.requestMap = true;
+    state.persistent.map.extractables = [];
+    notify("The planet's terrain has grown back!")
+}
 
 export function exportMapState(){
     const extractables = [] as ExtractableSave[]

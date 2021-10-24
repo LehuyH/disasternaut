@@ -2,7 +2,7 @@ import { getCurrentInstance, reactive, computed } from 'vue'
 import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
-import { MapSave, exportMapState, restoreMap } from "@/kaboom/logic/map"
+import { MapSave, exportMapState, respawnMap } from "@/kaboom/logic/map"
 import createQuota from "@/kaboom/logic/quota"
 import { startRandomDisaster } from "@/kaboom/logic/disaster"
 
@@ -39,6 +39,7 @@ export const state = reactive({
     },
     persistent: {
         name:"",
+        dayRespawned:0,
         maxHealth:5,
         health: 5,
         day: 0,
@@ -86,6 +87,12 @@ function gameLoop() {
         if (state.persistent.oxygen <= 0) {
             //Reset
             dmgPlayer(1)
+        }
+
+        //Respawn map if day passed
+        if (state.persistent.dayRespawned !== state.persistent.day){
+            respawnMap()
+            state.persistent.dayRespawned = state.persistent.day
         }
     }
 
