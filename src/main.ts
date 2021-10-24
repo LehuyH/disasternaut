@@ -16,10 +16,10 @@ import "@/kaboom/scenes/onboarding"
 
 //Handle inputs that remain on canvas unfocus 
 k.canvas.addEventListener('blur', ()=>{
-    k.canvas.dispatchEvent(new KeyboardEvent('keyup',{key:"w"}))
-    k.canvas.dispatchEvent(new KeyboardEvent('keyup',{key:"a"}))
-    k.canvas.dispatchEvent(new KeyboardEvent('keyup',{key:"s"}))
-    k.canvas.dispatchEvent(new KeyboardEvent('keyup',{key:"d"}))
+    const keys = ["w","a","s","d","ArrowRight","ArrowLeft","ArrowUp","ArrowDown"]
+    keys.forEach(key=>{
+        k.canvas.dispatchEvent(new KeyboardEvent('keyup',{key}))
+    })
 })
 
 //Vue

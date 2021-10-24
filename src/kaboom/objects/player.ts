@@ -22,6 +22,9 @@ export default () => [
 
 //Logic
 function behavior() {
+    const inputs = {} as Record<string,boolean>
+    let speedMultipler = 1
+
     const dirt = k.play("steps")
     dirt.loop()
     dirt.pause()
@@ -51,20 +54,20 @@ function behavior() {
 
     const movement = {
         'down': (p: GameObj<any>) => {
-            p.move(0, 200)
+            p.move(0, 200 * speedMultipler)
             playSteps()
         },
         'up': (p: GameObj<any>) => {
-            p.move(0, -200)
+            p.move(0, -200 * speedMultipler)
             playSteps()
         },
         'left': (p: GameObj<any>) => {
-            p.move(-200, 0)
+            p.move(-200 * speedMultipler, 0)
             playAnim(p, "walk")
             playSteps()
         },
         'right': (p: GameObj<any>) => {
-            p.move(200, 0)
+            p.move(200 * speedMultipler, 0)
             playAnim(p, "walk")
             playSteps()
         }
@@ -98,6 +101,7 @@ function behavior() {
                     k.follow(player, k.vec2(25, -10)),
                     {
                         update() {
+
                             const tool = getActiveTool()
                             //No active tool
                             if (!tool) {
@@ -153,11 +157,19 @@ function behavior() {
 
             //Handle input
             if (!this.allowMovement || !k.focused()) return
-            if (k.keyIsDown("d") || k.keyIsDown("right")) movement.right(this)
-            else if (k.keyIsDown("a") || k.keyIsDown("left")) movement.left(this)
-            else if (k.keyIsDown("w") || k.keyIsDown("up")) movement.up(this)
-            else if (k.keyIsDown("s") || k.keyIsDown("down")) movement.down(this)
-            else {
+            const keys = ["w","a","s","d","right","up","down","left"]
+
+            keys.forEach(key => inputs[key] = k.keyIsDown(key as any))
+
+            //Avoid speed boost on diagonal movement
+            speedMultipler = 1/(Object.values(inputs).filter(e=>e === true).length || 1)
+
+            if (inputs["d"] || inputs["right"]) movement.right(this)
+            if (inputs["a"] || inputs["left"]) movement.left(this)
+            if (inputs["w"] || inputs["up"]) movement.up(this)
+            if (inputs["s"] || inputs["down"]) movement.down(this)
+            //No movement, stop steps
+            if(Object.values(inputs).every(e=>e === false)) {
                 metal.stop()
                 dirt.stop()
             }
