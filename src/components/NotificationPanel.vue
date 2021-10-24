@@ -1,6 +1,8 @@
 <template>
     <ul class="notification-panel hud-element">
+        <transition-group name="slide-fade" tag="li">
         <li v-for="(noti, i) in state.notis" :key="`${noti}-${i}`">{{ noti }}</li>
+        </transition-group>
     </ul>
 </template>
 

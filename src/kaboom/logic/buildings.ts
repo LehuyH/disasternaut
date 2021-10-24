@@ -7,8 +7,7 @@ import createBuilding from "@/kaboom/objects/building"
 export const costs = {
     "shelter": null,
     "nuclear_generator": {
-        uranium: 2,
-        metal: 5
+        uranium: 1,
     },
     "communications": {
         metal: 5
@@ -29,7 +28,7 @@ export function allowedToBuild(buildingName: string): (boolean | string | null)[
 
 
     //Only build on overworld world
-    if (state.scene !== "planet") return [false, "You cannot build here!"];
+    if (state.scene !== "planet") return [false, "You cannot build inside here!"];
 
     //Only one shelter
     if (buildingName === "shelter") return (shelter !== undefined) ? [false, "You can only have one shelter!"] : [true]
@@ -40,13 +39,6 @@ export function allowedToBuild(buildingName: string): (boolean | string | null)[
 
     //Check cost
     if (!hasCost(buildingName)) return [false, "You do not have enough resources to build this."]
-
-    //Distance
-    if (buildingName === "nuclear_generator") {
-        const distFromShelter = k.mouseWorldPos().dist(shelter.pos)
-
-        if (distFromShelter < 500) return [false, "You must place Nuclear Generators further from the shelter!"]
-    }
 
     const cost = costs[buildingName];
 

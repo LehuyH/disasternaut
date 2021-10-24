@@ -55,8 +55,6 @@ export const state = reactive({
         quotaDay:null as number|null,
         requestMap: true as boolean,
         resources: {
-            uranium: 2,
-            metal: 15
         } as Record<string, number>,
         map: {
             extractables: [],
