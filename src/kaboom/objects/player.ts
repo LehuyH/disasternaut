@@ -10,10 +10,10 @@ export default () => [
     k.sprite("player"),
     k.pos(0, 0),
     k.health(5),
-    k.area(),
+    k.area({scale:0.7}),
     k.z(10),
     k.stay(),
-    k.scale(0.75),
+    k.scale(0.20),
     k.solid(),
     behavior(),
     k.origin("center")
@@ -54,10 +54,12 @@ function behavior() {
     const movement = {
         'down': (p: GameObj<any>) => {
             p.move(0, 200)
+            playAnim(p, "walk")
             playSteps()
         },
         'up': (p: GameObj<any>) => {
             p.move(0, -200)
+            playAnim(p, "walk")
             playSteps()
         },
         'left': (p: GameObj<any>) => {
@@ -97,7 +99,7 @@ function behavior() {
                     k.z(10),
                     k.origin("center"),
                     k.area({ scale: 3 }),
-                    k.follow(player, k.vec2(25, -10)),
+                    k.follow(player, k.vec2(15, -15)),
                     {
                         update() {
 

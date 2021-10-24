@@ -30,7 +30,7 @@ k.scene("death", () => {
     //Add fake (dead) player
     k.add([
         k.sprite("player"),
-        k.scale(0.75),
+        k.scale(0.20),
         k.pos(1000, 1000),
         k.origin("center"),
     ])
