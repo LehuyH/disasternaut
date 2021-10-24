@@ -29,7 +29,7 @@ export default class Nuke extends Disaster<NukeState>{
         scale: 0,
         cooldown: false,
         time: 0,
-        radius: k.rand(1000, 1600),
+        radius: k.rand(1000, 1500),
         sfx: k.play("nuke"),
         location: k.vec2(k.rand(100, 2100), k.rand(100, 1800)),
         opacity: 0.5,
