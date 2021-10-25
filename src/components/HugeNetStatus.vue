@@ -281,6 +281,7 @@ watchEffect(() => {
 
 details:first-of-type {
     border-top-right-radius: 10px;
+    margin-top: 5px;    
 }
 
 details:last-of-type {
@@ -289,7 +290,7 @@ details:last-of-type {
 }
 
 details {
-    margin: 5px 0;
+    margin: 0;
     padding: 0.5rem;
     background-color: rgba(0, 0, 0, 0.5);
 }
