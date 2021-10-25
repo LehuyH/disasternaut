@@ -200,6 +200,14 @@ function startCurtainTransition() {
 
 .onboarding > div {
     width: 600px;
+    transition: transform 0.25s;
+    max-width: 100vw;
+}
+
+@media screen and (max-height: 750px) {
+    .onboarding > div {
+        transform: scale(0.9);
+    }
 }
 
 .stage0 {
@@ -212,7 +220,7 @@ function startCurtainTransition() {
 }
 
 .stage0 h1 {
-    font-size: 100px;
+    font-size: 100px;  
     color: var(--huge);
 }
 

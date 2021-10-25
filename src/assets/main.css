@@ -8,7 +8,6 @@
   -moz-osx-font-smoothing: grayscale;
   color: white;
 }
-
 :root {
   --black: #191716;
   --blue: #228cdb;
@@ -29,6 +28,11 @@ html {
   width: 100vw !important;
   height: 100vh !important;
   background: #BB6444;
+}
+
+html {
+  background: url(/img/space-curtain.png);
+  background-size: cover;
 }
 
 canvas {
@@ -143,4 +147,8 @@ slide-fade-leave-active {
 .pulsing {
   box-shadow: 0 0 0 0 #f2440585;
     animation: pulse 1.5s infinite;
+}
+
+ul {
+  list-style-type: none;
 }
