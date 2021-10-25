@@ -124,7 +124,7 @@ k.scene("planet", () => {
     //Coliders
     //Top
     k.add([
-        k.rect(2500, 2),
+        k.rect(4000, 2),
         k.pos(0, -2),
         k.area(),
         k.opacity(0),
@@ -132,7 +132,7 @@ k.scene("planet", () => {
     ])
     //Bot
     k.add([
-        k.rect(2500, 2),
+        k.rect(4000, 2),
         k.pos(0, 2000 - 2),
         k.area(),
         k.opacity(0),
