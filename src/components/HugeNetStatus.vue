@@ -132,21 +132,30 @@ const objectives = computed(() => {
             description: state.currentDiaster.description
         }
     ]
+    const statusObjectives = [] as any[]
 
     if (!hasComms) {
-        return state.persistent.objectives.survival.concat([{
+        statusObjectives.push({
             name: "Build a Communication Tower",
             description: "HugeNET has calculated that your chances of survival without HUGE support is 0%. You need to gather metal and build a communications tower soon."
-        }])
-    }else if (state.persistent.quota){
+        })
+    }
+    
+    if (state.persistent.quota && hasComms){
         if(state.persistent.quotaDay === null) setQuota()
-        return state.persistent.objectives.survival.concat([{
+        statusObjectives.push({
             name: `Extract Resources To Meet Your Quota (Deadline: Day ${state.persistent.quotaDay})`,
             description: "In exchange for your planet, HUGE expects you to provide resources back to them. A button in top right corner displays your quota. You need to meet this quota to fufil your contract."
-        }])
+        })
     }
 
-    return state.persistent.objectives.survival
+    if(state.persistent.hour >= 19 || state.persistent.hour <= 3){
+         statusObjectives.push({
+            name: `Rest`,
+            description: "HugeNET has detected fatigue within your body. Go to the shelter bed and rest to allow for natural recovery."
+        })
+    }
+    return statusObjectives
 })
 
 watchEffect(()=>{

@@ -3,13 +3,13 @@ import { effect } from "vue";
 
 const materialTypes = {
     wood:{
-        base:10
+        base:12
     },
     stone:{
-        base:4
+        base:5
     },
     metal:{
-        base:5
+        base:7
     }
 };
 

@@ -35,20 +35,26 @@ export function startDisaster(name: string, duration: number) {
     }
 }
 
-let lastDisaster = null as null|string
-
+let disasterQueue = shuffle(Object.keys(disasters))
 export function startRandomDisaster(){
+    //If queue is empty, remake
+    if(disasterQueue.length === 0) disasterQueue = shuffle(Object.keys(disasters))
+
     const disasterDurations = {
         "lava":10,
         "tsunami":10,
         "lazer":10,
     } as Record<string,number>
+    
 
-    //Select random disaster, NOT the last one
-    const disasterName = k.choose(Object.keys(disasters).filter(k=>k!=lastDisaster))
+    //Select random disaster from queue
+    const disasterName = k.choose(disasterQueue)
+
     startDisaster(disasterName,disasterDurations[disasterName] || 25) 
 
-    lastDisaster = disasterName
+    //Remove from queue
+    disasterQueue = disasterQueue.filter(n=>n!=disasterName)
+
 }
 
 export function restoreDisaster() {
@@ -58,3 +64,22 @@ export function restoreDisaster() {
         else state.currentDiaster.interior && state.currentDiaster.interior()
     }
 }
+
+function shuffle(array:any[]) {
+    let currentIndex = array.length,  randomIndex;
+  
+    // While there remain elements to shuffle...
+    while (currentIndex != 0) {
+  
+      // Pick a remaining element...
+      randomIndex = Math.floor(Math.random() * currentIndex);
+      currentIndex--;
+  
+      // And swap it with the current element.
+      [array[currentIndex], array[randomIndex]] = [
+        array[randomIndex], array[currentIndex]];
+    }
+  
+    return array;
+  }
+  

@@ -80,7 +80,7 @@ export default class Nuke extends Disaster<BeanState>{
                     }
 
 
-                    this.moveTo(player.pos, 100)
+                    this.moveTo(player.pos, 150)
                     beanState.pos = this.pos
 
                 }
