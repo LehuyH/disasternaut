@@ -2,8 +2,35 @@
     <transition name="fade">
         <div ref="rootDiv" class="onboarding overlay" v-if="state.scene === 'onboarding'">
             <transition name="bounce" mode="out-in">
-                <div class="stage1" v-if="onboardingStage === 0">
-                    <img src="/img/onboarding0.svg" />
+                <div class="stage0" v-if="onboardingStage === 0">
+                    <img src="/img/onboarding0.png" />
+                    <h1>Disasternaut</h1>
+                    <h2 class="thin">
+                        Become a contractor for
+                        <b>HUGE Incorporated</b>.
+                        and expand the universe as we know it
+                    </h2>
+                    <br />
+                    <div class="control-group">
+                        <button
+                            class="control"
+                            style="--accent: var(--huge);"
+                            @click="onboardingStage = 1"
+                        >
+                            <b>Start a New Game</b>
+                        </button>
+                        <button
+                            class="control"
+                            style="--accent: #3F3D56;"
+                            @click="restore"
+                            v-if="hasSave"
+                        >
+                            <b>Continue Saved Game</b>
+                        </button>
+                    </div>
+                </div>
+                <div class="stage1" v-else-if="onboardingStage === 1">
+                    <img src="/img/onboarding1.svg" />
                     <h1>
                         HUGE
                         <span>inc.</span>
@@ -17,21 +44,13 @@
                     <button
                         class="next-button"
                         style="--accent: var(--huge);"
-                        @click="onboardingStage = 1"
+                        @click="onboardingStage = 2"
                     >
                         <b>I'm Interested!</b>
                     </button>
-                     <button
-                        class="next-button"
-                        style="--accent: var(--huge);"
-                        @click="restore"
-                        v-if="hasSave"
-                    >
-                        <b>Continue</b>
-                    </button>
                 </div>
-                <div class="stage2" v-else-if="onboardingStage === 1">
-                    <img src="/img/onboarding1.svg" />
+                <div class="stage2" v-else-if="onboardingStage === 2">
+                    <img src="/img/onboarding2.svg" />
                     <h1>The opportunity of a lifetime!</h1>
                     <small>
                         <b>HUGE</b> (dba Humans United on Galactic Exploration inc.) offers you a planet
@@ -51,7 +70,12 @@
                     <p>Please sign your name to certify this legally binding contract:</p>
 
                     <div class="control-group">
-                        <input class="control" type="text" placeholder="Sign here..." v-model="state.persistent.name"/>
+                        <input
+                            class="control"
+                            type="text"
+                            placeholder="Sign here..."
+                            v-model="state.persistent.name"
+                        />
 
                         <button
                             class="control"
@@ -64,7 +88,7 @@
                 </div>
                 <div class="stage3" v-else>
                     <div class="loading overlay">
-                        <img src="/img/onboarding2.svg" />
+                        <img src="/img/onboarding3.svg" />
                         <h1>Launching Rocket...</h1>
                     </div>
 
@@ -103,9 +127,9 @@ const curtainTranslates = reactive({
     right: "50vw"
 });
 
-const hasSave = computed(() =>k.getData("save") !== null)
+const hasSave = computed(() => k.getData("save") !== null)
 
-function restore(){
+function restore() {
     state.persistent = k.getData("save")
     state.newGame = false
     startCurtainTransition()
@@ -117,13 +141,13 @@ watchEffect(() => {
         audio.planet.volume(0)
     }
 
-    if (onboardingStage.value === 1) {
+    if (onboardingStage.value === 2) {
         audio.planet.fade(0, 1, 500)
     }
 
-    if (onboardingStage.value === 2) {
+    if (onboardingStage.value === 3) {
         audio.planet.fade(1, 0, 1000)
-        
+
         // 
         setTimeout(() => {
             audio.planet.stop()
@@ -143,7 +167,7 @@ watchEffect(() => {
 })
 
 function startCurtainTransition() {
-    onboardingStage.value = 2;
+    onboardingStage.value = 3;
 
     setTimeout(() => {
         curtainTranslates.left = "0";
@@ -175,6 +199,20 @@ function startCurtainTransition() {
 
 .onboarding > div {
     width: 600px;
+}
+
+.stage0 {
+    width: 750px !important;
+}
+
+.stage0 img {
+    height: 40vh;
+    margin-bottom: -40px;
+}
+
+.stage0 h1 {
+    font-size: 100px;
+    color: var(--huge);
 }
 
 .stage1 h1 {
