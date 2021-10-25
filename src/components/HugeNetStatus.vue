@@ -144,7 +144,7 @@ const objectives = computed(() => {
     if (state.persistent.quota && hasComms){
         if(state.persistent.quotaDay === null) setQuota()
         statusObjectives.push({
-            name: `Extract Resources To Meet Your Quota (Deadline: Day ${state.persistent.quotaDay})`,
+            name: `Extract Resources To Meet Your Quota (Checked On: Day ${state.persistent.quotaDay})`,
             description: "In exchange for your planet, HUGE expects you to provide resources back to them. A button in top right corner displays your quota. You need to meet this quota to fufil your contract."
         })
     }
