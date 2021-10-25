@@ -12,7 +12,14 @@ import "@/kaboom/scenes/shelter"
 import "@/kaboom/scenes/death"
 import "@/kaboom/scenes/onboarding"
 
-(window as any).k = k
+//(window as any).k = k
+
+//Check for localstorage Access
+try{
+    console.log(window.localStorage)
+}catch(e){
+    alert("Hi, please open this page in a NEW tab or window. This game requires the use of localStorage to function. Unfortunately, embedded storage windows are not supported.")
+}
 
 //Handle inputs that remain on canvas unfocus 
 k.canvas.addEventListener('blur', ()=>{

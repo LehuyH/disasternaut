@@ -7,6 +7,7 @@ const k = kaboom({
     crisp: true,
     global: false,
     stretch: true,
+    debug:false,
     canvas: document.querySelector('canvas') as HTMLCanvasElement,
     background: [32, 31, 53]
 });
