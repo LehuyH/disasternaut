@@ -2,7 +2,22 @@
     <div class="hotbar hud-element">
         <transition name="fade" tag="div">
             <div class="placing-overlay" v-if="state.interaction.placingBuilding !== null">
-                <h3 class="thin">{{ priceDisplay }}</h3>
+                <h3 class="thin">
+                    <b>{{ priceDisplay.name }}</b>
+                    costs
+                    {{ priceDisplay.costs.length === 0 ? "nothing" : "" }}
+                    <template
+                        v-for="([type, cost], i) in priceDisplay.costs"
+                        :key="cost"
+                    >
+                        <img
+                            :src="`/sprites/${matImageMap[type]}.png`"
+                            :alt="`${type} material icon`"
+                        />
+                        {{ cost }} {{ type }}
+                        {{ i !== priceDisplay.costs.length - 1 ? "+" : "" }}
+                    </template>
+                </h3>
                 <hr />
                 <h4 class="thin">Hit Escape to stop placing</h4>
             </div>
@@ -17,22 +32,28 @@
             :class="{ pulsing: state.interaction.tutorialButtonPulsing[name] }"
         >
             <span class="iconify" :data-icon="buttonMap[name].icon"></span>
+
+            <div class="name-tooltip-container hud-element">
+                <b>{{ buttonMap[name].friendly }}</b>
+                <br>
+                <small>{{ buttonMap[name].description }}</small>
+            </div>
         </button>
     </div>
 </template>
 
 <script setup lang="ts">
-import { state } from "@/state";
+import { state, matImageMap } from "@/state";
 import { costs } from "@/kaboom/logic/buildings";
 import k from "@/kaboom";
 import { PosComp, Vec2 } from "kaboom";
-import { ref } from "vue";
+import { reactive } from "vue";
 
 const buttonMap = {
     "nuclear_generator": {
         icon: "ion:nuclear-sharp",
         friendly: "Nuclear Generator",
-        description: "A highly efficient generator that provides power to core services such as HugeNET",
+        description: "A highly efficient generator that provides power to core services, such as HugeNET.",
     },
     "shelter": {
         icon: "ic:baseline-night-shelter",
@@ -42,25 +63,27 @@ const buttonMap = {
     "communications": {
         icon: "maki:communications-tower",
         friendly: "Communications Tower",
-        description: "Connects your colony to the rest of the HUGE community. Will also allow you to export resources."
+        description: "Connects your colony to the rest of HUGE, lets you export farmed resources."
     },
     "oxygen_tank": {
         icon: "healthicons:oxygen-tank",
         friendly: "Oxygen Tank",
-        description: "Constantly low on oxygen? This tank increases the amount of oxygen your shelter can store. (will not immediately generate oxygen)"
+        description: "Increases the amount of oxygen your shelter can store (not immediate)."
     }
 } as Record<string, {
     icon: string;
     friendly: string;
+    description: string;
 }>
 
-const priceDisplay = ref<string | null>(null);
+const priceDisplay = reactive({
+    name: "",
+    costs: {} as [string, number][]
+});
 
 function build(name: string) {
-    priceDisplay.value = `${buttonMap[name].friendly} costs ${Object.entries(costs[name] || {})
-        .map(([k, v]) => `${v}, ${k}`)
-        .join(", ").trim() || "nothing"
-        }`;
+    priceDisplay.name = buttonMap[name].friendly;
+    priceDisplay.costs = Object.entries(costs[name] || {});
 
     state.interaction.placingBuilding = name
     //Preview
@@ -90,6 +113,22 @@ window.addEventListener("keydown", ({ key }) => {
 </script>
 
 <style scoped>
+.name-tooltip-container {
+    width: 300px;
+    bottom: 75px;
+    position: fixed;
+    opacity: 0;
+    transition: opacity 0.25s, bottom 0.25s;
+    background: #003366;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+button:hover .name-tooltip-container {
+    bottom: 100px;
+    opacity: 1;
+}
+
 .hotbar {
     position: fixed;
     bottom: 0;
@@ -124,6 +163,19 @@ window.addEventListener("keydown", ({ key }) => {
     background: rgba(0, 0, 0, 0.9);
 }
 
+.placing-overlay img {
+    height: 30px;
+}
+
+.placing-overlay h3 {
+    display: flex;
+    align-items: center;
+}
+
+.placing-overlay h3 > * {
+    margin: 0 5px;
+}
+
 .placing-overlay hr {
     width: 50vw;
     margin: 5px 0;
@@ -138,6 +190,7 @@ button {
     border-radius: 50%;
     padding: 5px;
     margin: 0 5px;
+    position: relative;
 }
 
 .iconify {
