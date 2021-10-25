@@ -9,6 +9,7 @@ import nuke from "./nuke"
 import hugeBean from "./hugeBean"
 import lava from "./lava"
 import lazer from "./lazer"
+import tornado from "./tornado"
 
 export const disasters = {
     meteor,
@@ -16,7 +17,8 @@ export const disasters = {
     nuke,
     hugeBean,
     lava,
-    lazer
+    lazer,
+    tornado
 } as Record<any, Disaster>
 
 export function startDisaster(name: string, duration: number) {
