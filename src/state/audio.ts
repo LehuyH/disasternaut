@@ -6,6 +6,29 @@ import k from '@/kaboom';
 let current = null as null | Howl
 let currentIsDisaster = false
 
+const hoverableTags = ["SUMMARY", "A", "BUTTON"];
+
+const checkIfInteractive = (el: HTMLElement | null) => {
+    if (!el) return false;
+    let tag = el.nodeName;
+
+    while (tag !== "BODY") {
+        if (hoverableTags.includes(tag)) return true;
+        if (el?.parentNode) {
+            el = el.parentNode as HTMLElement;
+            tag = el.nodeName;
+        }
+    }
+
+    return false;
+}
+
+window.addEventListener("mousedown", ({ target }) => {
+    if (checkIfInteractive(target as HTMLElement)) {
+        (new Audio("/audio/hover.webm")).play();
+    }
+})
+
 export const audio = {
     planet: new Howl({
         src: "audio/Space Jazz.webm",
@@ -18,8 +41,8 @@ export const audio = {
         volume: 0.2
     }),
     death: new Howl({
-        src:"audio/piano.webm",
-        loop:true,
+        src: "audio/piano.webm",
+        loop: true,
         volume: 2
     }),
     disasters: {
@@ -52,7 +75,7 @@ export const audio = {
 }
 
 export function playDisasterAudio() {
-    if(currentIsDisaster) return;
+    if (currentIsDisaster) return;
     currentIsDisaster = true
     const index = k.randi(0, Object.keys(audio.disasters).length - 1)
     current?.stop()
@@ -64,12 +87,12 @@ export function playDisasterAudio() {
 
 export function playBgAudio() {
     const audioByScene = {
-        'onboarding':audio.planet,
-        'planet':audio.planet,
-        'shelter':audio.interior,
-        'death':audio.death,
-    } as Record<string,Howl>
-    
+        'onboarding': audio.planet,
+        'planet': audio.planet,
+        'shelter': audio.interior,
+        'death': audio.death,
+    } as Record<string, Howl>
+
     current?.stop()
     const bg = audioByScene[state.scene]
     current = bg
