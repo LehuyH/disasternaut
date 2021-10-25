@@ -37,7 +37,13 @@ export const state = reactive({
         quotaSuccess:false,
         showLetter:false,
         nextToBed:false,
-        debtLetterShown:false
+        debtLetterShown:false,
+        tutorialButtonPulsing: {
+            "shelter": false,
+            "nuclear_generator": false,
+            "communications": false,
+            "oxygen_tank": false
+        } as Record<string, boolean>
     },
     persistent: {
         name:"",

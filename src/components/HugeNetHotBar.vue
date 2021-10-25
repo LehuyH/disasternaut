@@ -12,8 +12,9 @@
             v-for="(cost, name, i) in costs"
             :key="i"
             @click="build(name)"
-            style="--accent: #003366; --border: white;"
+            style="--accent: #003366; --border: white; --shadow: #003366ad; --distance: 100px;"
             :title="buttonMap[name].friendly"
+            :class="{ pulsing: state.interaction.tutorialButtonPulsing[name] }"
         >
             <span class="iconify" :data-icon="buttonMap[name].icon"></span>
         </button>
@@ -31,7 +32,7 @@ const buttonMap = {
     "nuclear_generator": {
         icon: "ion:nuclear-sharp",
         friendly: "Nuclear Generator",
-        description: "A highly efficient generator that provides power to core services such as HugeNET"
+        description: "A highly efficient generator that provides power to core services such as HugeNET",
     },
     "shelter": {
         icon: "ic:baseline-night-shelter",

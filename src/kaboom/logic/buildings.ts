@@ -94,6 +94,7 @@ export function addBuilding(name: string,pos:Vec2,force=false){
 
 
     if (allowed || force) {
+        state.interaction.tutorialButtonPulsing[name] = false;
         k.add(createBuilding(name, pos))
         state.interaction.placingBuilding = null;
         const callback = buildingCallbacks[name]

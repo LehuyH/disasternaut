@@ -4,7 +4,7 @@
             <span class="huge">HugeNet</span>
             <span class="thin">AI</span>
         </h1>
-        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} {{timeIcon}} | Health {{state.persistent.health}}</p>
+        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} {{ timeIcon }} | Health {{ state.persistent.health }}</p>
         <hr />
 
         <p class="status" :style="{ backgroundColor: status.color }">
@@ -43,13 +43,13 @@ const customStatus = reactive({
     color: "",
 })
 
-const timeIcon = computed(() =>{
-    if(state.persistent.hour <= 5) return "🌕"
-    if(state.persistent.hour <= 7 ) return "🌅"
-    if(state.persistent.hour <= 16) return "☀️"
-    if(state.persistent.hour <= 19) return "🌇"
-    if(state.persistent.hour <= 20) return  "🌙"
-    if(state.persistent.hour === 24) return "🌕"
+const timeIcon = computed(() => {
+    if (state.persistent.hour <= 5) return "🌕"
+    if (state.persistent.hour <= 7) return "🌅"
+    if (state.persistent.hour <= 16) return "☀️"
+    if (state.persistent.hour <= 19) return "🌇"
+    if (state.persistent.hour <= 20) return "🌙"
+    if (state.persistent.hour === 24) return "🌕"
 })
 
 const status = computed(() => {
@@ -103,28 +103,34 @@ const status = computed(() => {
     }
 
     if (customStatus.enabled) return customStatus;
-    if(state.currentDiaster) return {text:`${state.currentDiaster.name?.toUpperCase()} ${new Date(state.disasterTimer * 1000).toISOString().substr(14, 5)}`,color:"#d63031"}
+    if (state.currentDiaster) return { text: `${state.currentDiaster.name?.toUpperCase()} ${new Date(state.disasterTimer * 1000).toISOString().substr(14, 5)}`, color: "#d63031" }
 
     return { text: "All Systems Operational", color: "#10ac84" }
 })
 
 const objectives = computed(() => {
     const hasComms = (k.get("communications").length > 0 || state.persistent.map.buildings.find(b => b.name === "communications"))
-    
+
     if (status.value.text === "DISABLED") return [{
         name: "Pay Off Your Debts",
         description: "HugeNET is disabled until you pay your debts. A button in top right corner displays your debt."
     }]
 
-    if (status.value.text === "OFFLINE") return [{
-        name: "Establish A Shelter",
-        description: "HUGE has given you a shelter building kit to get you started! You can place it by selecting it on the bottom of the screen."
-    }]
+    if (status.value.text === "OFFLINE") {
+        state.interaction.tutorialButtonPulsing.shelter = true;
+        return [{
+            name: "Establish A Shelter",
+            description: "HUGE has given you a shelter building kit to get you started! You can place it by selecting it on the bottom of the screen."
+        }]
+    }
 
-    if (status.value.text === "NO POWER") return [{
-        name: "Establish Power",
-        description: "HugeNET is unable to function properly without power. Please build a nuclear generator to generate power."
-    }]
+    if (status.value.text === "NO POWER") {
+        state.interaction.tutorialButtonPulsing.nuclear_generator = true;
+        return [{
+            name: "Establish Power",
+            description: "HugeNET is unable to function properly without power. Please build a nuclear generator to generate power."
+        }]
+    }
 
     if (state.currentDiaster) return [
         {
@@ -135,22 +141,24 @@ const objectives = computed(() => {
     const statusObjectives = [] as any[]
 
     if (!hasComms) {
+        state.interaction.tutorialButtonPulsing.communications   = true;
+
         statusObjectives.push({
             name: "Build a Communication Tower",
             description: "HugeNET has calculated that your chances of survival without HUGE support is 0%. You need to gather metal and build a communications tower soon."
         })
     }
-    
-    if (state.persistent.quota && hasComms){
-        if(state.persistent.quotaDay === null) setQuota()
+
+    if (state.persistent.quota && hasComms) {
+        if (state.persistent.quotaDay === null) setQuota()
         statusObjectives.push({
             name: `Extract Resources To Meet Your Quota (Checked On: Day ${state.persistent.quotaDay})`,
             description: "In exchange for your planet, HUGE expects you to provide resources back to them. A button in top right corner displays your quota. You need to meet this quota to fufil your contract."
         })
     }
 
-    if(state.persistent.hour >= 19 || state.persistent.hour <= 3){
-         statusObjectives.push({
+    if (state.persistent.hour >= 19 || state.persistent.hour <= 3) {
+        statusObjectives.push({
             name: `Rest`,
             description: "HugeNET has detected fatigue within your body. Go to the shelter bed and rest to allow for natural recovery."
         })
@@ -158,9 +166,9 @@ const objectives = computed(() => {
     return statusObjectives
 })
 
-watchEffect(()=>{
-    if(state.scene === "onboarding") return;
-    if(state.currentDiaster) playDisasterAudio()
+watchEffect(() => {
+    if (state.scene === "onboarding") return;
+    if (state.currentDiaster) playDisasterAudio()
     else playBgAudio()
 })
 </script>

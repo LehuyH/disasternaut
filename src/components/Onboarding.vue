@@ -366,12 +366,12 @@ hr {
     }
 
     40% {
-        bottom: 150px;
+        bottom: 10vh;
     }
 
     80% {
         opacity: 1;
-        bottom: 150px;
+        bottom: 10vh;
     }
 
     100% {
