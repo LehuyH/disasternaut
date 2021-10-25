@@ -1,6 +1,7 @@
 import k from "@/kaboom"
 import { AudioPlay, Vec2 } from "kaboom"
 import { state, dmgPlayer } from "@/state"
+import { addExtractable } from "@/kaboom/logic/map"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 
 interface NukeState {
@@ -8,7 +9,8 @@ interface NukeState {
     cooldown: boolean,
     radius: number,
     location: Vec2,
-    sfx: AudioPlay
+    sfx: AudioPlay,
+    opacity: number
 }
 
 function inCircle(playerPos: Vec2, circlePos: Vec2, radius: number) {
@@ -27,9 +29,10 @@ export default class Nuke extends Disaster<NukeState>{
         scale: 0,
         cooldown: false,
         time: 0,
-        radius: k.rand(1000, 1600),
+        radius: k.rand(1000, 1500),
         sfx: k.play("nuke"),
-        location: k.vec2(k.rand(100, 2100), k.rand(100, 1800))
+        location: k.vec2(k.rand(100, 2100), k.rand(100, 1800)),
+        opacity: 0.5,
     }
 
     init() {
@@ -49,8 +52,11 @@ export default class Nuke extends Disaster<NukeState>{
                     nukeState.time += k.dt()
 
                     if (!state.currentDiaster || state.scene === "death") {
-                        nukeState.sfx.stop()
-                        this.destroy()
+                        if (nukeState.opacity > 0) nukeState.opacity -= 0.5 * k.dt()
+                        else{
+                            this.destroy()
+                            nukeState.sfx.stop()
+                        }
                     }
 
 
@@ -87,7 +93,7 @@ export default class Nuke extends Disaster<NukeState>{
                         })
                     }
 
-                    if (!state.currentDiaster || state.scene === "death") {
+                    if ((!state.currentDiaster || state.scene === "death") && nukeState.opacity <= 0) {
                         this.destroy()
                     }
                 },
@@ -97,7 +103,7 @@ export default class Nuke extends Disaster<NukeState>{
                         pos: nukeState.location,
                         radius: nukeState.radius,
                         color: k.color(210, 4, 45).color,
-                        opacity: 0.5
+                        opacity: nukeState.opacity
                     })
                     //Real blast
                     k.drawCircle({
@@ -105,7 +111,7 @@ export default class Nuke extends Disaster<NukeState>{
                         radius: nukeState.radius,
                         color: k.color(246, 240, 82).color,
                         scale: nukeState.scale,
-                        opacity: 0.5
+                        opacity: nukeState.opacity
                     })
                 }
             } as any
@@ -115,6 +121,15 @@ export default class Nuke extends Disaster<NukeState>{
 
     interior() {
         this.state.sfx.volume(0.2)
+    }
+
+    exit(){
+        addExtractable({
+            type:"uranium",
+            gives:"uranium",
+            value:1,
+            health:10
+        },this.state.location.add(500,250),"uranium_1")
     }
 
 }

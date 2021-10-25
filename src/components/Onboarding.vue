@@ -160,6 +160,7 @@ watchEffect(() => {
                 audio.launch.fade(0.2, 0, 1000)
                 setTimeout(() => {
                     audio.launch.stop()
+                    k.focus()
                 }, 1000)
             }, 3000)
         }, 1100)

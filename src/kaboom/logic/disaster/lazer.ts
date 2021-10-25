@@ -20,7 +20,7 @@ export default class Nuke extends Disaster<LazerState>{
             //Warning
             const warning = k.add([
                 k.origin("center"),
-                k.rect(6000,45),
+                k.rect(7500,45),
                 k.pos(0,y),
                 k.color(183,18,19),
                 k.opacity(0.3),

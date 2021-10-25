@@ -1,5 +1,5 @@
 <template>
-  <div class="hud-element" :style="`box-shadow:0 0 2000px ${color} inset;`"></div>
+  <div class="hud-element" :style="`box-shadow:0 0 20000px ${color} inset;`"></div>
 </template>
 
 <script setup lang="ts">

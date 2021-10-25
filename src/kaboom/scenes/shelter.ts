@@ -28,7 +28,6 @@ k.scene("shelter", () => {
     "g": () => [
       k.pos(),
       k.area(),
-      k.solid(),
       k.sprite("interior", {
         frame: 43,
       }),
@@ -37,7 +36,6 @@ k.scene("shelter", () => {
     "p": () => [
       k.pos(),
       k.area(),
-      k.solid(),
       k.sprite("interior", {
         frame: 44,
       }),
@@ -46,7 +44,6 @@ k.scene("shelter", () => {
     "d": () => [
       k.pos(),
       k.area(),
-      k.solid(),
       k.sprite("interior", {
         frame: 42,
       }),
@@ -171,9 +168,8 @@ k.scene("shelter", () => {
 
   //Bed
   k.add([
-    k.rect(40,80),
+    k.sprite("bed"),
     k.pos(25,80),
-    k.color(235, 59, 90),
     k.area(),
     {
       update(){
@@ -197,5 +193,7 @@ k.loadSprite("interior", "tiles/in.png", {
   sliceX: 14,
   sliceY: 6
 })
+
+k.loadSprite("bed", "sprites/bed.png")
 
 k.loadSound("door", "audio/door.webm")

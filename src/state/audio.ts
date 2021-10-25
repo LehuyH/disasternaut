@@ -27,6 +27,21 @@ export const audio = {
             src: "audio/disaster_0.webm",
             loop: true,
             volume: 0.2
+        }),
+        1: new Howl({
+            src: "audio/disaster_1.webm",
+            loop: true,
+            volume: 0.2
+        }),
+        2: new Howl({
+            src: "audio/disaster_2.webm",
+            loop: true,
+            volume: 0.2
+        }),
+        3: new Howl({
+            src: "audio/disaster_3.webm",
+            loop: true,
+            volume: 0.2
         })
     } as Record<number, Howl>,
     launch: new Howl({

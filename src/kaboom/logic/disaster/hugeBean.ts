@@ -23,7 +23,7 @@ export default class Nuke extends Disaster<BeanState>{
 
         if (state.scene === "planet") {
             const player = k.get("player")[0];
-            this.state.pos = k.vec2(k.rand(player.pos.x - 1000, player.pos.x + 1000), k.rand(player.pos.y - 1000, player.pos.y + 1000))
+            this.state.pos = k.vec2(k.rand(player.pos.x - 500, player.pos.x + 500) + 800, k.rand((player.pos.y - 500, player.pos.y + 500)+600))
         }
 
         const beanState = this.state
@@ -80,7 +80,7 @@ export default class Nuke extends Disaster<BeanState>{
                     }
 
 
-                    this.moveTo(player.pos, 100)
+                    this.moveTo(player.pos, 150)
                     beanState.pos = this.pos
 
                 }
@@ -98,6 +98,7 @@ export default class Nuke extends Disaster<BeanState>{
                 k.sprite("bean"),
                 k.pos(beanState.pos),
                 k.area(),
+                k.scale(0.75),
                 k.origin("center"),
                 k.rotate(player.pos.angle(beanState.pos)),
                 k.lifespan(1),

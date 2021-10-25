@@ -4,7 +4,7 @@
             <span class="huge">HugeNet</span>
             <span class="thin">AI</span>
         </h1>
-        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} Health {{state.persistent.health}}</p>
+        <p>Day {{ state.persistent.day }} Hour {{ state.persistent.hour }} {{timeIcon}} | Health {{state.persistent.health}}</p>
         <hr />
 
         <p class="status" :style="{ backgroundColor: status.color }">
@@ -43,7 +43,19 @@ const customStatus = reactive({
     color: "",
 })
 
+const timeIcon = computed(() =>{
+    if(state.persistent.hour <= 5) return "🌕"
+    if(state.persistent.hour <= 7 ) return "🌅"
+    if(state.persistent.hour <= 16) return "☀️"
+    if(state.persistent.hour <= 19) return "🌇"
+    if(state.persistent.hour <= 20) return  "🌙"
+    if(state.persistent.hour === 24) return "🌕"
+})
+
 const status = computed(() => {
+    const inDebt = (state.persistent.failures >= 3)
+    if (inDebt) return { text: "DISABLED", color: "#2d3436" }
+
     const hasShelter = (k.get("shelter").length > 0 || state.persistent.map.buildings.find(b => b.name === "shelter"))
     if (!hasShelter) return { text: "OFFLINE", color: "#2d3436" }
 
@@ -56,36 +68,36 @@ const status = computed(() => {
         customStatus.text = "Power Established"
         customStatus.enabled = true
 
-        wait(0.1, () => {
+        wait(3, () => {
             customStatus.text = "Checking Systems..."
         })
 
-        wait(0.2, () => {
+        wait(4, () => {
             customStatus.text = "Booting Up..."
         })
 
-        wait(0.3, () => {
+        wait(8, () => {
             customStatus.text = "HugeNET"
             customStatus.color = "var(--huge)"
         })
-        wait(0.4, () => {
+        wait(13, () => {
             customStatus.text = "The Most Advanced Survival AI"
             customStatus.color = "var(--huge)"
         })
-        wait(0.5, () => {
+        wait(15, () => {
             customStatus.text = "New Planet Detected..."
             customStatus.color = "#636e72"
         })
-        wait(0.6, () => {
+        wait(17, () => {
             customStatus.text = "Scanning Area..."
             customStatus.color = "#636e72"
         })
-        wait(1, () => {
+        wait(25, () => {
             customStatus.text = "DISASTER DETECTED"
             customStatus.color = "#d63031"
             startDisaster("meteor", 15)
         })
-        wait(2, () => {
+        wait(26, () => {
             customStatus.enabled = false
         })
     }
@@ -98,6 +110,11 @@ const status = computed(() => {
 
 const objectives = computed(() => {
     const hasComms = (k.get("communications").length > 0 || state.persistent.map.buildings.find(b => b.name === "communications"))
+    
+    if (status.value.text === "DISABLED") return [{
+        name: "Pay Off Your Debts",
+        description: "HugeNET is disabled until you pay your debts. A button in top right corner displays your debt."
+    }]
 
     if (status.value.text === "OFFLINE") return [{
         name: "Establish A Shelter",
@@ -115,21 +132,30 @@ const objectives = computed(() => {
             description: state.currentDiaster.description
         }
     ]
+    const statusObjectives = [] as any[]
 
     if (!hasComms) {
-        return state.persistent.objectives.survival.concat([{
+        statusObjectives.push({
             name: "Build a Communication Tower",
             description: "HugeNET has calculated that your chances of survival without HUGE support is 0%. You need to gather metal and build a communications tower soon."
-        }])
-    }else if (state.persistent.quota){
+        })
+    }
+    
+    if (state.persistent.quota && hasComms){
         if(state.persistent.quotaDay === null) setQuota()
-        return state.persistent.objectives.survival.concat([{
-            name: `Extract Resources To Meet Your Quota (Deadline: Day ${state.persistent.quotaDay})`,
+        statusObjectives.push({
+            name: `Extract Resources To Meet Your Quota (Checked On: Day ${state.persistent.quotaDay})`,
             description: "In exchange for your planet, HUGE expects you to provide resources back to them. A button in top right corner displays your quota. You need to meet this quota to fufil your contract."
-        }])
+        })
     }
 
-    return state.persistent.objectives.survival
+    if(state.persistent.hour >= 19 || state.persistent.hour <= 3){
+         statusObjectives.push({
+            name: `Rest`,
+            description: "HugeNET has detected fatigue within your body. Go to the shelter bed and rest to allow for natural recovery."
+        })
+    }
+    return statusObjectives
 })
 
 watchEffect(()=>{

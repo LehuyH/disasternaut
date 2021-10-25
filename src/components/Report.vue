@@ -1,6 +1,6 @@
 <template>
 <transition name="fade">
-    <section class="letter" v-if="state.interaction.showLetter" @click="dismiss">
+    <section class="letter" v-if="state.interaction.showLetter">
         <div>
             <section v-if="state.interaction.quotaSuccess">
                 <h1>Congratulations Notice</h1>
@@ -8,7 +8,7 @@
                 Dear esteemed colonizer, {{state.persistent.name}}
                 <br><br>
 
-                Congratulations on reaching your quota!. This achievement is due to your hard work, dedication and
+                Congratulations on reaching your quota! This achievement is due to your hard work, dedication and
                 ingenuity.
                 <br><br>
                 This was achieved by a combination of our technology and your own determination. As a symbol of our
@@ -28,7 +28,7 @@
                 <br><br>
                 In order to uphold the contract we have agreed upon with your planet, we would like to remind you that
                 your
-                quota MUST be sent to us no later than <b>Day {{state.persistent.quotaDay}}</b> .
+                quota MUST be sent to us on time.
                 <br><br>
                 To ensure that all our resources are met, we will be conducting an audit of your resources. This audit
                 process will evaluated on <b>Day {{state.persistent.quotaDay}}</b>. The duration of the audit will be
@@ -77,6 +77,10 @@
             <section v-else-if="state.persistent.failures === 3">
                 <h1>Termination Notice</h1>
                 Your charter and colony has been terminated. You are no longer welcome within the HUGE community.
+                <br>
+                Access to any of HUGE's services has been revoked.
+                <br>
+                Your missing quotas have been transfered into debt. If you ever repay the debt we wil gladly offer another opportunity for your planet.
                 <br><br>
                 <b style="color:var(--huge)">Good Luck</b>
                 <br><br><br>
@@ -88,8 +92,11 @@
             </section>
             <br>
             <section class="new-quota">
-                <h1>Your New Quota</h1>
+                <h1 v-if="state.persistent.failures < 3">Your New Quota</h1>
+                <h1 v-else>Your Debt</h1>
                 <p v-for="([rss,target]) in Object.entries(state.persistent.quota)"><b>{{rss}}: </b>{{target}}</p>
+                <br><br>
+                <button @click="dismiss">I understand</button>
             </section>
         </div>
     </section>
@@ -99,7 +106,7 @@
 
 <script setup lang="ts">
 import { state } from "@/state"
-import { computed, ref } from "vue";
+import k from "@/kaboom"
 
 function dismiss() {
     //Give player extra max health if success
@@ -108,7 +115,7 @@ function dismiss() {
 
         state.persistent.health = (0+state.persistent.maxHealth)
     }
-
+    k.get("player")[0].allowMovement = true
     state.interaction.showLetter = false
 
 }

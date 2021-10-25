@@ -31,14 +31,22 @@ const buttonMap = {
     "nuclear_generator": {
         icon: "ion:nuclear-sharp",
         friendly: "Nuclear Generator",
+        description: "A highly efficient generator that provides power to core services such as HugeNET"
     },
     "shelter": {
         icon: "ic:baseline-night-shelter",
         friendly: "Base Shelter",
+        description: "A virtually indestructible shelter you recived from HUGE"
     },
     "communications": {
         icon: "maki:communications-tower",
-        friendly: "Communications Tower"
+        friendly: "Communications Tower",
+        description: "Connects your colony to the rest of the HUGE community. Will also allow you to export resources."
+    },
+    "oxygen_tank": {
+        icon: "healthicons:oxygen-tank",
+        friendly: "Oxygen Tank",
+        description: "Constantly low on oxygen? This tank increases the amount of oxygen your shelter can store. (will not immediately generate oxygen)"
     }
 } as Record<string, {
     icon: string;

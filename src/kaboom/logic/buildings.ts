@@ -7,11 +7,14 @@ import createBuilding from "@/kaboom/objects/building"
 export const costs = {
     "shelter": null,
     "nuclear_generator": {
-        uranium: 2,
-        metal: 5
+        uranium: 1,
     },
     "communications": {
-        metal: 10
+        metal: 5
+    },
+    "oxygen_tank":{
+        metal: 20,
+        wood:30
     },
 } as Record<string, Record<string, number> | null>
 
@@ -25,7 +28,7 @@ export function allowedToBuild(buildingName: string): (boolean | string | null)[
 
 
     //Only build on overworld world
-    if (state.scene !== "planet") return [false, "You cannot build here!"];
+    if (state.scene !== "planet") return [false, "You cannot build inside here!"];
 
     //Only one shelter
     if (buildingName === "shelter") return (shelter !== undefined) ? [false, "You can only have one shelter!"] : [true]
@@ -36,13 +39,6 @@ export function allowedToBuild(buildingName: string): (boolean | string | null)[
 
     //Check cost
     if (!hasCost(buildingName)) return [false, "You do not have enough resources to build this."]
-
-    //Distance
-    if (buildingName === "nuclear_generator") {
-        const distFromShelter = k.mouseWorldPos().dist(shelter.pos)
-
-        if (distFromShelter < 500) return [false, "You must place Nuclear Generators further from the shelter!"]
-    }
 
     const cost = costs[buildingName];
 
@@ -84,6 +80,15 @@ function isTouching(r1: Rect, r2: Rect): boolean {
         && r1.p1.y < r2.p2.y;
 }
 
+const buildingCallbacks = {
+    "oxygen_tank": ()=>{
+        const numTanks = k.get("oxygen_tank").length
+        //Set max oxygen (20 per oxygen)
+        state.persistent.maxOxygen = 120 + (numTanks * 20)
+    }
+
+} as Record<string,() => void>
+
 export function addBuilding(name: string,pos:Vec2,force=false){
     const [allowed, msg] = allowedToBuild(name)
 
@@ -91,6 +96,8 @@ export function addBuilding(name: string,pos:Vec2,force=false){
     if (allowed || force) {
         k.add(createBuilding(name, pos))
         state.interaction.placingBuilding = null;
+        const callback = buildingCallbacks[name]
+        callback && callback()
         exportMapState()
     } else {
         notify(msg as string)

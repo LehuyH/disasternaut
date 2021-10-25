@@ -114,7 +114,7 @@ export default class Tsunami extends Disaster<TsunamiState>{
                     if (this.isTouching(k.get("player")[0]) && !tsunamiState.cooldown) {
                         dmgPlayer(1)
                         tsunamiState.cooldown = true
-                        k.wait(1.5, () => {
+                        k.wait(2, () => {
                             tsunamiState.cooldown = false
                         })
                     }
