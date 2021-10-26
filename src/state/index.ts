@@ -1,5 +1,4 @@
 import { getCurrentInstance, reactive, computed } from 'vue'
-import { Emitter, EventType } from 'mitt'
 import k from "@/kaboom"
 import Disaster from "@/kaboom/logic/disaster/disasterClass"
 import { MapSave, exportMapState, respawnMap } from "@/kaboom/logic/map"
@@ -27,13 +26,6 @@ export interface Entry {
         day: number;
         hour: number;
     }
-}
-
-export function getEvents() {
-    const internalInstance = getCurrentInstance();
-    const events = internalInstance?.appContext.config.globalProperties.events;
-
-    return events as Emitter<Record<EventType, unknown>>;
 }
 
 export const state = reactive({

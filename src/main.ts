@@ -1,5 +1,4 @@
 import { createApp } from 'vue'
-import mitt from 'mitt'
 import App from './App.vue'
 
 //Audio
@@ -16,7 +15,7 @@ import "@/kaboom/scenes/onboarding"
 
 //Check for localstorage Access
 try{
-    console.log(window.localStorage)
+    window.localStorage.length
 }catch(e){
     alert("Hi, please open this page in a NEW tab or window. This game requires the use of localStorage to function. Unfortunately, embedded storage windows are not supported.")
 }
@@ -30,9 +29,5 @@ k.canvas.addEventListener('blur', ()=>{
 })
 
 //Vue
-const events = mitt()
 const app = createApp(App)
-
-app.config.globalProperties.events = events
-
 app.mount('#app')

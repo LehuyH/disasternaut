@@ -138,6 +138,8 @@ function dismiss() {
     width: 50vw;
     background-color: #1b233b;
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+    overflow-y: scroll;
+    pointer-events: all;
 }
 
 h1 {
@@ -152,5 +154,11 @@ h1 {
 .quota-info {
     text-align: right;
     margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+    .audit-content{
+       padding:1% 1%; 
+    }
 }
 </style>

@@ -2,8 +2,8 @@ import kaboom from "kaboom";
 import { setScene, addTool, setTool } from "@/state"
 
 const k = kaboom({
-    width: 1920,
-    height: 1080,
+    width: window.innerWidth,
+    height: window.innerHeight,
     crisp: true,
     global: false,
     stretch: true,
