@@ -8,7 +8,7 @@
                     <h2 class="thin">
                         Become a contractor for
                         <b>HUGE Incorporated</b>,
-                        and expand the universe as we know it
+                        and expand the universe as we know it!
                     </h2>
                     <br />
                     <div class="control-group">

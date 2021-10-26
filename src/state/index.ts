@@ -73,7 +73,8 @@ export const state = reactive({
             survival: [] as Objective[],
             huge: [] as Objective[]
         } as Record<string, Objective[]>,
-        log: [] as Entry[]
+        log: [] as Entry[],
+        disastersHappened: [] as string[]
     },
     scene: "onboarding",
     currentDiaster: null as null | Disaster,
@@ -83,6 +84,37 @@ export const state = reactive({
 
 })
 
+
+const disasterLogEvents = {
+    "Meteors": {
+        title: "HUGE news! Meteor showers in the colony.",
+        description: "HUGENet has determined that meteor showers are frequent in the colony. We've determined that only way to defend against these showers is to avoid them. Quick on your feet, contractor! Also, fallen meteors are HUGE sources of metal."
+    },
+    "Huge Bean": {
+        title: "ENEMY INFORMATION! HUGE Bean spotted!",
+        description: "A HUGEly powerful alien specimen has been detected in the colony planet. The specimen is very powerful and any contractors near it should flee quickly. The HUGE Bean will leave quickly, but keep coming back to the planet."
+    },
+    "Lava": {
+        title: "Volcanic Eruptions, or are they...?",
+        description: "We have detected HUGE and frequent lava floods ALL OVER the planet. The only was to protect yourself is to find a high rock to stay high and dry. And that's HUGE signing off! Good luck to you contractor!"
+    },
+    "Huge Lazer": {
+        title: "HUGE Lazer Beams chasing any moving things in sight!",
+        description: "HUGE amounts of volatile energy is leaking from the planet colony! They appear in the form of loud flashing lazers. Steer clear of these dangerous beams, contractor! For the HUGE conglomerate!"
+    },
+    "Nuke": {
+        title: "NUCLEAR BOMBS crashing on the planet!",
+        description: "Our competitor sMaLL Industries is sabotaging the colony with HUGE NUKES! This would be illegal on Earth, but we don't have those rules here. Stay AWAY from the blast radius at ALL COSTS!"
+    },
+    "Tornado": {
+        title: "TORNADOES galore! Whirlwinds show HUGE wind activity.",
+        description: "We have spotted a large tornado recently and expect it to return soon! Run as fast as you can to safety! Winds are HUGEly unstable on the colony."
+    },
+    "Tsunami": {
+        title: "HUGE Tsunami spotted! Too deep to swim too!",
+        description: "Get to a high rock that appears during this disaster! The HUGE water levels rise from the LEFT of the map so run to the HUGE rocks or the far right of the planet.",
+    }
+} as Record<string, Omit<Entry, "time">>;
 
 //This acts as a game loop function that will run every second
 let onTutorial = true
@@ -120,6 +152,13 @@ function gameLoop() {
         state.disasterTimer--
         //reset diaster if over
         if (state.disasterTimer <= 0) {
+            const name = state.currentDiaster.name;
+
+            if (name && !state.persistent.disastersHappened.includes(name)) {
+                state.persistent.disastersHappened.push(name);
+                (disasterLogEvents[name]) && addToLog(disasterLogEvents[name]);
+            }
+
             state.currentDiaster.exit && state.currentDiaster.exit()
             state.currentDiaster.canceler && state.currentDiaster.canceler()
             state.currentDiaster = null
@@ -249,14 +288,14 @@ export function notify(text: string) {
 
 export function addToLog({ title, description }: Omit<Entry, "time">) {
     state.persistent.log.unshift({
-        title, 
+        title,
         description,
         time: {
             day: state.persistent.day,
             hour: state.persistent.hour,
         }
     });
-    
+
     state.interaction.tutorialButtonPulsing.log = true;
 }
 

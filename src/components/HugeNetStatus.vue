@@ -352,3 +352,4 @@ details small {
         opacity: 1;
     }
 }
+</style>

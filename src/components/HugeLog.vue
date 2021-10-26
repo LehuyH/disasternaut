@@ -26,15 +26,21 @@
                     </i>
                 </div>
 
-                <div class="entry flipped">
-                    <h2>No entries are available right now.</h2>
+                <div
+                    class="entry"
+                >
+                    <h2>BREAKING NEWS: HUGENet detected disasters!</h2>
                     <q>
-                        Check back frequently for the latest information on your colony and
-                        <b>HUGE Incorporated</b>. Happy colonizing!
+                        We are unsure as to the effects of these 'disasters' right now,
+                        but it's up to you to defend and protect the colony.
+                        HugeNET will keep analyzing for the meantime.
                     </q>
                     <br />
                     <br />
-                    <i>— HUGE Incorporated</i>
+                    <i>
+                        — HUGE Incorporated @
+                        <b>Day 1, Hour 2</b>
+                    </i>
                 </div>
             </div>
         </div>
@@ -42,8 +48,6 @@
 </template>
 
 <script setup lang="ts">
-import { computed } from "vue"
-import k from "@/kaboom";
 import { state } from "@/state";
 </script>
 
