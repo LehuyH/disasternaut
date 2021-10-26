@@ -1,9 +1,16 @@
 <template>
     <section class="hud-element hugenet-status">
-        <h1>
-            <span class="huge">HugeNet</span>
-            <span class="thin">AI</span>
-        </h1>
+        <div class="title-log">
+            <h1>
+                <span class="huge">HugeNet</span>
+                <span class="thin">AI</span>
+            </h1>
+
+            <button style="--accent: #0abde3;" @click="openLog">
+                <span class="iconify" data-icon="bx:bxs-news"></span>
+                <b>HugeLOG</b>
+            </button>
+        </div>
 
         <p class="status" :style="{ backgroundColor: status.color }">
             <transition name="fade" mode="out-in">
@@ -145,6 +152,11 @@ const status = computed(() => {
     return { text: "All Systems Operational", color: "#10ac84" };
 });
 
+function openLog() {
+    state.interaction.tutorialButtonPulsing.log = false;
+    state.interaction.showLog = true;
+}
+
 const healthBarColor = computed(() => {
     const percent = state.persistent.health / state.persistent.maxHealth;
 
@@ -235,6 +247,19 @@ watchEffect(() => {
 </script>
 
 <style scoped>
+.title-log, .title-log button {
+    display: flex;
+    align-items: center;
+}
+
+.title-log .iconify {
+    margin-right: 5px;
+}
+
+.title-log h1 {
+    margin-right: auto;
+}
+
 .status {
     border-top: 2px solid white;
     margin-top: 10px;
@@ -284,7 +309,7 @@ watchEffect(() => {
 
 details:first-of-type {
     border-top-right-radius: 10px;
-    margin-top: 5px;    
+    margin-top: 5px;
 }
 
 details:last-of-type {
