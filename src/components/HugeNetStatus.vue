@@ -7,7 +7,7 @@
             </h1>
 
             <transition name="fade">
-                <button v-if="showLog" style="--accent: #0abde3;" @click="openLog">
+                <button v-if="showLog" style="--accent: #0abde3;" @click="openLog" :class="{ pulsing: state.interaction.tutorialButtonPulsing.log }">
                     <span class="iconify" data-icon="bx:bxs-news"></span>
                     <b>HugeLOG</b>
                 </button>
