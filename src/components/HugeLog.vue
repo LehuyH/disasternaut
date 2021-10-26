@@ -42,6 +42,8 @@
 </template>
 
 <script setup lang="ts">
+import { computed } from "vue"
+import k from "@/kaboom";
 import { state } from "@/state";
 </script>
 

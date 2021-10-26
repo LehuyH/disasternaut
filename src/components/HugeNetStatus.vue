@@ -6,10 +6,12 @@
                 <span class="thin">AI</span>
             </h1>
 
-            <button style="--accent: #0abde3;" @click="openLog">
-                <span class="iconify" data-icon="bx:bxs-news"></span>
-                <b>HugeLOG</b>
-            </button>
+            <transition name="fade">
+                <button v-if="showLog" style="--accent: #0abde3;" @click="openLog">
+                    <span class="iconify" data-icon="bx:bxs-news"></span>
+                    <b>HugeLOG</b>
+                </button>
+            </transition>
         </div>
 
         <p class="status" :style="{ backgroundColor: status.color }">
@@ -162,6 +164,9 @@ const healthBarColor = computed(() => {
     else return "#b9314f";
 });
 
+const showLog = computed(() => k.get("communications").length > 0 ||
+    state.persistent.map.buildings.find((b) => b.name === "communications"))
+
 const objectives = computed(() => {
     const hasComms =
         k.get("communications").length > 0 ||
@@ -244,7 +249,9 @@ watchEffect(() => {
 </script>
 
 <style scoped>
-.title-log, .title-log button {
+.title-log,
+.t .title-log,
+.title-log button {
     display: flex;
     align-items: center;
 }
@@ -345,4 +352,3 @@ details small {
         opacity: 1;
     }
 }
-</style>
