@@ -102,7 +102,6 @@ const status = computed(() => {
         customStatus.color = "#636e72";
         customStatus.text = "Power Established";
         customStatus.enabled = true;
-
         wait(3, () => {
             customStatus.text = "Checking Systems...";
         });
