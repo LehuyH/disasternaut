@@ -118,7 +118,7 @@ function behavior() {
                             const angle = player.pos.angle(k.mouseWorldPos())
 
                             //Flip so it faces correctly
-                            const notFlipped = (angle > -90 && angle < 90)
+                            const notFlipped = (k.mousePos().x < window.innerWidth/2)
                             this.flipY(!notFlipped)
 
                             if(notFlipped){
@@ -141,14 +141,12 @@ function behavior() {
                 ])
         },
         update() {
-            const angle = this.pos.angle(k.mouseWorldPos())
-
             //Follow player
             k.camPos(this.pos);
 
 
             //Make player face mouse
-            this.flipX((angle > -90 && angle < 90) ? false : true)
+            this.flipX((k.mousePos().x < window.innerWidth/2) ? false : true)
 
             //Building placement
             if (state.interaction.placingBuilding && k.mouseIsClicked()) {
