@@ -1,6 +1,6 @@
 <template>
     <transition name="fade">
-        <div class="overlay huge-log-container">
+        <div v-if="state.interaction.showLog" class="overlay huge-log-container">
             <button class="close" @click="state.interaction.showLog = false;">
                 <span class="iconify" data-icon="ci:close-small"></span>
             </button>
