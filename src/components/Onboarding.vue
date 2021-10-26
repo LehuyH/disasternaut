@@ -7,7 +7,7 @@
                     <h1>Disasternaut</h1>
                     <h2 class="thin">
                         Become a contractor for
-                        <b>HUGE Incorporated</b>.
+                        <b>HUGE Incorporated</b>,
                         and expand the universe as we know it
                     </h2>
                     <br />
@@ -220,7 +220,7 @@ function startCurtainTransition() {
 }
 
 .stage0 h1 {
-    font-size: 100px;  
+    font-size: 100px;
     color: var(--huge);
 }
 

@@ -20,6 +20,15 @@ export interface Objective {
     description: string;
 }
 
+export interface Entry {
+    title: string;
+    description: string;
+    time: {
+        day: number;
+        hour: number;
+    }
+}
+
 export function getEvents() {
     const internalInstance = getCurrentInstance();
     const events = internalInstance?.appContext.config.globalProperties.events;
@@ -34,31 +43,33 @@ export const state = reactive({
         placingBuilding: null as null | string,
         currentToolIndex: -1,
         showQuota: false,
-        quotaSuccess:false,
-        showLetter:false,
-        nextToBed:false,
-        debtLetterShown:false,
+        showLog: false,
+        quotaSuccess: false,
+        showLetter: false,
+        nextToBed: false,
+        debtLetterShown: false,
         tutorialButtonPulsing: {
             "shelter": false,
             "nuclear_generator": false,
             "communications": false,
-            "oxygen_tank": false
+            "oxygen_tank": false,
+            "log": false
         } as Record<string, boolean>
     },
     persistent: {
-        name:"",
-        dayRespawned:0,
-        maxHealth:5,
+        name: "",
+        dayRespawned: 0,
+        maxHealth: 5,
         health: 5,
         day: 0,
         hour: 12,
         numDisasters: 0,
         oxygen: 120,
-        maxOxygen:120,
-        failures:0,
+        maxOxygen: 120,
+        failures: 0,
         tools: [] as Tool[],
-        quota:{} as Record<string,number>,
-        quotaDay:null as number|null,
+        quota: {} as Record<string, number>,
+        quotaDay: null as number | null,
         requestMap: true as boolean,
         resources: {
         } as Record<string, number>,
@@ -69,7 +80,8 @@ export const state = reactive({
         objectives: {
             survival: [] as Objective[],
             huge: [] as Objective[]
-        } as Record<string, Objective[]>
+        } as Record<string, Objective[]>,
+        log: [] as Entry[]
     },
     scene: "onboarding",
     currentDiaster: null as null | Disaster,
@@ -97,7 +109,7 @@ function gameLoop() {
         }
 
         //Respawn map if day passed
-        if (state.persistent.dayRespawned !== state.persistent.day){
+        if (state.persistent.dayRespawned !== state.persistent.day) {
             respawnMap()
             state.persistent.dayRespawned = state.persistent.day
         }
@@ -122,8 +134,8 @@ function gameLoop() {
         }
     }
 
-    k.setData("save",state.persistent)
-    if(state.scene === "planet") exportMapState()
+    k.setData("save", state.persistent)
+    if (state.scene === "planet") exportMapState()
 
 
 }
@@ -150,32 +162,32 @@ k.add([
                     state.persistent.hour++
                     this.nextHour = 0
                     const inDebt = (state.persistent.failures >= 3)
-                      //Check quota if due or in debt
-                    if ((state.persistent.quotaDay && state.persistent.quotaDay <= state.persistent.day) || inDebt){
-                        const passed = Object.entries(state.persistent.quota).every(([key,target])=>{
+                    //Check quota if due or in debt
+                    if ((state.persistent.quotaDay && state.persistent.quotaDay <= state.persistent.day) || inDebt) {
+                        const passed = Object.entries(state.persistent.quota).every(([key, target]) => {
                             const current = state.persistent.resources[key] || 0
 
                             return target <= current
                         })
 
-                        if(!passed && !inDebt) state.persistent.failures++
-                        if(passed){
+                        if (!passed && !inDebt) state.persistent.failures++
+                        if (passed) {
                             //Reset failures
-                            if(inDebt){
+                            if (inDebt) {
                                 state.persistent.failures = 0
                                 state.interaction.debtLetterShown = false
                             }
-                            else state.persistent.failures = Math.max(state.persistent.failures - 1,0)
+                            else state.persistent.failures = Math.max(state.persistent.failures - 1, 0)
 
                             //Charge quota
-                            Object.entries(state.persistent.quota).forEach(([key,target])=>{
-                               state.persistent.resources[key] -= target
+                            Object.entries(state.persistent.quota).forEach(([key, target]) => {
+                                state.persistent.resources[key] -= target
                             })
                         }
 
-                        if(!state.interaction.debtLetterShown){
-                            if(inDebt) state.interaction.debtLetterShown = true
-                             //Show letter and lock player
+                        if (!state.interaction.debtLetterShown) {
+                            if (inDebt) state.interaction.debtLetterShown = true
+                            //Show letter and lock player
                             k.get("player")[0].allowMovement = false
                             state.interaction.quotaSuccess = passed
                             state.interaction.showLetter = true
@@ -185,11 +197,11 @@ k.add([
                     }
 
                     //Select random disaster and start it
-                    if(!state.currentDiaster && state.persistent.numDisasters === 1 && onTutorial){
+                    if (!state.currentDiaster && state.persistent.numDisasters === 1 && onTutorial) {
                         //Let new players get a longer first break before staring next disaster
                         onTutorial = false
                     }
-                    else if(!state.currentDiaster && state.persistent.numDisasters > 0 &&!state.interaction.showLetter) startRandomDisaster()
+                    else if (!state.currentDiaster && state.persistent.numDisasters > 0 && !state.interaction.showLetter) startRandomDisaster()
 
 
                     //Is next day?
@@ -243,6 +255,19 @@ export function notify(text: string) {
     setTimeout(() => state.notis.shift(), 3000);
 }
 
+export function addToLog({ title, description }: Omit<Entry, "time">) {
+    state.persistent.log.unshift({
+        title, 
+        description,
+        time: {
+            day: state.persistent.day,
+            hour: state.persistent.hour,
+        }
+    });
+    
+    state.interaction.tutorialButtonPulsing.log = true;
+}
+
 export function removeObjective(type: string, name: string) {
     if (!state.persistent.objectives[type]) return
 
@@ -267,18 +292,18 @@ export function dmgPlayer(damage: number = 1) {
     k.shake(2)
 }
 
-export function setQuota(){
-     //Player is in debt
-     if(state.persistent.failures >= 3){
+export function setQuota() {
+    //Player is in debt
+    if (state.persistent.failures >= 3) {
         state.persistent.quota = {
-            wood:100,
-            metal:50,
-            stone:40
+            wood: 100,
+            metal: 50,
+            stone: 40
         }
         state.persistent.quotaDay = Infinity
         notify("Your are in Debt to HUGE. Check your quota for details.")
         return;
-     }
+    }
 
     const [quota, days] = createQuota()
     state.persistent.quota = quota as Record<string, number>

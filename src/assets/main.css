@@ -145,3 +145,56 @@ slide-fade-leave-active {
 ul {
   list-style-type: none;
 }
+
+button.close {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 7;
+  width: 60px;
+  height: 60px;
+  padding: 0;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.25s ease;
+  --accent: var(--red);
+}
+
+button.close:hover {
+  transform: rotateZ(90deg);
+}
+
+button.close .iconify {
+  font-size: 40px;
+  position: relative;
+}
+
+.popup-view {
+  background: white;
+  padding: 20px 25px;
+  border-radius: 10px;
+  width: 75vw;
+  max-width: 1440px;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 0.5rem;
+}
+
+::-webkit-scrollbar-track {
+  border-radius: 50px;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #0051a1;
+  border-radius: 50px;
+}
+
+* {
+  scrollbar-color: #0051a1 transparent;
+  scrollbar-width: thin;
+}

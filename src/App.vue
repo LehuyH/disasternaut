@@ -9,6 +9,7 @@ import QuotaView from "./components/QuotaView.vue"
 import Death from "./components/Death.vue"
 import Onboarding from "./components/Onboarding.vue"
 import Report from "./components/Report.vue"
+import HugeLog from "./components/HugeLog.vue"
 </script>
 
 <template>
@@ -22,6 +23,7 @@ import Report from "./components/Report.vue"
   <ShelterStatus />
   <HugeNetHotBar />
   <NotificationPanel />
+  <HugeLog />
 </template>
 
 

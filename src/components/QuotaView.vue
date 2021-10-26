@@ -5,7 +5,7 @@
                 <span class="iconify" data-icon="ci:close-small"></span>
             </button>
 
-            <div class="quota-content">
+            <div class="quota-content popup-view">
                 <h1>Production {{(state.persistent.failures < 3) ? "Quotas" : "Debts"}} (Checked On: Day {{state.persistent.quotaDay}})</h1>
                 <hr />
 
@@ -81,31 +81,6 @@ import { state, matImageMap } from "@/state";
     }
 }
 
-button.close {
-    position: fixed;
-    top: 10px;
-    right: 10px;
-    z-index: 7;
-    width: 60px;
-    height: 60px;
-    padding: 0;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: transform 0.25s ease;
-    --accent: var(--red);
-}
-
-button.close:hover {
-    transform: rotateZ(90deg);
-}
-
-button.close .iconify {
-    font-size: 40px;
-    position: relative;
-}
-
 .quota-view {
     z-index: 6;
     background: #003366e1;
@@ -113,14 +88,6 @@ button.close .iconify {
     display: flex;
     justify-content: center;
     align-items: center;
-}
-
-.quota-content {
-    background: white;
-    padding: 20px 25px;
-    border-radius: 20px;
-    width: 75vw;
-    /* height: 75vh; */
 }
 
 .quota-content * {
