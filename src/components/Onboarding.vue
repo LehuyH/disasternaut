@@ -7,7 +7,7 @@
                     <h1>Disasternaut</h1>
                     <h2 class="thin">
                         Become a contractor for
-                        <b>HUGE Incorporated</b>.
+                        <b>HUGE Incorporated</b>
                         and expand the universe as we know it
                     </h2>
                     <br />
@@ -35,6 +35,7 @@
                         HUGE
                         <span>inc.</span>
                     </h1>
+                    <br>
                     <small>(Humans United on Galactic Exploration)</small>
                     <h2 class="thin">
                         Wants to outsource
@@ -204,12 +205,6 @@ function startCurtainTransition() {
     max-width: 100vw;
 }
 
-@media screen and (max-height: 750px) {
-    .onboarding > div {
-        transform: scale(0.9);
-    }
-}
-
 .stage0 {
     width: 750px !important;
 }
@@ -220,16 +215,16 @@ function startCurtainTransition() {
 }
 
 .stage0 h1 {
-    font-size: 100px;  
+    font-size: 5rem;  
     color: var(--huge);
 }
 
 .stage1 h1 {
-    font-size: 150px;
+    font-size: max(30px,8vw);
     color: var(--huge);
 }
 .stage1 h1 span {
-    font-size: 75px;
+    font-size: max(20px,3vw);
     margin-left: -20px;
 }
 
@@ -240,7 +235,7 @@ function startCurtainTransition() {
 }
 
 .stage1 .next-button {
-    font-size: 30px;
+    font-size: min(3vw,20px);
     padding: 10px 20px;
     border-radius: 50px;
     margin-top: 20px;
@@ -312,6 +307,14 @@ hr {
     box-shadow: 0 0 0 0 #f2440585;
     animation: pulse 1.5s infinite;
     cursor: pointer;
+}
+
+@media screen and (max-width: 992px) {
+    .stage0 h1 {
+        font-size: 3rem;
+        color: var(--huge);
+    }
+
 }
 
 @keyframes rocket-shake {
