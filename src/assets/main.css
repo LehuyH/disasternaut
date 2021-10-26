@@ -19,6 +19,7 @@ html {
   position: fixed;
   top: 0;
   left: 0;
+  background: rgb(27, 35, 59);
 }
 
 body,
@@ -26,17 +27,16 @@ html {
   position: relative;
   width: 100vw !important;
   height: 100vh !important;
-  background: rgb(27, 35, 59);
   overflow: hidden !important;
 }
 
 body {
-  animation: body-in 0.75s ease-in-out;
+  animation: body-in 0.75s ease-in-out, fade-in 1.25s;
 }
 
 @keyframes body-in {
-  0% { transform: scaleX(0) rotateX(-90deg); }
-  80% { transform: scaleX(1.3) rotate(30deg); }
+  0% { transform: scaleX(0) rotateX(-90deg); opacity: 0; }
+  80% { transform: scaleX(1.3) rotateX(30deg); opacity: 1; }
 }
 
 canvas {
@@ -173,6 +173,10 @@ button.close:hover {
 button.close .iconify {
   font-size: 40px;
   position: relative;
+}
+
+button, a {
+  cursor: pointer;
 }
 
 .popup-view {
