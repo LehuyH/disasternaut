@@ -26,12 +26,17 @@ html {
   position: relative;
   width: 100vw !important;
   height: 100vh !important;
-  background: #BB6444;
+  background: rgb(27, 35, 59);
+  overflow: hidden !important;
 }
 
-html {
-  background: url(/img/space-curtain.png);
-  background-size: cover;
+body {
+  animation: body-in 0.75s ease-in-out;
+}
+
+@keyframes body-in {
+  0% { transform: scaleX(0) rotateX(-90deg); }
+  80% { transform: scaleX(1.3) rotate(30deg); }
 }
 
 canvas {

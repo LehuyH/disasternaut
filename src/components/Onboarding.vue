@@ -200,7 +200,7 @@ function startCurtainTransition() {
 }
 
 .onboarding > div {
-    width: 600px;
+    width: 900px;
     transition: transform 0.25s;
     max-width: 100vw;
 }
