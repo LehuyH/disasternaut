@@ -54,7 +54,7 @@
 
 <script setup lang="ts">
 import { computed, reactive, watchEffect } from "vue";
-import { state, wait, setQuota } from "@/state";
+import { state, wait, setQuota, addToLog } from "@/state";
 import { playDisasterAudio, playBgAudio } from "@/state/audio";
 import k from "@/kaboom";
 import { startDisaster } from "@/kaboom/logic/disaster";
@@ -93,7 +93,10 @@ const status = computed(() => {
         customStatus.color = "#636e72";
         customStatus.text = "Power Established";
         customStatus.enabled = true;
-
+        addToLog({
+            title:"HUGE launches a new ambitious Planetary Grant Program",
+            description: "HUGE has just introduced the largest ever funding program to date to fund the next great space exploration discovery and development projects.\n\nWe are extremely excited to announce the launch of a new ambitious funding program dedicated to enabling new space discovery and development by all.\n\n“Humanity has spent the last century conquering our planet. Now, we need to set our sights on our galaxy.”\n\n-Rohn G. Jockerfeller HUGE\'s CFO\n\nAs Earth becomes more crowded, space exploration becomes a more pressing concern for humanity. HUGE has just launched a new ambitious funding program dedicated to enabling new space exploration discovery and colony establishment."
+        })
         wait(3, () => {
             customStatus.text = "Checking Systems...";
         });
