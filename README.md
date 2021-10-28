@@ -4,7 +4,7 @@ Hey everyone, we just wrapped up our submission for Kajam, and we were thinking,
 
 ## Check it out!
 
-A fast-paced and light-hearted survival game developed by @LehuyH and @raghavm, with original art from @LucasFraeyman
+A fast-paced and light-hearted survival game developed by [@LehuyH](https://github.com/LehuyH) and [@raghav-misra](https://github.com/raghav-misra), with original art from Lucas Fraeyman.
 External attributions for assets we used can be found in CREDITS.md ❤️
 
 **Game Link:** https://disasternaut.lehuyh.repl.co
